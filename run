@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# update hosts
+if [ $(grep -c "10.66.32.110" /etc/hosts) -eq 0 ]; then
+        echo "10.66.32.110 dev.hdx.rwlabs.org  dev-docs.hdx.rwlabs.org  dev-data.hdx.rwlabs.org  dev-manage.hdx.rwlabs.org"  >> /etc/hosts
+fi
+if [ $(grep -c "10.66.32.109" /etc/hosts) -eq 0 ]; then
+        echo "10.66.32.109 test.hdx.rwlabs.org test-docs.hdx.rwlabs.org test-data.hdx.rwlabs.org test-manage.hdx.rwlabs.org" >> /etc/hosts
+fi
+if [ $(grep -c "10.66.32.108" /etc/hosts) -eq 0 ]; then
+        echo "10.66.32.108 hdx.rwlabs.org      docs.hdx.rwlabs.org      data.hdx.rwlabs.org      manage.hdx.rwlabs.org"      >> /etc/hosts
+fi
+
+# not really needed
+#/srv/create_tomcat_admin_user.sh
+
+# create pgpass
+pf="/root/.pgpass"
+line="db:5432:*:$POSTGRESQL_USER:$POSTGRESQL_PASS"
+[ -f $pf ] || touch $pf
+if [ $(cat $pf | grep -cE $line) -ne 1 ]; then
+    echo $line > $pf
+    chmod 600 $pf
+fi
+
+function shutdown()
+{
+    date
+    echo "Shutting down Tomcat"
+    unset CATALINA_PID # Necessary in some cases
+    unset LD_LIBRARY_PATH # Necessary in some cases
+    unset JAVA_OPTS # Necessary in some cases
+
+    $CATALINA_HOME/bin/catalina.sh stop
+}
+
+date
+echo "Starting Tomcat"
+export CATALINA_PID=/tmp/$$
+#export LD_LIBRARY_PATH=/usr/local/apr/lib
+
+echo "JAVA_OPTS=$JAVA_OPTS"
+
+. $CATALINA_HOME/bin/catalina.sh start
+
+# Allow any signal which would kill a process to stop Tomcat
+trap shutdown HUP INT QUIT ABRT KILL ALRM TERM TSTP
+
+echo "Waiting for $(cat $CATALINA_PID)"
+wait $(cat $CATALINA_PID)
