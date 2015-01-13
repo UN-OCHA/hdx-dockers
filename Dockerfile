@@ -1,4 +1,4 @@
-FROM teodorescuserban/hdx-base:stable
+FROM teodorescuserban/hdx-base:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
