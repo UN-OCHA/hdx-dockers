@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+
+fpm=$(echo $FPM_PORT | sed -e 's/tcp:\/\///')
+sed -i 's/fastcgi_pass.*/fastcgi_pass '$fpm'\;/' /etc/nginx/sites-available/default
+
+cd /etc/nginx;
+exec /usr/sbin/nginx
+
