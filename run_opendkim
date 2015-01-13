@@ -1,0 +1,5 @@
+#!/bin/sh
+set -e
+
+exec /usr/sbin/opendkim -f -x /etc/opendkim.conf -u opendkim -P /var/run/opendkim/opendkim.pid -p inet:8891@localhost
+
