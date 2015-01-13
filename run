@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cd /srv/dataproxy/dataproxy
+exec gunicorn dataproxy:application -c /srv/gunicorn_conf.py
+
