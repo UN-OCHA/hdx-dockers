@@ -29,7 +29,7 @@ RUN postalias /etc/postfix/aliases
 RUN /etc/init.d/postfix start
 RUN /etc/init.d/postfix stop
 RUN chmod go-w -R /etc/postfix/
-ADD /etc/postfix/dkim.hdx.rwlabs.org.private
+ADD dkim.hdx.rwlabs.org.private /etc/postfix/
 RUN chmod 600 /etc/postfix/dkim.hdx.rwlabs.org.private
 
 EXPOSE 25
