@@ -1,4 +1,4 @@
-FROM teodorescuserban/hdx-base-psql:stable
+FROM teodorescuserban/hdx-base-psql:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
