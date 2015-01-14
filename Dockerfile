@@ -1,4 +1,4 @@
-FROM teodorescuserban/hdx-base-email:stable
+FROM teodorescuserban/hdx-base-email:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
