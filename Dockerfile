@@ -2,7 +2,7 @@ from teodorescuserban/hdx-base-cps:stable
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
-ENV CPS_BRANCH tags/v0.5.13
+ENV CPS_BRANCH tags/v0.5.16
 ENV HDX_FOLDER /srv/hdx
 
 ###
