@@ -36,6 +36,9 @@ sed -i 's/^ckan\.datastore\.read_url.*/ckan\.datastore\.read_url = postgresql:\/
 sed -i 's/^ofs\.storage_dir.*/ofs\.storage_dir = \/srv\/filestore/' /srv/prod.ini
 sed -i 's/^ckan\.storage_path.*/ckan\.storage_path = \/srv\/filestore/' /srv/prod.ini
 
+# fix permissions on filestore
+chown www-data:www-data -R /srv/filestore/
+
 # set pgpass if it's not there
 hdxckantool pgpass
 #pass_line="db:"$db_port":*:"$db_user":"$db_pass
@@ -47,6 +50,7 @@ hdxckantool pgpass
 # make sure datastore privs are set
 #psql -h db -U $db_user $datastore_name -f /srv/set-perms.sql
 hdxckantool set-perms
+
 
 echo "HDX-Ckan starting in 2 seconds..."
 sleep 2
