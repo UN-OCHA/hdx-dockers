@@ -11,7 +11,7 @@ RUN apt-get -qq -y install \
     python-dev \
     python-pip
 
-RUN mv /usr/local/lib/python2.7/dist-packages/requests /usr/local/lib/python2.7/dist-packages/requests.bak
+#RUN mv /usr/local/lib/python2.7/dist-packages/requests /usr/local/lib/python2.7/dist-packages/requests.bak
 
 RUN pip -q install --upgrade \
     gunicorn \
