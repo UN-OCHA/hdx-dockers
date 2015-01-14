@@ -14,9 +14,10 @@ fi
 # not really needed
 #/srv/create_tomcat_admin_user.sh
 
+
 # create pgpass
 pf="/root/.pgpass"
-line="db:5432:*:$POSTGRESQL_USER:$POSTGRESQL_PASS"
+line="db:5432:*:$DB_ENV_POSTGRESQL_USER:$DB_ENV_POSTGRESQL_PASS"
 [ -f $pf ] || touch $pf
 if [ $(cat $pf | grep -cE $line) -ne 1 ]; then
     echo $line > $pf
