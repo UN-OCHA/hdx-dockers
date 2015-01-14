@@ -28,10 +28,10 @@ RUN mkdir -p /etc/service/postgresql
 ADD run /etc/service/postgresql/
 RUN chmod +x /etc/service/postgresql/run
 
-ADD initdb.sh /srv/
-ADD cps-0.5.1.sql /srv/
+# not needed anymore ADD initdb.sh /srv/
+# moved to cps image ADD cps-0.5.1.sql /srv/
 
-VOLUME ["/srv/db"]
+VOLUME ["/srv/db", "/srv/backup", "/var/log"]
 
 EXPOSE 5432
 
