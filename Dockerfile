@@ -1,4 +1,4 @@
-from teodorescuserban/hdx-base-python:stable
+from teodorescuserban/hdx-base-python:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
