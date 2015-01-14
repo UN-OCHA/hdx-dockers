@@ -1,4 +1,4 @@
-from teodorescuserban/hdx-base-cps:stable
+from teodorescuserban/hdx-base-cps:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
