@@ -31,6 +31,10 @@ RUN chmod +x /srv/create_tomcat_admin_user.sh
 # no need. added by Alex as dependency for cps build.
 #RUN wget -nc -P $CATALINA_HOME/lib/ http://jdbc.postgresql.org/download/postgresql-9.3-1102.jdbc41.jar
 
+# add tools to create an empty cps database
+ADD cps_schema_0_5_16.plsql /srv/
+ADD cps-initial-user.sql /srv/
+
 # configure hdx webapp 
 RUN mkdir -p /srv/hdx/logs /srv/hdx/config /srv/hdx/staging /srv/hdx/reports
 ADD hdx-secret /srv/hdx/config/
