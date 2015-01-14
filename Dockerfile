@@ -1,4 +1,4 @@
-from teodorescuserban/hdx-base-ckan:stable
+from teodorescuserban/hdx-base-ckan:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
