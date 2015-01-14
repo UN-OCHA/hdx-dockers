@@ -7,7 +7,7 @@ MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 #ENV LANG en_US.UTF-8
 #ENV LANGUAGE en_US:en
 #ENV LC_ALL en_US.UTF-8
-ENV CKAN_BRANCH tags/v0.5.16
+ENV CKAN_BRANCH tags/v0.5.16stag
 
 #RUN pip -q install --upgrade \
 #    html5lib \
