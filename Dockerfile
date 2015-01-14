@@ -1,4 +1,4 @@
-from teodorescuserban/hdx-base-tomcat:stable
+from teodorescuserban/hdx-base-tomcat:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
