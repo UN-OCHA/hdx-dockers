@@ -17,9 +17,9 @@ APP = "ckan"
 #
 BASEDIR = "/srv/ckan"
 # for deployment (might employ tags - unsuitable for backup)
-BRANCH = "prod"
+BRANCH = "dev"
 # for backup
-BACKUP_AS = 'prod'
+BACKUP_AS = 'dev'
 # for restore
 RESTORE_FROM = 'prod'
 TMP_DIR = "/tmp/ckan-db-restore",
@@ -317,9 +317,9 @@ def db_get_last_backups():
     for line in list:
         name = line.split()[4]
         # print(name)
-        if name.startswith(BACKUP['DB_PREFIX'] + '.' + SQL['DB']):
+        if name.startswith(RESTORE['DB_PREFIX'] + '.' + SQL['DB']):
             list_db.append(name)
-        elif name.startswith(BACKUP['DB_PREFIX'] + '.' +  SQL['DB_DATASTORE']):
+        elif name.startswith(RESTORE['DB_PREFIX'] + '.' +  SQL['DB_DATASTORE']):
             list_db_datastore.append(name)
     # print(list_db)
     # print(list_db_datastore)
@@ -585,21 +585,33 @@ def db_create(dbname, owner=SQL['USER']):
 def refresh_pgpass():
     pgpass = '/root/.pgpass'
     pgpass_line = ''
+    write = False
     correct_line = SQL['HOST'] + ':5432:*:' + SQL['SUPERUSER'] + ':' + SQL['PASSWORD']
     # does it exists?
     if os.path.isfile(pgpass):
         with open(pgpass, 'r') as f:
             # get only the first line
             pgpass_line = f.readline().strip()
-    # print pgpass_line
-    # print correct_line
-    if pgpass_line != correct_line:
-        print("The pgpass file has been overwritten with:")
-        print(correct_line)
+        # print pgpass_line
+        # print correct_line
+        if pgpass_line != correct_line:
+            print("The pgpass file will be overwritten with:")
+            print(correct_line)
+        else:
+            print("The pgpass file has the right content.")
+    else:
+        write = True
+
+    if write:
         with open(pgpass, 'w') as f:
             f.write(correct_line + '\n')
-    else:
-        print("The pgpass file has the right stuff :)\nNo need to change.")
+            print("File overwritten.")
+    # change permissions if needed
+    if oct(os.stat(pgpass).st_mode)[-3:] != '600':
+        os.chmod(pgpass, 0o600)
+        print('Permissions were incorrect. Fixed.')
+    print('Done.')
+
 
 def reinstall_plugins():
     path = '/srv/ckan'
