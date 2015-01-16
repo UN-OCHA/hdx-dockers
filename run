@@ -15,14 +15,18 @@ POSTGRESQL_CONFIG_FILE=/etc/postgresql/9.3/main/postgresql.conf
 #POSTGRESQL_DATA=/var/lib/postgresql/9.3/main
 POSTGRESQL_DATA=/srv/db
 
-chown -R postgres:postgres $POSTGRESQL_DATA
-
 POSTGRESQL_SINGLE="sudo -u postgres $POSTGRESQL_BIN --single --config-file=$POSTGRESQL_CONFIG_FILE"
 
-if [ $(cd $POSTGRESQL_DATA && ls -lA | wc -l) -eq 1 ]; then
-    chown -R postgres:postgres $POSTGRESQL_DATA
-    sudo -u postgres /usr/lib/postgresql/9.3/bin/initdb -D $POSTGRESQL_DATA -E utf-8
-fi
+# prepare data directory and initialize database if necessary
+[ -d $POSTGRESQL_DATA ] || mkdir -p $POSTGRESQL_DATA
+chown -R postgres:postgres $POSTGRESQL_DATA
+[ $(cd $POSTGRESQL_DATA && ls -lA | wc -l) -eq 1 ] || \
+    sudo -u postgres /usr/lib/postgresql/9.3/bin/initdb -D /srv/db -E utf-8 --locale=en_US.UTF-8
+
+#if [ $(cd $POSTGRESQL_DATA && ls -lA | wc -l) -eq 1 ]; then
+#    chown -R postgres:postgres $POSTGRESQL_DATA
+#    sudo -u postgres /usr/lib/postgresql/9.3/bin/initdb -D $POSTGRESQL_DATA -E utf-8
+#fi
 
 $POSTGRESQL_SINGLE <<< "CREATE USER $POSTGRESQL_USER WITH SUPERUSER;" > /dev/null
 $POSTGRESQL_SINGLE <<< "ALTER USER $POSTGRESQL_USER WITH PASSWORD '$POSTGRESQL_PASS';" > /dev/null
