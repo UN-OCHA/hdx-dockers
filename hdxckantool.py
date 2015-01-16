@@ -482,7 +482,7 @@ def backup_filestore(verbose=True):
     if not os.path.isdir(BACKUP['DIR']):
         print('Backup directory (' + BACKUP['DIR'] + ') does not exists.')
         exit(0)
-    filestore_archive = BACKUP['DIR'] + '/' + BACKUP_FILESTORE_PREFIX + '.' + SUFFIX +'.tar'
+    filestore_archive = BACKUP['DIR'] + '/' + BACKUP['FILESTORE_PREFIX'] + '.' + SUFFIX +'.tar'
     if verbose:
         sys.stdout.write('Archiving filestore under ' + filestore_archive + '\n')
         sys.stdout.flush()
