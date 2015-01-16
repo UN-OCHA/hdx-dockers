@@ -619,6 +619,10 @@ def refresh_pgpass():
 
 def reinstall_plugins():
     path = '/srv/ckan'
+    cmd = ['python', 'setup.py']
+    if len(opts) == 1:
+        if opts.pop(0) in ['dev', 'develop']:
+            cmd.append['develop']
     for item in os.listdir(path):
         fullpath = os.path.join(path,item)
         if os.path.isdir(fullpath):
@@ -626,7 +630,6 @@ def reinstall_plugins():
                 print('Reinstalling plugin: ', item)
                 if os.path.isfile(os.path.join(fullpath, 'setup.py')):
                     os.chdir(fullpath)
-                    cmd = ['python', 'setup.py', 'develop']
                     with open(os.devnull, 'wb') as devnull:
                         subprocess.call(cmd, stdout=devnull, stderr=subprocess.STDOUT)
 
