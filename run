@@ -19,7 +19,7 @@ chown -R postgres:postgres $POSTGRESQL_DATA
 
 POSTGRESQL_SINGLE="sudo -u postgres $POSTGRESQL_BIN --single --config-file=$POSTGRESQL_CONFIG_FILE"
 
-if [ $(ls -lA | wc -l) -eq 1 ]; then
+if [ $(cd $POSTGRESQL_DATA && ls -lA | wc -l) -eq 1 ]; then
     chown -R postgres:postgres $POSTGRESQL_DATA
     sudo -u postgres /usr/lib/postgresql/9.3/bin/initdb -D $POSTGRESQL_DATA -E utf-8
 fi
