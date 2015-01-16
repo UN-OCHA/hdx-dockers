@@ -13,7 +13,9 @@ POSTGRESQL_DATA=/srv/db
 # prepare data directory and initialize database if necessary
 [ -d $POSTGRESQL_DATA ] || mkdir -p $POSTGRESQL_DATA
 chown -R postgres:postgres $POSTGRESQL_DATA
-[ -d $POSTGRESQL_DATA/global ] || sudo -u postgres /usr/lib/postgresql/9.3/bin/initdb -D /srv/db -E utf-8 --locale=en_US.UTF-8
+#[ -d $POSTGRESQL_DATA/global ] || sudo -u postgres /usr/lib/postgresql/9.3/bin/initdb -D /srv/db -E utf-8 --locale=en_US.UTF-8
+[ $(cd $POSTGRESQL_DATA && ls -lA | wc -l) -eq 1 ] || \
+    sudo -u postgres /usr/lib/postgresql/9.3/bin/initdb -D /srv/db -E utf-8 --locale=en_US.UTF-8
 
 # create pgpass
 pf="/root/.pgpass"
