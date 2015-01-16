@@ -13,34 +13,29 @@ ENV CKAN_BRANCH tags/v0.5.17stag
 #    html5lib \
 #    json-table-schema
 
-RUN git clone https://github.com/OCHA-DAP/hdx-ckan.git /srv/ckan
-
-WORKDIR /srv/ckan
-
-RUN git fetch origin $CKAN_BRANCH
-RUN git checkout $CKAN_BRANCH
-RUN git pull origin $CKAN_BRANCH
-
-RUN pip install -r requirements.txt
-
+# add hdx-ckan swiss army knife
 ADD hdxckantool.py /srv/
 RUN chmod +x /srv/hdxckantool.py
 RUN ln -s /srv/hdxckantool.py /usr/sbin/hdxckantool
 
+# install hdx-ckan
+RUN git clone https://github.com/OCHA-DAP/hdx-ckan.git /srv/ckan
+WORKDIR /srv/ckan
+RUN git fetch origin $CKAN_BRANCH
+RUN git checkout $CKAN_BRANCH
+RUN git pull origin $CKAN_BRANCH
+RUN python setup.py develop
+
+# install hdx-ckan deps
+RUN pip install -r requirements.txt
 
 # setup the plugins
 hdxckantool plugins
-#RUN python setup.py develop
-#RUN for p in $(ls -d ckanext-hdx*); do cd /srv/ckan/$p; python setup.py develop; done
-#RUN cd /srv/ckan/ckanext-sitemap; python setup.py develop
 
 ADD gunicorn_conf.py /srv/
 ADD prod.ini /srv/
 
 ADD hdx-test-core.ini /srv/ckan/
-
-
-#RUN echo "02 02 * * * /srv/backup_ckan" | crontab -
 
 RUN mkdir -p /etc/service/ckan
 ADD run /etc/service/ckan/run
