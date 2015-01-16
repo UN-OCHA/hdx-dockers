@@ -73,7 +73,7 @@ def show_usage():
         db
             clean     - empty the databases (ckan and datastore)
             set-perms - restore permissions on datastore side
-WIP         get       - get latest snapshot of the databases (ckan and datastore)
+            get       - get latest snapshot of the databases (ckan and datastore)
             restore   - overwrite db content from the latest snapshot of the databases
 WIP         restore   - overwrite db content from a snapshot
                 [db1 db2] - restore on what local db? (default: ckan and datastore)
@@ -91,7 +91,10 @@ WIP         restore   - overwrite db content from a snapshot
         sysadmin
             enable    - make a user sysadmin
             disable   - revoke a user's sysadmin privileges 
-        test          - run nose tests
+        test          - run nose tests with WARNING loglevel
+            DEBUG     - run nose tests with DEBUG loglevel
+            INFO      - run nose tests with INFO loglevel
+            CRITICAL  - run nose tests with CRITICAL loglevel
         tracking      - update tracking summary
         user
             add       - add user
@@ -918,7 +921,7 @@ def main():
         reinstall_plugins()
     elif cmd == 'sysadmin':
         sysadmin()
-    elif cmd == 'tests':
+    elif cmd == 'test':
         tests()
     elif cmd == 'tracking':
         tracking_update()
