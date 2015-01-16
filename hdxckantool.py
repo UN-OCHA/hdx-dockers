@@ -192,10 +192,10 @@ def db():
             archive_full_path = os.path.join(RESTORE['TMP_DIR'], file)
             file_full_path = archive_full_path.replace('.gz', '')
             decompress_file(archive_full_path,file_full_path,True)
-            if file.startswith(BACKUP['DB_PREFIX'] + '.' + SQL['DB']):
+            if file.startswith(RESTORE['DB_PREFIX'] + '.' + SQL['DB']):
                 # restore main db
                 db_restore(file_full_path,SQL['DB'])
-            elif file.startswith(BACKUP['DB_PREFIX'] + '.' + SQL['DB_DATASTORE']):
+            elif file.startswith(RESTORE['DB_PREFIX'] + '.' + SQL['DB_DATASTORE']):
                 # restore datastore db
                 db_restore(file_full_path,SQL['DB_DATASTORE'])
                 # restore permissions on datastore db
@@ -277,11 +277,12 @@ def db_set_perms():
 
 def db_list_backups(listonly=True,ts=TODAY,server=RESTORE['SERVER'],directory=RESTORE['DIR'],user=RESTORE['USER'],ckandb=SQL['DB'],datastoredb=SQL['DB_DATASTORE']):
     if listonly:
-        line = ["rsync", '--list-only', user + '@' + server + ':' + directory + '/' + BACKUP['DB_PREFIX'] + '*' + ts + '*' ]
+        line = ["rsync", '--list-only', user + '@' + server + ':' + directory + '/' + RESTORE['DB_PREFIX'] + '*' + ts + '*' ]
     else:
-        line = ["rsync", "-a", "--progress", user + '@' + server + ':' + directory + '/' + BACKUP['DB_PREFIX'] + '*' + ts + '*', RESTORE['TMP_DIR'] + '/']
+        line = ["rsync", "-a", "--progress", user + '@' + server + ':' + directory + '/' + RESTORE['DB_PREFIX'] + '*' + ts + '*', RESTORE['TMP_DIR'] + '/']
         # empty the temp dir first.
-        rmtree(RESTORE['TMP_DIR'])
+        if os.path.isdir(RESTORE['TMP_DIR']):
+            rmtree(RESTORE['TMP_DIR'])
         os.makedirs(RESTORE['TMP_DIR'], exist_ok=True)
     print(str(line))
     try:
@@ -734,13 +735,17 @@ def tracking_update():
     os.chdir(BASEDIR)
     subprocess.call(cmd)
 
-def tests_nose(dirname):
+def tests_nose(dirname):  
     plugin = dirname.replace('ckanext-', '')
     xunit_file = '--xunit-file=' + dirname + '/ckanext/' + plugin + '/tests/nose_results.xml'
     pylons = '--with-pylons=' + dirname + '/test.ini.sample'
     tests = dirname + '/ckanext/' + plugin + '/tests'
-    test_call = ['nosetests', '-ckan', '--with-xunit', xunit_file, '--nologcapture', pylons, tests]
-    # test_call = ['nosetests', '-ckan', '--with-xunit', xunit_file, pylons, tests]
+    #test_call = ['nosetests', '-ckan', '--with-xunit', xunit_file, '--nologcapture', pylons, tests]
+    loglevel = 'WARNING'
+    if len(opts) == 1:
+        if opts.pop(0) in ['DEBUG', 'INFO', 'CRITICAL']:
+            loglevel = opts.pop(0)
+    test_call = ['nosetests', '-ckan', '--with-xunit', xunit_file, '--logging-level', loglevel, pylons, tests]
     os.chdir(BASEDIR)
     subprocess.call(test_call)
 
