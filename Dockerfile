@@ -34,6 +34,7 @@ RUN chmod +x /srv/create_tomcat_admin_user.sh
 # add tools to create an empty cps database (used copy to avoid unpacking)
 COPY cps_schema_0_5_16.plsql /srv/
 ADD cps-initial-user.sql /srv/cps-initial-user.sql
+ADD initdb.sh /srv/
 
 # configure hdx webapp 
 RUN mkdir -p /srv/hdx/logs /srv/hdx/config /srv/hdx/staging /srv/hdx/reports
