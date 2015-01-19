@@ -4,7 +4,8 @@ MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
 RUN apt-get -qq update
 RUN apt-get install -qq -y \
-    postgresql-client-9.3
+    postgresql-client-9.3 \
+    python3-psycopg2
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
