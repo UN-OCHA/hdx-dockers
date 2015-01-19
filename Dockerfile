@@ -47,6 +47,8 @@ RUN mkdir -p /etc/service/cps
 ADD run /etc/service/cps/run
 RUN chmod +x /etc/service/cps/run
 
+VOLUME ["/srv/backup"]
+
 EXPOSE 8080
 
 RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
