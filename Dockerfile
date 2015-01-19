@@ -9,5 +9,4 @@ RUN apt-get install -qq -y \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ENV HDX_FOLDER /srv/hdx
-RUN mkdir -p /srv/deploy
-
+RUN mkdir -p /srv/deploy /srv/backup
