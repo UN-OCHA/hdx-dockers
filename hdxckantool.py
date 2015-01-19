@@ -622,7 +622,7 @@ def reinstall_plugins():
     cmd = ['python', 'setup.py']
     if len(opts) == 1:
         if opts.pop(0) in ['dev', 'develop']:
-            cmd.append['develop']
+            cmd.append('develop')
     for item in os.listdir(path):
         fullpath = os.path.join(path,item)
         if os.path.isdir(fullpath):
