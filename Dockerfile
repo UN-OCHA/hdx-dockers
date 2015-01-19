@@ -23,6 +23,11 @@ RUN mv /srv/tomcat/webapps/ROOT /srv/tomcat/webapps/ROOT.orig
 RUN rm -rf /srv/tomcat/webapps/hdx*
 RUN cp -af target/hdx.war /srv/tomcat/webapps/ROOT.war
 
+# add hdx-ckan swiss army knife
+ADD hdxcpstool.py /srv/
+RUN chmod +x /srv/hdxcpstool.py
+RUN ln -s /srv/hdxcpstool.py /usr/sbin/hdxcpstool
+
 # create tomcat admin pass
 ADD create_tomcat_admin_user.sh /srv/
 RUN chmod +x /srv/create_tomcat_admin_user.sh
