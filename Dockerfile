@@ -24,6 +24,8 @@ EXPOSE 8983
 
 WORKDIR /srv/solr/example
 
+VOLUME ["/srv/solr/example/solr/ckan/data/"]
+
 CMD ["/sbin/my_init"]
 
 #!!!
