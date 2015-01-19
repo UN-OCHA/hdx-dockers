@@ -43,11 +43,11 @@ chown www-data:www-data -R /var/log/ckan
 chown root:root -R /srv/backup
 
 # set pgpass if it's not there
-hdxckantool pgpass
+hdxckantool pgpass > /dev/null
 # set proper permissions on datastore
-hdxckantool db set-perms
+hdxckantool db set-perms > /dev/null
 
-echo "HDX-Ckan starting in 2 seconds..."
-sleep 2
+#echo "HDX-Ckan starting in 2 seconds..."
+#sleep 2
 cd /srv
 exec gunicorn --paste /srv/prod.ini -c /srv/gunicorn_conf.py
