@@ -23,6 +23,9 @@ RUN mv /srv/tomcat/webapps/ROOT /srv/tomcat/webapps/ROOT.orig
 RUN rm -rf /srv/tomcat/webapps/hdx*
 RUN cp -af target/hdx.war /srv/tomcat/webapps/ROOT.war
 
+# clean-up
+RUN rm -rf /srv/deploy/cps/*
+
 # add hdx-ckan swiss army knife
 ADD hdxcpstool.py /srv/
 RUN chmod +x /srv/hdxcpstool.py
