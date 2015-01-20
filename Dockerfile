@@ -30,7 +30,7 @@ RUN python setup.py develop
 RUN pip install -r requirements.txt
 
 # setup the plugins
-RUN hdxckantool plugins
+RUN hdxckantool plugins dev
 
 ADD gunicorn_conf.py /srv/
 ADD prod.ini /srv/
