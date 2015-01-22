@@ -246,6 +246,7 @@ def db():
 def db_clean(dbckan=SQL['DB'],dbdatastore=SQL['DB_DATASTORE']):
     for dbname in [dbckan, dbdatastore]:
         print('db_drop(' + dbname + ')')
+        db_drop(dbname)
     db_set_perms()
 
 def db_set_perms():
@@ -623,6 +624,8 @@ def reinstall_plugins():
     if len(opts) == 1:
         if opts.pop(0) in ['dev', 'develop']:
             cmd.append('develop')
+    if len(cmd) == 2:
+        cmd.append('install')
     for item in os.listdir(path):
         fullpath = os.path.join(path,item)
         if os.path.isdir(fullpath):
