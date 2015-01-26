@@ -16,15 +16,10 @@ RUN chmod u+x /etc/service/nginx/run
 RUN cp /etc/nginx/nginx.conf /etc/nginx/nginx.orig
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
-
 RUN mv /etc/nginx/sites-available/default /etc/nginx/default.orig
+RUN rm -rf /etc/nginx/sites-enabled/*
 ADD default /etc/nginx/sites-available/
-
-#RUN echo ""                           >> /etc/nginx/sites-available/default
-#RUN echo "upstream fpm {"             >> /etc/nginx/sites-available/default
-#RUN echo "    server fpm:fpmport;"    >> /etc/nginx/sites-available/default
-#RUN echo "}"                          >> /etc/nginx/sites-available/default
-#RUN echo ""                           >> /etc/nginx/sites-available/default
+RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 EXPOSE 80
 EXPOSE 443
