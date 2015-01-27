@@ -14,6 +14,7 @@ RUN dpkg-reconfigure locales
 RUN apt-get -qq update
 RUN apt-get -qq -y dist-upgrade
 RUN apt-get -qq -y install \
+    gettext-base \
     nano \
     telnet \
     python-software-properties \
