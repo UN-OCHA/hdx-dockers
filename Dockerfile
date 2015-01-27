@@ -8,6 +8,9 @@ ENV HDX_FOLDER /srv/hdx
 ###
 # get and build cps
 
+# clean-up
+RUN rm -rf /srv/deploy/cps
+
 RUN git clone https://github.com/OCHA-DAP/DAP-System.git /srv/deploy/cps
 
 WORKDIR /srv/deploy/cps
@@ -47,8 +50,8 @@ ADD initdb.sh /srv/
 # configure hdx webapp 
 RUN mkdir -p /srv/hdx/logs /srv/hdx/config /srv/hdx/staging /srv/hdx/reports
 ADD hdx-secret /srv/hdx/config/
-ADD hdx-config /srv/hdx/config/
-ADD log4j.xml /srv/hdx/config/
+ADD hdx-config.tpl /srv/hdx/config/
+ADD log4j.xml.tpl /srv/hdx/config/
 
 # create cps service
 RUN mkdir -p /etc/service/cps

@@ -14,6 +14,8 @@ fi
 # not really needed
 #/srv/create_tomcat_admin_user.sh
 
+envsubst < ${HDX_FOLDER}/config/hdx-config.tpl > ${HDX_FOLDER}/config/hdx-config
+envsubst < ${HDX_FOLDER}/config/log4j.xml.tpl > ${HDX_FOLDER}/config/log4j.xml
 
 # create pgpass
 pf="/root/.pgpass"
