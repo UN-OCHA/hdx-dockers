@@ -2,6 +2,8 @@ FROM teodorescuserban/hdx-base:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
+RUN apt-get -qq update
+
 RUN apt-get install -qq -y \
     nginx-full
 
