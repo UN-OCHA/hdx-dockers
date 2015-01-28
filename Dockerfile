@@ -3,7 +3,7 @@ FROM teodorescuserban/hdx-base:latest
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
 RUN apt-get install -qq -y \
-    nginx
+    nginx-full
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
