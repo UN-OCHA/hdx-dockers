@@ -1,7 +1,5 @@
 #!/bin/bash
 
-CKAN_INI="/srv/prod.ini"
-
 # update hosts
 if [ $(grep -c "10.66.32.110" /etc/hosts) -eq 0 ]; then
         echo "10.66.32.110 dev.hdx.rwlabs.org  dev-docs.hdx.rwlabs.org  dev-data.hdx.rwlabs.org  dev-manage.hdx.rwlabs.org"  >> /etc/hosts
@@ -13,28 +11,8 @@ if [ $(grep -c "10.66.32.108" /etc/hosts) -eq 0 ]; then
         echo "10.66.32.108 hdx.rwlabs.org      docs.hdx.rwlabs.org      data.hdx.rwlabs.org      manage.hdx.rwlabs.org"      >> /etc/hosts
 fi
 
-# update solr config in ckan ini file
-solr_port=$(echo $SOLR_PORT | awk -F \: '{ print $3 }')
-#sed -e 's/^tcp:\/\///')
-sed -i 's/solr_url.*/solr_url = http:\/\/solr:'$solr_port'\/solr\/ckan/' /srv/prod.ini
-
-# update postgres config
-#db_addr=$(echo $DB_PORT | sed -e 's/^tcp:\/\///')
-db_port=$(echo $DB_PORT | awk -F \: '{ print $3 }')
-db_name=$(echo $DB_ENV_POSTGRESQL_DB)
-db_user=$(echo $DB_ENV_POSTGRESQL_USER)
-db_pass=$(echo $DB_ENV_POSTGRESQL_PASS)
-sed -i 's/^sqlalchemy\.url.*/sqlalchemy\.url = postgresql:\/\/'$db_user':'$db_pass'@db:'$db_port'\/'$db_name'/' /srv/prod.ini
-
-datastore_name=$(echo $DB_ENV_POSTGRESQL_DATASTORE_DB)
-datastore_user=$(echo $DB_ENV_POSTGRESQL_DATASTORE_USER)
-datastore_pass=$(echo $DB_ENV_POSTGRESQL_DATASTORE_PASS)
-sed -i 's/^ckan\.datastore\.write_url.*/ckan\.datastore\.write_url = postgresql:\/\/'$db_user':'$db_pass'@db:'$db_port'\/'$datastore_name'/' /srv/prod.ini
-sed -i 's/^ckan\.datastore\.read_url.*/ckan\.datastore\.read_url = postgresql:\/\/'$datastore_user':'$datastore_pass'@db:'$db_port'\/'$datastore_name'/' /srv/prod.ini
-
-# fix filestore path
-sed -i 's/^ofs\.storage_dir.*/ofs\.storage_dir = \/srv\/filestore/' /srv/prod.ini
-sed -i 's/^ckan\.storage_path.*/ckan\.storage_path = \/srv\/filestore/' /srv/prod.ini
+# configure prod.ini
+envsubst < /srv/prod.ini.tpl > /srv/prod.ini
 
 # fix permissions on filestore
 mkdir -p /srv/filestore /srv/backup /var/log/ckan
