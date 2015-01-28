@@ -1,0 +1,16 @@
+# analytics web server instance
+server {
+
+    listen 80;
+    server_name analytics.hdx.rwlabs.org;
+    root /srv/www/analytics;
+    index index.html;
+
+    location / {
+	try_files $uri $uri /index.html;
+    }
+
+    access_log /var/log/nginx/analytics.access.log;
+    error_log /var/log/nginx/analytics.error.log;
+
+}

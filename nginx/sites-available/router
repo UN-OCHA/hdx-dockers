@@ -1,0 +1,21 @@
+# go away thingy
+server {
+    listen 80;
+    server_name blog.ochadata.net dap-dev.service.emergency.lu;
+    root /srv/www/oops;
+
+    access_log off;
+    log_not_found off;
+
+    location / {
+	try_files $uri $uri/ @router;
+	index index.html;
+	error_page 403 = @router;
+	error_page 404 = @router;
+    }
+
+    location @router {
+	rewrite ^(.*)$ /index.html;
+    }
+
+}
