@@ -3,7 +3,7 @@ FROM teodorescuserban/hdx-base-nginx:latest
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
 RUN mv /etc/nginx /etc/nginx.original
-ADD nginx /etc/
+ADD nginx /etc/nginx
 
 ADD hdx.rwlabs.org.crt /etc/ssl/certs/
 
