@@ -24,13 +24,11 @@ ADD opendkim.conf /etc/opendkim.conf
 ADD smtp_reply_filter /etc/postfix/
 ADD trustedhosts /etc/postfix/
 ADD dkim.hdx.rwlabs.org.txt /etc/postfix/
-#ADD dkim.hdx.rwlabs.org.private /etc/postfix/
+
 RUN postalias /etc/postfix/aliases
 RUN /etc/init.d/postfix start
 RUN /etc/init.d/postfix stop
 RUN chmod go-w -R /etc/postfix/
-ADD dkim.hdx.rwlabs.org.private /etc/postfix/
-RUN chmod 600 /etc/postfix/dkim.hdx.rwlabs.org.private
 
 EXPOSE 25
 

@@ -22,4 +22,3 @@ $command_directory/postfix check >/dev/console 2>&1
 # run Postfix
 exec $daemon_directory/master
 exit $?
-
