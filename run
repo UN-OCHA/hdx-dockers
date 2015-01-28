@@ -26,6 +26,15 @@ if [ $(cat $pf | grep -cE $line) -ne 1 ]; then
     chmod 600 $pf
 fi
 
+# create cps schema and a default user if we have an empty database
+if [ "$(psql -h db -U cps cps -c '\d')" == "No relations found." ]; then
+    echo "gogog"
+    echo "Create empty cps schema"
+    pg_restore -vOx -h db -U cps -d cps /srv/cps_schema_0_5_16.plsql
+    echo "Create example admin user"
+    psql -h db -U cps cps -f /srv/cps-initial-user.sql
+fi
+
 function shutdown()
 {
     date
