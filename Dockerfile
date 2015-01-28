@@ -1,9 +1,6 @@
-FROM teodorescuserban/hdx-base-nginx:latest
+FROM teodorescuserban/hdx-base:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
-
-RUN mv /etc/nginx /etc/nginx.original
-ADD nginx /etc/nginx/
 
 RUN apt-get install -qq -y \
     nginx
@@ -16,11 +13,6 @@ RUN chmod u+x /etc/service/nginx/run
 
 RUN cp /etc/nginx/nginx.conf /etc/nginx/nginx.orig
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-
-RUN mv /etc/nginx/sites-available/default /etc/nginx/default.orig
-RUN rm -rf /etc/nginx/sites-enabled/*
-ADD default /etc/nginx/sites-available/
-RUN ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 
 EXPOSE 80
 EXPOSE 443
