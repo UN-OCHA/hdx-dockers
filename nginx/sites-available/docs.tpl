@@ -3,7 +3,7 @@ server {
 
     listen 80;
     listen 443 ssl;
-    server_name docs.hdx.rwlabs.org;
+    server_name docs.${HDX_DOMAIN};
     ssl_certificate     /etc/ssl/certs/hdx.rwlabs.org.crt;
     ssl_certificate_key /etc/ssl/private/hdx.rwlabs.org.key;
 

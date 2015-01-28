@@ -1,9 +1,9 @@
 upstream ckan {
-    server 127.0.0.1:9605;
+    server 127.0.0.1:${HDX_CKAN_PORT};
 }
 
 upstream dataproxy {
-    server 127.0.0.1:9223;
+    server 127.0.0.1:${HDX_DATAPROXY_PORT};
 }
 
 upstream crisismap {
@@ -13,5 +13,5 @@ upstream crisismap {
 }
 
 upstream cps {
-    server 127.0.0.1:8605;
+    server 127.0.0.1:${HDX_CPS_PORT};
 }

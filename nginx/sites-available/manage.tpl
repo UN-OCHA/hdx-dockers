@@ -5,7 +5,7 @@ server {
     listen 443 ssl;
     ssl_certificate     /etc/ssl/certs/hdx.rwlabs.org.crt;
     ssl_certificate_key /etc/ssl/private/hdx.rwlabs.org.key;
-    server_name manage.hdx.rwlabs.org;
+    server_name manage.${HDX_DOMAIN};
     root /srv/www/manage;
     index index.html;
     error_page 404 @foobar;

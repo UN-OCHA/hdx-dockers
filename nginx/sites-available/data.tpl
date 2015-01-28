@@ -3,7 +3,7 @@ server {
 
     listen 80;
     listen 443 ssl;
-    server_name %PREFIX%data.%DOMAIN%;
+    server_name ${HDX_PREFIX}data.${HDX_DOMAIN};
     ssl_certificate     /etc/ssl/certs/hdx.rwlabs.org.crt;
     ssl_certificate_key /etc/ssl/private/hdx.rwlabs.org.key;
     root /srv/www/data;
@@ -133,7 +133,7 @@ server {
     #}
 
     location /_tracking {
-        add_header Access-Control-Allow-Origin "%PREFIX%data.%DOMAIN%";
+        add_header Access-Control-Allow-Origin "${HDX_PREFIX}data.${HDX_DOMAIN}";
         try_files $uri @go_ahead;
     }
 
@@ -165,7 +165,6 @@ server {
     location /dataproxy {
         rewrite  ^/dataproxy/(.*)  /$1 break;
         rewrite  ^/dataproxy(.*)  /$1 break;
-        # proxy_pass          http://127.0.0.1:9223;
         proxy_pass          http://dataproxy;
         access_log /var/log/nginx/data.proxy.access.log;
         error_log /var/log/nginx/data.proxy.error.log;

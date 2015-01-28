@@ -21,24 +21,8 @@ server {
 
     location / {
         try_files $uri $uri/ /index.html;
-        #try_files $uri $uri/ /launch.html /index.html;
-        #rewrite ^(.*)$ /aidanlaunch/index.html permanent;
-###
-        rewrite / http://data.hdx.rwlabs.org permanent;
+        rewrite / http://.${HDX_PREFIX}data.${HDX_DOMAIN} permanent;
     }
-
-
-
-#    location ~ ^/aidanlaunch(.*) {
-#        #root /srv/www/main/aidanlaunch;
-#        #index index.html;
-#        #rewrite ^/aidanlaunch/$ / break;
-#        #try_files $uri $uri/ /aidanlaunch/index.html;
-#        #try_files $uri @static_storage;
-#        auth_basic "HDX TEMP site";
-#        auth_basic_user_file datapass;
-#    }
-
 
     location /launch {
         rewrite /launch /launch/ permanent;
@@ -57,17 +41,6 @@ server {
         access_log /var/log/nginx/launch.access.log;
         error_log /var/log/nginx/launch.error.log;
 
-    }
-
-    location /aidan.html {
-        return 301 $scheme://hdx.rwlabs.org/launch/;
-        #root /srv/www/main/aidanlaunch;
-        #index index.html;
-        #rewrite /aidan.html /aidanlaunch/index.html break;
-        #try_files $uri $uri/ /aidanlaunch/index.html;
-        #try_files $uri @static_storage;
-        #auth_basic "HDX TEMP site";
-        #auth_basic_user_file datapass;
     }
 
     # temporary redirect to be used by sarah
