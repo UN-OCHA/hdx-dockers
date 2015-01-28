@@ -25,6 +25,11 @@ else
     echo "File already there. Skipping..."
 fi
 
+for template in $(find /etc/nginx -iname '*tpl'); do
+    file=$(echo $template | sed -e 's/\.tpl$//');
+    envsubst < $template > $file;
+done
+
 # fix perms of the ssl key
 status=$(stat $key_file | grep Uid)
 perms=$(echo $status | awk '{ print $2 }' | sed -e 's/^(//; s/\/.*//')
