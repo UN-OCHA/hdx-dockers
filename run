@@ -35,6 +35,34 @@ if [ "$(psql -h db -U cps cps -c '\d')" == "No relations found." ]; then
     psql -h db -U cps cps -f /srv/cps-initial-user.sql
 fi
 
+# add in ssh keys for restore
+ssh_base_dir="/root/.ssh"
+[ -d $ssh_base_dir ] || mkdir -p $ssh_base_dir
+
+key_file=$ssh_base_dir"/id_rsa"
+ssh_key=${HDX_SSH_KEY}
+pub_file=$ssh_base_dir"/id_rsa.pub"
+ssh_pub=${HDX_SSH_PUB}
+if [ ! -f $key_file ]; then
+    echo "File not found. Creating..."
+    touch $key_file
+    for i in $ssh_key; do
+        echo "$i" | sed -e 's/\"//' >> $key_file
+    done
+else
+    echo "File already there. Skipping..."
+fi
+
+if [ ! -f $pub_file ]; then
+    echo "File not found. Creating..."
+    touch $pub_file
+    for i in $ssh_pub; do
+        echo "$i" | sed -e 's/\"//' >> $pub_file
+    done
+else
+    echo "File already there. Skipping..."
+fi
+
 function shutdown()
 {
     date
