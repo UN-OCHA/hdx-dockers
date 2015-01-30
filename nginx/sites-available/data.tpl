@@ -16,8 +16,8 @@ server {
 
     error_page 503 = /503.html;
 
-    set_real_ip_from   10.66.32.65;
-    real_ip_header     X-Forwarded-For;
+    #set_real_ip_from   10.66.32.65;
+    #real_ip_header     X-Forwarded-For;
 
     location / {
         # let David and Godfrey run some api ckan scripts
