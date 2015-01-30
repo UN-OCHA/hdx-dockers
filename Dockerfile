@@ -5,7 +5,8 @@ MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 RUN apt-get -qq update
 
 RUN apt-get install -qq -y \
-    nginx-extras
+    nginx-full
+#    nginx-extras
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
