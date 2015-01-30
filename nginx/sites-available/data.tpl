@@ -19,8 +19,6 @@ server {
     set_real_ip_from   10.66.32.65;
     real_ip_header     X-Forwarded-For;
 
-    set $ckan_const 1;
-
     location / {
         # let David and Godfrey run some api ckan scripts
         # when the http basic auth is on
