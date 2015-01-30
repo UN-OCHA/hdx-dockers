@@ -24,19 +24,19 @@ server {
         # when the http basic auth is on
         # (can't have more than one auth header and that is for ckan api key)
         error_page 418 = @hellodavid;
-        if ($http_user_agent = "Hello! I'm David.") {
+        if (%http_user_agent = "Hello! I'm David.") {
             return 418;
         }
 
-        if ($http_user_agent = "Hello! I'm Godfrey.") {
+        if (%http_user_agent = "Hello! I'm Godfrey.") {
             return 418;
         }
 
-        #if ($http_user_agent = "Pingdom.com_bot_version_1.4_(http://www.pingdom.com/)") {
+        #if (%http_user_agent = "Pingdom.com_bot_version_1.4_(http://www.pingdom.com/)") {
         #    return 404;
         #}
 
-        try_files $uri @go_ahead;
+        try_files %uri @go_ahead;
 
         # added upon Sarah request 29.10.2014
         #rewrite /search.*q=ebolaaa /ebola redirect;
@@ -56,13 +56,13 @@ server {
     location /data-ebola-public.xlsx {
         root /srv/www/permalinks/;
         expires -1;
-        try_files $uri =404;
+        try_files %uri =404;
     }
 
     location /permalinks/ {
         alias /srv/www/permalinks/;
         expires -1;
-        try_files $uri =404;
+        try_files %uri =404;
     }
 
     location /search {
@@ -71,25 +71,25 @@ server {
         #error_page 420 = @go_ahead;
         error_page 420 = @colombia_page;
         recursive_error_pages on;
-        if ($args ~* "(^|&)ext_indicator=(0|1)(&|&(.*)|(.*)&)q=ebola($|&)") {
+        if (%args ~* "(^|&)ext_indicator=(0|1)(&|&(.*)|(.*)&)q=ebola(%|&)") {
             return 418;
         }
-        if ($args ~* "(^|&)q=ebola(&|&(.*)|(.*)&)ext_indicator=(0|1)($|&)") {
+        if (%args ~* "(^|&)q=ebola(&|&(.*)|(.*)&)ext_indicator=(0|1)(%|&)") {
             return 418;
         }
-        if ($args ~* "(^|(.*)&)q=ebola($|&)") {
+        if (%args ~* "(^|(.*)&)q=ebola(%|&)") {
             return 419;
         }
-        if ($args ~* "(^|&)ext_indicator=(0|1)(&|&(.*)|(.*)&)q=colombia($|&)") {
+        if (%args ~* "(^|&)ext_indicator=(0|1)(&|&(.*)|(.*)&)q=colombia(%|&)") {
             return 418;
         }
-        if ($args ~* "(^|&)q=colombia(&|&(.*)|(.*)&)ext_indicator=(0|1)($|&)") {
+        if (%args ~* "(^|&)q=colombia(&|&(.*)|(.*)&)ext_indicator=(0|1)(%|&)") {
             return 418;
         }
-        if ($args ~* "(^|(.*)&)q=colombia($|&)") {
+        if (%args ~* "(^|(.*)&)q=colombia(%|&)") {
             return 420;
         }
-        try_files $uri @go_ahead;
+        try_files %uri @go_ahead;
     }
 
     location /ruby {
@@ -109,11 +109,11 @@ server {
     }
 
     location ~* /topic/.* {
-            rewrite /topic/(.*) /dataset?tags=$1&_show_filters=false permanent;
+            rewrite /topic/(.*) /dataset?tags=%1&_show_filters=false permanent;
     }
 
     location /(503.html|hdx-logo-alpha.png) {
-        try_files $uri = 404;
+        try_files %uri = 404;
         #limit_req zone=zh400 burst=4000;
     }
     # test nginx is on
@@ -121,30 +121,30 @@ server {
         auth_basic off;
         allow all;
         #satisfy any;
-        #try_files $uri /pong.html;
+        #try_files %uri /pong.html;
     }
 
     # setting the cors header
     #location /api/i18n/en_AU {
     #    add_header Access-Control-Allow-Origin ".hdx.rwlabs.org";
-    #    try_files $uri @go_ahead;
+    #    try_files %uri @go_ahead;
     #}
 
     location /_tracking {
         add_header Access-Control-Allow-Origin "${HDX_PREFIX}data.${HDX_DOMAIN}";
-        try_files $uri @go_ahead;
+        try_files %uri @go_ahead;
     }
 
     location @hellodavid {
-        try_files $uri @go_ahead;
+        try_files %uri @go_ahead;
     }
 
     location /dataset/rowca-ebola-cases/related {
         rewrite /dataset/rowca-ebola-cases/(.*) /dataset/rowca-ebola-cases/ permanent;
-        try_files $uri @go_ahead;
+        try_files %uri @go_ahead;
     }
 
-    location ~ /err/(.*)\.(html|png)$ {
+    location ~ /err/(.*)\.(html|png)% {
         alias /srv/www/static/err/;
         #limit_req zone=zh400 burst=200;
     }
@@ -152,17 +152,17 @@ server {
     # static errors
     location /errors/ {
         root /srv/www/static;
-        try_files $uri $uri/;
+        try_files %uri %uri/;
     }
 
-    #location ~ \.(js|css|png|svg|otf)$ {
-    #    try_files $uri @go_ahead;
+    #location ~ \.(js|css|png|svg|otf)% {
+    #    try_files %uri @go_ahead;
     #    #limit_req zone=zh400 burst=25 nodelay;
     #}
 
     location /dataproxy {
-        rewrite  ^/dataproxy/(.*)  /$1 break;
-        rewrite  ^/dataproxy(.*)  /$1 break;
+        rewrite  ^/dataproxy/(.*)  /%1 break;
+        rewrite  ^/dataproxy(.*)  /%1 break;
         proxy_pass          http://dataproxy;
         access_log /var/log/nginx/data.proxy.access.log;
         error_log /var/log/nginx/data.proxy.error.log;
@@ -170,9 +170,9 @@ server {
 
     location /tiles/ {
         #root /srv/www/static;
-        #try_files $uri $uri/ =404;
+        #try_files %uri %uri/ =404;
         #error_page 404 = /errors/404.html;
-        rewrite ^(/tiles/)(.*)$ /tiles/1.0.0/osm/$2 break;
+        rewrite ^(/tiles/)(.*)% /tiles/1.0.0/osm/%2 break;
         #default_type image/png;
         proxy_pass http://otile3.mqcdn.com;
         proxy_redirect off;
@@ -187,7 +187,7 @@ server {
 
     # enable caching for the tiles at zoom level 6 (default map show)
     location /crisis-tiles/6/ {
-        rewrite ^(/crisis-tiles/)(.*)$ /hot/$2 break;
+        rewrite ^(/crisis-tiles/)(.*)% /hot/%2 break;
         #default_type image/png;
         #proxy_pass http://crisismap;
         proxy_pass http://b.tile.openstreetmap.fr;
@@ -201,7 +201,7 @@ server {
 
     location /crisis-tiles/ {
         # http://b.tile.openstreetmap.fr/hot/
-        rewrite ^(/crisis-tiles/)(.*)$ /hot/$2 break;
+        rewrite ^(/crisis-tiles/)(.*)% /hot/%2 break;
         #default_type image/png;
         proxy_pass http://b.tile.openstreetmap.fr;
         proxy_redirect off;
@@ -211,19 +211,19 @@ server {
     }
 
 
-    location ~ /err/(.*)\.(html|png)$ {
+    location ~ /err/(.*)\.(html|png)% {
         alias /srv/www/static/err/;
     }
 
     location /serbanux/ {
         alias /srv/www/static/test;
-        try_files $uri $uri/ = 503;
+        try_files %uri %uri/ = 503;
     }
 
     #disabled - related to concern about provate datasets and resources - on 27 Oct 2014
     #location /storage/f/ {
-    ##if ($http_user_agent = "Python-urllib/2.7 AppEngine-Google; (+http://code.google.com/appengine; appid: s~jsonpdataproxy-hrd)") {
-    #    rewrite ^/storage/f/(.*)$ /de/fa/ul/t/obj/$1 last;
+    ##if (%http_user_agent = "Python-urllib/2.7 AppEngine-Google; (+http://code.google.com/appengine; appid: s~jsonpdataproxy-hrd)") {
+    #    rewrite ^/storage/f/(.*)% /de/fa/ul/t/obj/%1 last;
     ##} 
     #}
 
@@ -233,7 +233,7 @@ server {
     #    root /srv/www/data/pairtree_root;
     #    access_log /var/log/nginx/data.static.access.log;
     #    error_log /var/log/nginx/data.static.error.log;
-    #    try_files $uri @go_ahead;
+    #    try_files %uri @go_ahead;
     #}
 
     location @go_ahead {
@@ -247,26 +247,26 @@ server {
         proxy_intercept_errors on;
         set_real_ip_from   127.0.0.1;
 
-        # rewrite ^ $scheme://test.docs.hdx.rwlabs.org$request_uri redirect;
+        # rewrite ^ %scheme://test.docs.hdx.rwlabs.org%request_uri redirect;
         # test proxy timing
         #access_log /var/log/nginx/proxy.docs.access.log upstreamlog;
         proxy_redirect off;
         proxy_pass http://127.0.0.1:9220;
         #proxy_pass http://10.66.32.108:9220;
-        proxy_set_header Host $host;
+        proxy_set_header Host %host;
 
-        # proxy_set_header    X-Forwarded-For $remote_addr;
-        # proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
-        # proxy_set_header    X-Real-IP $remote_addr;
+        # proxy_set_header    X-Forwarded-For %remote_addr;
+        # proxy_set_header    X-Forwarded-For %proxy_add_x_forwarded_for;
+        # proxy_set_header    X-Real-IP %remote_addr;
 
-        # add_header                X-Proxy-Cache $upstream_cache_status;
-        add_header	X-Nginx-Cache $upstream_cache_status;
+        # add_header                X-Proxy-Cache %upstream_cache_status;
+        add_header	X-Nginx-Cache %upstream_cache_status;
 
         # disabled to see if this is related with logout issue
         # expires                   5m;
 
         proxy_cache		cache;
-        proxy_cache_key		"$request_method@$scheme://$server_name:$server_port$uri$args";
+        proxy_cache_key		"%request_method@%scheme://%server_name:%server_port%uri%args";
         proxy_http_version	1.1;
         proxy_buffers		100 1m;
         proxy_max_temp_file_size  10m;
@@ -278,14 +278,14 @@ server {
         # proxy_cache_valid         301 24h;
         # proxy_ignore_headers      Cache-Control Expires;
 
-        # proxy_cache_bypass	$nocache;
-        # proxy_no_cache            $nocache;
+        # proxy_cache_bypass	%nocache;
+        # proxy_no_cache            %nocache;
         # proxy_cache_lock	on;
         # proxy_cache_lock_timeout  2000;
         # proxy_cache_use_stale     error timeout invalid_header updating http_500;
 
-        #proxy_cache_bypass $cookie_auth_tkt;
-        #proxy_no_cache $cookie_auth_tkt;
+        #proxy_cache_bypass %cookie_auth_tkt;
+        #proxy_no_cache %cookie_auth_tkt;
 
         #limit_conn ckanlimit 300;
         #limit_req zone=zh5 burst=2 nodelay;
@@ -313,24 +313,24 @@ server {
 
     location / {
         # checks for static file, if not found proxy to app
-        try_files $uri @pass_to_ckan;
+        try_files %uri @pass_to_ckan;
         #limit_req zone=zh5 burst=2 nodelay;
         #limit_conn ckanlimit 3;
     }
 
-    #location ~ \.(js|css|png|svg|otf)$ {
-    #    try_files $uri @go_ahead;
+    #location ~ \.(js|css|png|svg|otf)% {
+    #    try_files %uri @go_ahead;
     #    limit_req zone=zh800 burst=800; # nodelay;
     #}#
 
     location @pass_to_ckan {
-        #try_files $uri $uri/;
+        #try_files %uri %uri/;
         # /index.html;
-        #try_files $uri @ckan;
+        #try_files %uri @ckan;
 
         proxy_pass          http://ckan;
         proxy_redirect      off;
-        proxy_set_header    Host $host;
+        proxy_set_header    Host %host;
 
         limit_req zone=zh400 burst=100; # nodelay;
 

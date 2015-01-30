@@ -9,18 +9,18 @@ server {
         auth_basic off;
         allow all;
         #satisfy any;
-        #try_files $uri /ping.html;
+        #try_files %uri /ping.html;
     }
 
     location /ping {
         auth_basic off;
         allow all;
         #satisfy any;
-        #try_files $uri /ping.html;
+        #try_files %uri /ping.html;
     }
 
     location / {
-        try_files $uri $uri/ /index.html;
+        try_files %uri %uri/ /index.html;
         rewrite / http://.${HDX_PREFIX}data.${HDX_DOMAIN} permanent;
     }
 
@@ -30,11 +30,11 @@ server {
 
     location /launch/ {
         alias /srv/www/launch/;
-        try_files $uri $uri/ = 404;
+        try_files %uri %uri/ = 404;
         #index index.html;
-        #rewrite ^/aidanlaunch/$ / break;
-        #try_files $uri $uri/ /aidanlaunch/index.html;
-        #try_files $uri @static_storage;
+        #rewrite ^/aidanlaunch/% / break;
+        #try_files %uri %uri/ /aidanlaunch/index.html;
+        #try_files %uri @static_storage;
 ###
 #        auth_basic "HDX Launch site";
 #        auth_basic_user_file datapass;
@@ -45,12 +45,12 @@ server {
 
     # temporary redirect to be used by sarah
     location = /prototype {
-        return 301 $scheme://ocha-dap.github.io/hdx-design/;
+        return 301 %scheme://ocha-dap.github.io/hdx-design/;
     }
 
     location /static/icons/ {
         alias /srv/www/static/icons/;
-        try_files $uri $uri/ =404;
+        try_files %uri %uri/ =404;
     }
 
     # munin
