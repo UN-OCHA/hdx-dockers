@@ -5,13 +5,6 @@ prefix=$HDX_PREFIX
 domain=$HDX_DOMAIN
 ssl_key=$HDX_SSL_KEY
 key_file="/etc/ssl/private/hdx.rwlabs.org.key"
-config_files="data docs main manage"
-config_base="/etc/nginx/sites-available/"
-
-# apply values on config files
-for file in $config_files; do
-    sed -i "s/%HDX_PREFIX%/$prefix/g; s/%HDX_DOMAIN%/$domain/g" $config_base$file;
-done
 
 # construct the key
 if [ ! -f $key_file ]; then
@@ -26,6 +19,8 @@ else
 fi
 
 for template in $(find /etc/nginx -iname '*tpl'); do
+    # dont just mindless overwrite the files...
+    [ ! -f $file ] || continue
     file=$(echo $template | sed -e 's/\.tpl$//');
     envsubst < $template > $file;
 done
