@@ -12,17 +12,19 @@ RUN chmod +x /srv/hdxckantool.py && \
     ln -s /srv/hdxckantool.py /usr/sbin/hdxckantool
 
 # install hdx-ckan
-RUN pip install -e "git+https://github.com/OCHA-DAP/hdx-ckan.git@$CKAN_BRANCH_OR_TAG#egg=hdx-ckan"
-RUN pip install -r https://raw.githubusercontent.com/OCHA-DAP/hdx-ckan/$CKAN_BRANCH_OR_TAG/requirements.txt
+#RUN pip install -e "git+https://github.com/OCHA-DAP/hdx-ckan.git@$CKAN_BRANCH_OR_TAG#egg=hdx-ckan"
+#RUN pip install -r https://raw.githubusercontent.com/OCHA-DAP/hdx-ckan/$CKAN_BRANCH_OR_TAG/requirements.txt
 
-#RUN git clone https://github.com/OCHA-DAP/hdx-ckan.git /srv/ckan
-#WORKDIR /srv/ckan
-#RUN git fetch origin $CKAN_BRANCH
-#RUN git checkout $CKAN_BRANCH
-#RUN git pull origin $CKAN_BRANCH
-#RUN python setup.py develop
-# install hdx-ckan deps
-#RUN pip install -r requirements.txt
+RUN git clone https://github.com/OCHA-DAP/hdx-ckan.git /srv/ckan
+WORKDIR /srv/ckan
+
+# already on dev
+#RUN git fetch origin $CKAN_BRANCH && \
+#    git checkout $CKAN_BRANCH && \
+#    git pull origin $CKAN_BRANCH && \
+
+RUN python setup.py develop && \
+    pip install -r requirements.txt
 
 # setup the plugins
 RUN hdxckantool plugins dev
