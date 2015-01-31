@@ -2,26 +2,18 @@ from teodorescuserban/hdx-base-ckan:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
-#ENV DEBIAN_FRONTEND noninteractive
-#RUN locale-gen en_US.UTF-8
-#ENV LANG en_US.UTF-8
-#ENV LANGUAGE en_US:en
-#ENV LC_ALL en_US.UTF-8
-ENV CKAN_BRANCH tags/v0.6.5
-ENV CKAN_TAG v0.5.17stag
-
-#RUN pip -q install --upgrade \
-#    html5lib \
-#    json-table-schema
+ENV CKAN_BRANCH_OR_TAG dev
+#v0.5.16
+#stag
 
 # add hdx-ckan swiss army knife
 ADD hdxckantool.py /srv/
-RUN chmod +x /srv/hdxckantool.py
-RUN ln -s /srv/hdxckantool.py /usr/sbin/hdxckantool
+RUN chmod +x /srv/hdxckantool.py && \
+    ln -s /srv/hdxckantool.py /usr/sbin/hdxckantool
 
 # install hdx-ckan
-RUN pip install -e "git+https://github.com/OCHA-DAP/hdx-ckan.git@$CKAN_TAG#egg=hdx-ckan"
-RUN pip install -r https://raw.githubusercontent.com/OCHA-DAP/hdx-ckan/$CKAN_TAG/requirements.txt
+RUN pip install -e "git+https://github.com/OCHA-DAP/hdx-ckan.git@$CKAN_BRANCH_OR_TAG#egg=hdx-ckan"
+RUN pip install -r https://raw.githubusercontent.com/OCHA-DAP/hdx-ckan/$CKAN_BRANCH_OR_TAG/requirements.txt
 
 #RUN git clone https://github.com/OCHA-DAP/hdx-ckan.git /srv/ckan
 #WORKDIR /srv/ckan
@@ -29,7 +21,6 @@ RUN pip install -r https://raw.githubusercontent.com/OCHA-DAP/hdx-ckan/$CKAN_TAG
 #RUN git checkout $CKAN_BRANCH
 #RUN git pull origin $CKAN_BRANCH
 #RUN python setup.py develop
-
 # install hdx-ckan deps
 #RUN pip install -r requirements.txt
 
