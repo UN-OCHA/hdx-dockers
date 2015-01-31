@@ -20,8 +20,8 @@ RUN chmod +x /srv/hdxckantool.py
 RUN ln -s /srv/hdxckantool.py /usr/sbin/hdxckantool
 
 # install hdx-ckan
--RUN pip install -e "git+https://github.com/OCHA-DAP/hdx-ckan.git@$CKAN_TAG#egg=hdx-ckan"
--RUN pip install -r https://raw.githubusercontent.com/OCHA-DAP/hdx-ckan/$CKAN_TAG/requirements.txt
+RUN pip install -e "git+https://github.com/OCHA-DAP/hdx-ckan.git@$CKAN_TAG#egg=hdx-ckan"
+RUN pip install -r https://raw.githubusercontent.com/OCHA-DAP/hdx-ckan/$CKAN_TAG/requirements.txt
 
 #RUN git clone https://github.com/OCHA-DAP/hdx-ckan.git /srv/ckan
 #WORKDIR /srv/ckan
@@ -34,7 +34,7 @@ RUN ln -s /srv/hdxckantool.py /usr/sbin/hdxckantool
 #RUN pip install -r requirements.txt
 
 # setup the plugins
-RUN hdxckantool plugins
+RUN hdxckantool plugins dev
 
 ADD gunicorn_conf.py /srv/
 ADD prod.ini.tpl /srv/
