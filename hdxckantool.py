@@ -19,7 +19,7 @@ BASEDIR = "/srv/ckan"
 # for deployment (might employ tags - unsuitable for backup)
 BRANCH = "dev"
 # for backup
-BACKUP_AS = 'dev'
+BACKUP_AS = 'prod'
 # for restore
 RESTORE_FROM = 'prod'
 TMP_DIR = "/tmp/ckan-db-restore",
@@ -46,7 +46,7 @@ RESTORE['DB_PREFIX_DATASTORE'] = RESTORE['DB_PREFIX'] + '.' +  SQL['DB_DATASTORE
 RESTORE['FILESTORE_PREFIX'] = RESTORE['PREFIX'] + '.filestore'
 
 BACKUP = dict(
-    AS = BRANCH,
+    AS = BACKUP_AS,
     DIR = '/srv/backup',
 )
 BACKUP['PREFIX'] = BACKUP['AS'] + '.' + APP
