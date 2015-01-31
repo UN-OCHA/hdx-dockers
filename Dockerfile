@@ -9,34 +9,32 @@ ENV HDX_FOLDER /srv/hdx
 # get and build cps
 
 # clean-up
-RUN rm -rf /srv/deploy/cps
-
-RUN git clone https://github.com/OCHA-DAP/DAP-System.git /srv/deploy/cps
+RUN rm -rf /srv/deploy/cps && \
+    git clone https://github.com/OCHA-DAP/DAP-System.git /srv/deploy/cps
 
 WORKDIR /srv/deploy/cps
 
-RUN git fetch origin $CPS_BRANCH
-RUN git checkout $CPS_BRANCH
-RUN git pull origin $CPS_BRANCH
+RUN git fetch origin $CPS_BRANCH && \
+    git checkout $CPS_BRANCH && \
+    git pull origin $CPS_BRANCH
 
 WORKDIR /srv/deploy/cps/HDX-System
-RUN mvn clean
-RUN mvn install -Dmaven.test.skip=true
-RUN mv /srv/tomcat/webapps/ROOT /srv/tomcat/webapps/ROOT.orig
-RUN rm -rf /srv/tomcat/webapps/hdx*
-RUN cp -af target/hdx.war /srv/tomcat/webapps/ROOT.war
-
-# clean-up
-RUN rm -rf /srv/deploy/cps/*
+RUN mvn clean && \
+    mvn install -Dmaven.test.skip=true && \
+    mv /srv/tomcat/webapps/ROOT /srv/tomcat/ROOT.orig && \
+    rm -rf /srv/tomcat/webapps/hdx* && \
+    rm -rf /srv/tomcat/webapps/ROOT* && \
+    cp -af target/hdx.war /srv/tomcat/webapps/ROOT.war && \
+    rm -rf /srv/deploy/cps/*
 
 # add hdx-ckan swiss army knife
 ADD hdxcpstool.py /srv/
-RUN chmod +x /srv/hdxcpstool.py
-RUN ln -s /srv/hdxcpstool.py /usr/sbin/hdxcpstool
+RUN chmod +x /srv/hdxcpstool.py && \
+    ln -s /srv/hdxcpstool.py /usr/sbin/hdxcpstool
 
 # create tomcat admin pass
-ADD create_tomcat_admin_user.sh /srv/
-RUN chmod +x /srv/create_tomcat_admin_user.sh
+#ADD create_tomcat_admin_user.sh /srv/
+#RUN chmod +x /srv/create_tomcat_admin_user.sh
 
 # add postgres support 
 # no need. added by Alex as dependency for cps build.
