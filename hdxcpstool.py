@@ -43,7 +43,7 @@ RESTORE['DB_PREFIX'] = RESTORE['PREFIX'] + '.db'
 RESTORE['DB_PREFIX_MAIN'] = RESTORE['DB_PREFIX'] + '.' + SQL['DB']
 
 BACKUP = dict(
-    AS = BRANCH,
+    AS = BACKUP_AS,
     DIR = '/srv/backup',
 )
 BACKUP['PREFIX'] = BACKUP['AS'] + '.' + APP
@@ -154,13 +154,13 @@ def db():
             print("Database is still intact. :)")
             exit(0)
     elif subcmd == 'get':
-        db_get_last_backups()
+        db_get_last_backup()
     elif subcmd == 'restore':
         q = 'Are you sure you want to overwrite cps databases? '
         if not query_yes_no(q, default='no'):
             print("Aborting restore operation.")
             exit(0)
-        db_get_last_backups()
+        db_get_last_backup()
         # unzip the files
         control('stop')
         for file in os.listdir(RESTORE['TMP_DIR']):
@@ -216,11 +216,12 @@ def db_list_backups(listonly=True,ts=TODAY,server=RESTORE['SERVER'],directory=RE
         print('+++++++++++++++++++++++++++++++++++++++++++++++++++++')                                                                                                   
     return result
 
-def db_get_last_backups():
+def db_get_last_backup():
     list = db_list_backups().split('\n')
     list_db = []
     backup = []
     for line in list:
+        print(line)
         name = line.split()[4]
         if name.startswith(RESTORE['DB_PREFIX'] + '.' + SQL['DB']):
             backup.append(name)
@@ -231,7 +232,7 @@ def db_get_last_backups():
     print('Trying to get for you the following backup:')
     print(backup[0])
     print('+++++++++++++++++++++++++++++++++++++++++++++++++++++')                                                                                                   
-    db_list_backups(False,ts)
+    db_list_backups(False)
     print('+++++++++++++++++++++++++++++++++++++++++++++++++++++')                                                                                                   
     print('Done. Backup is available in', RESTORE['TMP_DIR'])
     print('+++++++++++++++++++++++++++++++++++++++++++++++++++++')                                                                                                   
