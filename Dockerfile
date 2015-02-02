@@ -2,12 +2,7 @@ from teodorescuserban/hdx-base-tomcat:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
-RUN apt-get -qq update
-RUN apt-get install -qq -y \
-    postgresql-client-9.3 \
-    python3-psycopg2
+RUN apt-get -qq update && \
+    apt-get install -qq -y postgresql-client-9.3 python3-psycopg2 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-ENV HDX_FOLDER /srv/hdx
-RUN mkdir -p /srv/deploy /srv/backup
