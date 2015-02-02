@@ -9,7 +9,8 @@ ENV HDX_FOLDER /srv/hdx
 # get and build cps
 
 # clean-up
-RUN rm -rf /srv/deploy/cps && \
+RUN mkdir -p /srv/deploy /srv/backup && \
+    rm -rf /srv/deploy/cps && \
     git clone https://github.com/OCHA-DAP/DAP-System.git /srv/deploy/cps
 
 WORKDIR /srv/deploy/cps
