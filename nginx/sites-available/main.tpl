@@ -21,7 +21,7 @@ server {
 
     location / {
         try_files %uri %uri/ /index.html;
-        rewrite / http://.${HDX_PREFIX}data.${HDX_DOMAIN} permanent;
+        rewrite / http://${HDX_PREFIX}data.${HDX_DOMAIN} permanent;
     }
 
     location /launch {
