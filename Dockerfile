@@ -4,13 +4,11 @@ MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get -qq -y update
-
-RUN apt-get install -qq -y \
+RUN apt-get -qq -y update && \
+    apt-get install -qq -y \
     mysql-server-5.5 \
-    mysql-client-5.5
-
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    mysql-client-5.5 && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN mkdir -p /etc/service/mysql
 ADD run /etc/service/mysql/run
