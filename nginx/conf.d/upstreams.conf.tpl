@@ -2,6 +2,10 @@ upstream ckan {
     server ${HDX_CKAN_ADDR}:${HDX_CKAN_PORT};
 }
 
+upstream blog {
+    server ${HDX_BLOG_ADDR}:${HDX_BLOG_PORT};
+}
+
 upstream dataproxy {
     server ${HDX_DATAPROXY_ADDR}:${HDX_DATAPROXY_PORT};
 }

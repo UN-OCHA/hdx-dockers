@@ -49,10 +49,7 @@ server {
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME %document_root%fastcgi_script_name;
         # fastcgi_intercept_errors on;
-        fastcgi_pass docs_fpm;
+        fastcgi_pass blog;
     }
 
-}
-upstream docs_fpm {
-    server unix:/var/run/php5-fpm.sock;
 }
