@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-datadir="/var/lib/mysql"
+datadir=${MYSQL_DIR}
 args=""
 
 # create datadir if not exists
