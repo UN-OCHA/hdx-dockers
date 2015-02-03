@@ -2,11 +2,10 @@ FROM teodorescuserban/hdx-base-mysql:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
-ENV MYSQL_ROOT_USER ckan
-ENV MYSQL_ROOT_PASS ckan
-ENV MYSQL_DB ckan
-ENV MYSQL_USER ckan
-ENV MYSQL_PASS ckan
+ENV MYSQL_ROOT_PASS pass
+ENV MYSQL_DB blog
+ENV MYSQL_USER blog
+ENV MYSQL_PASS blog
 
 RUN mkdir -p /etc/service/mysql
 ADD run /etc/service/mysql/run
