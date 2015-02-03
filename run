@@ -23,7 +23,7 @@ for template in $(find /etc/nginx -iname '*tpl'); do
     # dont just mindless overwrite the files...
     [ ! -f $file ] || continue
     envsubst < $template > $file;
-    sed -i 's/%/$/' $file
+    sed -i 's/%/$/g' $file
 done
 
 # fix perms of the ssl key
