@@ -303,7 +303,7 @@ server {
 
     listen 127.0.0.1:9220;
     # listen 10.66.32.108:9220;
-    root /opt/ckan/fake/;
+    root /srv/www/fake/;
     index index.html;
 
     access_log /var/log/nginx/data.access.log;
