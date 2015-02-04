@@ -1,4 +1,4 @@
-FROM teodorescuserban/hdx-base-fpm:stable
+FROM teodorescuserban/hdx-base-fpm:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
@@ -33,4 +33,3 @@ EXPOSE 80
 
 RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 CMD ["/sbin/my_init"]
-
