@@ -21,3 +21,4 @@ apt-get -qq -y install \
     git \
     build-essential && \
 apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+# update to solve ghost vulnerability
