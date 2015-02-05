@@ -12,7 +12,7 @@ if [ ! -d $datadir ]; then
 fi
 
 # init db if datadir is empty
-if [ "$(ls -A $datadir)" ]; then
+if [ ! "$(ls -A $datadir)" ]; then
     mysql_install_db
     tempSqlFile='/tmp/mysql-first-time.sql'
     cat > "$tempSqlFile" <<-EOSQL
@@ -33,6 +33,8 @@ EOSQL
     echo 'FLUSH PRIVILEGES ;' >> "$tempSqlFile"
 
     args="--init-file=$tempSqlFile"
+else
+    echo "Data dir ($datadir) not empty. Skipping mysql initialisation."
 fi
 
 chown -R mysql:mysql $datadir
