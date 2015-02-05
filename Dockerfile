@@ -12,6 +12,7 @@ RUN mv /etc/php5/fpm/php-fpm.conf /etc/php5/fpm/php-fpm.orig && \
     mv /etc/php5/fpm/pool.d/www.conf /etc/php5/fpm/pool.d/www.orig
 ADD php-fpm.conf /etc/php5/fpm/
 ADD hdx.conf /etc/php5/fpm/pool.d/
+ADD test.php /srv/
 
 # tweak php.ini
 RUN sed -i 's/.*date.timezone =.*/date\.timezone = UTC/'                    /etc/php5/fpm/php.ini && \
