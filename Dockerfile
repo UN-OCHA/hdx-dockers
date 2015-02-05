@@ -14,7 +14,8 @@ RUN mkdir -p /etc/service/mysql
 ADD run /etc/service/mysql/run
 RUN chmod +x /etc/service/mysql/run
 
-RUN sed -i 's/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/' /etc/mysql/my.cnf
+RUN sed -i 's/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/' /etc/mysql/my.cnf && \
+    sed -i 's/^key_buffer =/key_buffer_size =/' /etc/mysql/my.cnf
 
 EXPOSE 3306
 
