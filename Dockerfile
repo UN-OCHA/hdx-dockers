@@ -2,10 +2,10 @@ FROM teodorescuserban/hdx-base-fpm:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
-# already inserted by base-fpm
-#RUN mkdir -p /etc/service/fpm
-#ADD run /etc/service/fpm/run
-#RUN chmod +x /etc/service/fpm/run
+# change the default by base-fpm
+RUN mkdir -p /etc/service/fpm
+ADD run /etc/service/fpm/run
+RUN chmod +x /etc/service/fpm/run
 
 # tweak php-fpm.conf and configure our pool (getting rid of the default one)
 RUN mv /etc/php5/fpm/php-fpm.conf /etc/php5/fpm/php-fpm.orig && \
