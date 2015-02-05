@@ -19,7 +19,9 @@ RUN sed -i 's/.*date.timezone =.*/date\.timezone = UTC/'                    /etc
     sed -i 's/.*error_log =.*/error_log = syslog/'                          /etc/php5/fpm/php.ini && \
     sed -i 's/.*cgi.fix_pathinfo=.*/cgi.fix_pathinfo=0/'                    /etc/php5/fpm/php.ini && \
     sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc/php5/fpm/php.ini && \
-    sed -i -e "s/post_max_size\s*=\s*8M/post_max_size = 100M/g"             /etc/php5/fpm/php.ini
+    sed -i -e "s/post_max_size\s*=\s*8M/post_max_size = 100M/g"             /etc/php5/fpm/php.ini && \
+    sed -i -e "s/.*short_open_tag\s*=\s*8M//g"                              /etc/php5/fpm/php.ini && \
+    echo "short_open_tag = On"                                           >> /etc/php5/fpm/php.ini
 
 # slap the latest wordpress in there
 RUN mkdir -p /srv/www/docs && \
