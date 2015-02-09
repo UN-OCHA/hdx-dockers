@@ -189,7 +189,7 @@ def db_list_backups(listonly=True,ts=TODAY,server=RESTORE['SERVER'],directory=RE
         if os.path.isdir(RESTORE['TMP_DIR']):
             rmtree(RESTORE['TMP_DIR'])
         os.makedirs(RESTORE['TMP_DIR'], exist_ok=True)
-    print(str(line))
+    # print(str(line))
     try:
         if listonly:
             result = subprocess.check_output(line, stderr=subprocess.STDOUT)
