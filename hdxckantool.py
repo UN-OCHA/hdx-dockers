@@ -17,9 +17,9 @@ APP = "ckan"
 #
 BASEDIR = "/srv/ckan"
 # for deployment (might employ tags - unsuitable for backup)
-BRANCH = "dev"
+BRANCH = os.getenv('HDX_CKAN_BRANCH')
 # for backup
-BACKUP_AS = 'prod'
+BACKUP_AS = os.getenv('HDX_TYPE')
 # for restore
 RESTORE_FROM = 'prod'
 TMP_DIR = "/tmp/ckan-db-restore",
@@ -36,7 +36,8 @@ SQL = dict(
 # to get the snapshot
 RESTORE = dict(
     FROM = RESTORE_FROM, 
-    SERVER = 'backup.hdx.atman.ro', USER = 'hdx', DIR = '/srv/hdx/backup/prod',
+    # SERVER = 'backup.hdx.atman.ro', USER = 'hdx', DIR = '/srv/hdx/backup/prod',
+    SERVER = os.getenv('HDX_BACKUP_SERVER'), USER = os.getenv('HDX_BACKUP_USER'), DIR = os.getenv('HDX_BACKUP_BASE_DIR'),
     TMP_DIR = "/tmp/ckan-db-restore",
 )
 RESTORE['PREFIX']= RESTORE['FROM'] + '.' + APP
@@ -75,11 +76,14 @@ def show_usage():
             set-perms - restore permissions on datastore side
             get       - get latest snapshot of the databases (ckan and datastore)
             restore   - overwrite db content from the latest snapshot of the databases
-WIP         restore   - overwrite db content from a snapshot
+            WIP         restore   - overwrite db content from a snapshot
                 [db1 db2] - restore on what local db? (default: ckan and datastore)
                 [-u user] - restore using what user? (default: ckan)
         deploy        - just deploy
             test      - deploy then run tests
+        filestore
+           restore    - overwrite the filestore content from the latest filestore backup
+              clean   - remove filestore content first
         pgpass        - create the pgpass entry required to operate on postgres
         plugins       - reinstall plugins (in develop mode for now)
         reindex       - run solr reindex
@@ -281,14 +285,14 @@ def db_set_perms():
 
 def db_list_backups(listonly=True,ts=TODAY,server=RESTORE['SERVER'],directory=RESTORE['DIR'],user=RESTORE['USER'],ckandb=SQL['DB'],datastoredb=SQL['DB_DATASTORE']):
     if listonly:
-        line = ["rsync", '--list-only', user + '@' + server + ':' + directory + '/' + RESTORE['DB_PREFIX'] + '*' + ts + '*' ]
+        line = ["rsync", '--list-only', user + '@' + server + ':' + directory + '/' + RESTORE['FROM'] + '/' + RESTORE['DB_PREFIX'] + '*' + ts + '*' ]
     else:
-        line = ["rsync", "-a", "--progress", user + '@' + server + ':' + directory + '/' + RESTORE['DB_PREFIX'] + '*' + ts + '*', RESTORE['TMP_DIR'] + '/']
+        line = ["rsync", "-a", "--progress", user + '@' + server + ':' + directory + '/' + RESTORE['FROM'] + '/' + RESTORE['DB_PREFIX'] + '*' + ts + '*', RESTORE['TMP_DIR'] + '/']
         # empty the temp dir first.
         if os.path.isdir(RESTORE['TMP_DIR']):
             rmtree(RESTORE['TMP_DIR'])
         os.makedirs(RESTORE['TMP_DIR'], exist_ok=True)
-    print(str(line))
+    # print(str(line))
     try:
         if listonly:
             result = subprocess.check_output(line, stderr=subprocess.STDOUT)
@@ -413,6 +417,87 @@ def db_restore(filename='',db=''):
     # print("in db restore")
     # print(ts)
     # exit(0)
+
+def filestore_restore(ts=TODAY,server=RESTORE['SERVER'],directory=RESTORE['DIR'],user=RESTORE['USER'],clean=False):
+    # print('This doesn\'t do anything right now...')
+    # exit(0)
+    line = ["rsync", "-a", "--progress", user + '@' + server + ':' + directory + '/' + RESTORE['FROM'] + '/' + RESTORE['FILESTORE_PREFIX'] + '*' + ts + '*', RESTORE['TMP_DIR'] + '/']
+    # if os.path.isdir(RESTORE['TMP_DIR']):
+    #     for the_file in os.listdir(RESTORE['TMP_DIR']):
+    #         file_path = os.path.join(RESTORE['TMP_DIR'], the_file)
+    #         try:
+    #             # if os.path.isfile(file_path):
+    #             os.unlink(file_path)
+    #         except Exception as e:
+    #             print(e)
+    #     #rmtree(RESTORE['TMP_DIR'])
+    # else:
+    os.makedirs(RESTORE['TMP_DIR'], exist_ok=True)
+    print('Getting the filestore archive...')
+    try:
+        result = subprocess.call(line, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError as exc:
+        print('+++++++++++++++++++++++++++++++++++++++++++++++++++++')                                                                                                   
+        print("Can't find archive from", ts, "or can't connect.")
+        print('The error encountered was:')
+        print('+++++++++++++++++++++++++++++++++++++++++++++++++++++')                                                                                                   
+        print(str(exc.output.decode("utf-8").strip()))
+        print('+++++++++++++++++++++++++++++++++++++++++++++++++++++')                                                                                                   
+        # q = 'Would you like to get anothr backup?'
+        # if not query_yes_no(q, default='no'):
+        #     print("Aborting restore operation.")
+        #     exit(0)
+        print('try another timestamp')
+        return False
+    print('Done.')
+    tfilename =  os.path.join(RESTORE['TMP_DIR'], os.listdir(RESTORE['TMP_DIR'])[0])
+    if tarfile.is_tarfile(tfilename):
+        if clean:
+            filestore_dir = '/srv/filestore'
+            for root, dirs, files in os.walk(filestore_dir, topdown=False):  
+                for item in files:
+                    try:
+                        os.remove(os.path.join(root,item))
+                    except Exception as e:
+                        print(e)
+                        print('error removing ' + item)
+                if root != filestore_dir:
+                    try:
+                        os.rmdir(root)
+                    except Exception as e:
+                        print(e)
+                        print('error removing ' + root)
+
+                        # for the_file in os.listdir(filestore_dir):
+            #     file_path = os.path.join(filestore_dir, the_file)
+            #     try:
+                    # if os.path.isfile(file_path):
+                    # os.unlink(file_path)
+                # except Exception as e:
+                #     print(e)
+            # rmtree('/srv/filestore')
+            # os.makedirs('/srv/filestore', exist_ok=True)
+            # exit(0)
+        tfile = tarfile.open(tfilename, 'r:gz')
+        print('Restoring filestore from ' + tfilename )
+        print('It will take a while...')
+        try:
+            tfile.extractall('/srv')
+        except:
+            print('some error occured. bailing out...')
+            exit(0)
+    else:
+        print(tfilename + ' is not a valid archive.')
+        exit(0)
+    print('Fixing permissions on filestore')
+    for root, dirs, files in os.walk('/srv/filestore'):  
+      for item in dirs:  
+        os.chown(os.path.join(root, item), 33, 33)
+        os.chmod(os.path.join(root, item), 1274)
+      for item in files:
+        os.chown(os.path.join(root, item), 33, 33)
+        os.chmod(os.path.join(root, item), 1230)
+    print('All done! Please do not forget to remove the archives in ' + RESTORE['TMP_DIR'])
 
 def deploy():
     control('stop')
@@ -616,7 +701,6 @@ def refresh_pgpass():
         os.chmod(pgpass, 0o600)
         print('Permissions were incorrect. Fixed.')
     print('Done.')
-
 
 def reinstall_plugins():
     path = '/srv/ckan'
@@ -923,6 +1007,12 @@ def main():
         control(cmd)
     elif cmd == 'reindex':
         solr_reindex()
+    elif cmd == 'filestore':
+        if len(opts) and opts[0] == 'restore':
+            if len(opts) > 1 and opts[1] == 'clean':
+                filestore_restore(clean=True)
+            else:
+                filestore_restore()
     elif cmd == 'plugins':
         reinstall_plugins()
     elif cmd == 'sysadmin':

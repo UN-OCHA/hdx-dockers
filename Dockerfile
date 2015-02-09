@@ -2,7 +2,7 @@ from teodorescuserban/hdx-base-ckan:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
-ENV CKAN_BRANCH_OR_TAG dev
+# not used ENV CKAN_BRANCH_OR_TAG dev
 #v0.5.16
 #stag
 
