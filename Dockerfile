@@ -14,8 +14,7 @@ RUN git clone https://github.com/OCHA-DAP/hdx-ckan.git /srv/ckan && \
 # add required files
 ADD hdxckantool.py gunicorn_conf.py hdx-test-core.ini prod.ini.tpl /srv/
 RUN chmod +x /srv/hdxckantool.py && \
-    ln -s /srv/hdxckantool.py /usr/sbin/hdxckantool && \
-    hdxckantool plugins dev
+    ln -s /srv/hdxckantool.py /usr/sbin/hdxckantool
 
 # fix requests for pip
 RUN mv /usr/local/lib/python2.7/dist-packages/requests /usr/local/lib/python2.7/dist-packages/requests.bak
