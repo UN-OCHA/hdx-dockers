@@ -14,6 +14,7 @@ ADD php-fpm.conf /etc/php5/fpm/
 ADD hdx.conf /etc/php5/fpm/pool.d/
 ADD test.php /srv/
 ADD add_a_blank_wordpress.sh /srv/
+ADD hdxblogtool.sh /srv/
 
 # tweak php.ini
 RUN sed -i 's/.*date.timezone =.*/date\.timezone = UTC/'                    /etc/php5/fpm/php.ini && \
