@@ -2,42 +2,22 @@ from teodorescuserban/hdx-base-ckan:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
-# not used ENV CKAN_BRANCH_OR_TAG dev
-#v0.5.16
-#stag
-
-# add hdx-ckan swiss army knife
-ADD hdxckantool.py /srv/
-RUN chmod +x /srv/hdxckantool.py && \
-    ln -s /srv/hdxckantool.py /usr/sbin/hdxckantool
-
-# install hdx-ckan
-#RUN pip install -e "git+https://github.com/OCHA-DAP/hdx-ckan.git@$CKAN_BRANCH_OR_TAG#egg=hdx-ckan"
-#RUN pip install -r https://raw.githubusercontent.com/OCHA-DAP/hdx-ckan/$CKAN_BRANCH_OR_TAG/requirements.txt
-
-RUN git clone https://github.com/OCHA-DAP/hdx-ckan.git /srv/ckan
-WORKDIR /srv/ckan
-
-# already on dev
-#RUN git fetch origin $CKAN_BRANCH && \
-#    git checkout $CKAN_BRANCH && \
-#    git pull origin $CKAN_BRANCH && \
-
-RUN python setup.py develop && \
-    pip install -r requirements.txt
-
-# setup the plugins
-RUN hdxckantool plugins dev
-
-ADD gunicorn_conf.py /srv/
-ADD prod.ini.tpl /srv/
-
-ADD hdx-test-core.ini /srv/ckan/
-
 RUN mkdir -p /etc/service/ckan
 ADD run /etc/service/ckan/run
-RUN chmod +x /etc/service/ckan/run
 
+# get hdx-ckan dev branch and install it in develop mode
+RUN git clone https://github.com/OCHA-DAP/hdx-ckan.git /srv/ckan && \
+    cd /srv/ckan && \
+    python setup.py develop && \
+    pip install -r requirements.txt
+
+# add required files
+ADD hdxckantool.py gunicorn_conf.py hdx-test-core.ini prod.ini.tpl /srv/
+RUN chmod +x /srv/hdxckantool.py && \
+    ln -s /srv/hdxckantool.py /usr/sbin/hdxckantool && \
+    hdxckantool plugins dev
+
+# fix requests for pip
 RUN mv /usr/local/lib/python2.7/dist-packages/requests /usr/local/lib/python2.7/dist-packages/requests.bak
 
 VOLUME ["/srv/filestore", "/srv/backup", "/var/log/ckan"]
