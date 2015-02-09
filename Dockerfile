@@ -15,9 +15,9 @@ ADD hdx.conf /etc/php5/fpm/pool.d/
 ADD test.php /srv/
 ADD add_a_blank_wordpress.sh /srv/
 ADD hdxblogtool.sh /srv/
-
-# tweak php.ini
-RUN sed -i 's/.*date.timezone =.*/date\.timezone = UTC/'                    /etc/php5/fpm/php.ini && \
+RUN chmod +x /srv/hdxblogtool.sh && \
+    ln -s /srv/hdxblogtool.sh /usr/local/sbin/hdxblogtool && \
+    sed -i 's/.*date.timezone =.*/date\.timezone = UTC/'                    /etc/php5/fpm/php.ini && \
     sed -i 's/.*error_log =.*/error_log = syslog/'                          /etc/php5/fpm/php.ini && \
     sed -i 's/.*cgi.fix_pathinfo=.*/cgi.fix_pathinfo=0/'                    /etc/php5/fpm/php.ini && \
     sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc/php5/fpm/php.ini && \
