@@ -2,9 +2,9 @@ from teodorescuserban/hdx-base-cps:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
-ENV CPS_BRANCH dev
+#ENV CPS_BRANCH dev
 #tags/v0.6.5
-ENV HDX_FOLDER /srv/hdx
+#ENV HDX_FOLDER /srv/hdx
 
 ###
 # get and build cps
@@ -16,18 +16,18 @@ RUN mkdir -p /srv/deploy /srv/backup && \
 
 WORKDIR /srv/deploy/cps
 
-RUN git fetch origin $CPS_BRANCH && \
-    git checkout $CPS_BRANCH && \
-    git pull origin $CPS_BRANCH
+#RUN git fetch origin $CPS_BRANCH && \
+#    git checkout $CPS_BRANCH && \
+#    git pull origin $CPS_BRANCH
 
-WORKDIR /srv/deploy/cps/HDX-System
-RUN mvn clean && \
-    mvn install -Dmaven.test.skip=true && \
-    mv /srv/tomcat/webapps/ROOT /srv/tomcat/ROOT.orig && \
-    rm -rf /srv/tomcat/webapps/hdx* && \
-    rm -rf /srv/tomcat/webapps/ROOT* && \
-    cp -af target/hdx.war /srv/tomcat/webapps/ROOT.war && \
-    rm -rf /srv/deploy/cps/*
+#WORKDIR /srv/deploy/cps/HDX-System
+#RUN mvn clean && \
+#    mvn install -Dmaven.test.skip=true && \
+#    mv /srv/tomcat/webapps/ROOT /srv/tomcat/ROOT.orig && \
+#    rm -rf /srv/tomcat/webapps/hdx* && \
+#    rm -rf /srv/tomcat/webapps/ROOT* && \
+#    cp -af target/hdx.war /srv/tomcat/webapps/ROOT.war && \
+#    rm -rf /srv/deploy/cps/*
 
 # add hdx-ckan swiss army knife
 ADD hdxcpstool.py /srv/

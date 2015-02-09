@@ -20,12 +20,12 @@ TARGETDIR= SRCDIR + '/HDX-System'
 TOMCATDIR = '/srv/tomcat'
 APPDIR = TOMCATDIR + '/webapps'
 # for deployment (might employ tags - unsuitable for backup)
-BRANCH = "dev"
+BRANCH = os.getenv('HDX_CPS_BRANCH')
 # for backup
-BACKUP_AS = 'dev'
+BACKUP_AS = os.getenv('HDX_TYPE')
 # for restore
 RESTORE_FROM = 'prod'
-TMP_DIR = "/tmp/cps-db-restore",
+TMP_DIR = "/tmp/ckan-db-restore",
 TS = ''
 
 SQL = dict(
@@ -256,7 +256,8 @@ def deploy():
     print("changing dir to "+ SRCDIR)
     os.chdir(SRCDIR)
     print('fetching branch or tag', BRANCH)
-    cmd_line = ['git', 'fetch', 'origin', BRANCH]
+    cmd_line = ['git', 'fetch']
+    #cmd_line = ['git', 'fetch', 'origin', BRANCH]
     subprocess.call(cmd_line)
     print('hopping onto', BRANCH)
     cmd_line = ['git', 'checkout', BRANCH]

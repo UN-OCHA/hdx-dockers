@@ -7,4 +7,4 @@ db.password=cps
 
 smtp.host=172.17.42.1
 smtp.port=25
-mail.from=cps@${HDX_DOMAIN}
+mail.from=cps.${HDX_TYPE}@${HDX_DOMAIN}
