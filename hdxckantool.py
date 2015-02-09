@@ -503,8 +503,10 @@ def deploy():
     control('stop')
     print("changing dir to "+ BASEDIR)
     os.chdir(BASEDIR)
-    print('fetching branch or tag', BRANCH)
-    cmd_line = ['git', 'fetch', 'origin', BRANCH]
+    #print('fetching branch or tag', BRANCH)
+    #cmd_line = ['git', 'fetch', 'origin', BRANCH]
+    print('fetching branches and tags')
+    cmd_line = ['git', 'fetch']
     subprocess.call(cmd_line)
     print('hopping onto', BRANCH)
     cmd_line = ['git', 'checkout', BRANCH]
