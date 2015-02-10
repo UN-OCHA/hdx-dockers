@@ -1,5 +1,13 @@
 #!/bin/bash
 
+if [ "$1" != "restore" ]; then
+    me=$(basename $0)
+    echo -en "\nUsage: $me restore\n\n"
+    exit 1
+fi
+
+
+
 server=${HDX_BACKUP_SERVER}
 user=${HDX_BACKUP_USER}
 srcdir=${HDX_BACKUP_BASE_DIR}
@@ -56,6 +64,11 @@ fi
 rsync -av --progress $user@$server:$srcdir/prod/prod.blog.$today* . 
 echo "rsync -av --progress $user@$server:$srcdir/prod/prod.blog.$today* . "
 
+# stop fpm
+echo "Stopping fpm"
+sv stop fpm
+echo "Done."
+
 # restore last blog archive
 mkdir -p $blogdir
 rm -rf $blogdir/*
@@ -88,4 +101,9 @@ sed -i "s/https:\/\/[a-zA-Z0-9\-]*docs\.hdx\.rwlabs\.org/https:\/\/$new_url/g" $
 sed -i "s/https:\/\/[a-zA-Z0-9\-]*data\.hdx\.rwlabs\.org/https:\/\/$new_data_url/g" $last_blog_db_save
 cat $last_blog_db_save | mysql -h db -u $bloguser -p$blogpass
 
-echo "Done!"
+echo "Starting fpm"
+sv start fpm
+echo "Done."
+
+echo "Restore completed!"
+
