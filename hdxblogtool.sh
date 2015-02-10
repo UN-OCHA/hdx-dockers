@@ -6,8 +6,6 @@ if [ "$1" != "restore" ]; then
     exit 1
 fi
 
-
-
 server=${HDX_BACKUP_SERVER}
 user=${HDX_BACKUP_USER}
 srcdir=${HDX_BACKUP_BASE_DIR}
@@ -19,7 +17,7 @@ mkdir -p $basedir
 cd $basedir
 rm -rf *
 mkdir -p $blogdir
-rm -rf $blogdir
+rm -rf $blogdir/*
 
 # add in ssh keys for restore
 ssh_base_dir="/root/.ssh"
@@ -61,49 +59,82 @@ if [ ! -f $pub_file ]; then
 fi
 
 # sync backups
+echo "Getting the backup files..."
 rsync -av --progress $user@$server:$srcdir/prod/prod.blog.$today* . 
-echo "rsync -av --progress $user@$server:$srcdir/prod/prod.blog.$today* . "
-
+echo "Done."
 # stop fpm
 echo "Stopping fpm"
 sv stop fpm
 echo "Done."
 
 # restore last blog archive
+echo "Restore files ... please wait."
 mkdir -p $blogdir
 rm -rf $blogdir/*
 last_blog_files_save=$(ls -1 prod.blog.$today*.tar.gz -t | head -n 1)
 tar xzf $last_blog_files_save -C $blogdir
+echo "Done."
 # clean up
-#rm -rf $basedir/prod.blog*.tar.gz
-# change db details
+echo "Removing files archive..."
+rm -rf $basedir/prod.blog*.tar.gz
+echo "Done."
 
+# change db details
+echo "Change db credentials in wp-config.php"
 bloguser=${DB_ENV_MYSQL_PASS}
 blogpass=${DB_ENV_MYSQL_PASS}
 blogdb=${DB_ENV_MYSQL_DB}
 blogconf=$blogdir/wp-config.php
-
 sed -i "s/define('DB_NAME'.*/define('DB_NAME', '$blogdb');/" $blogconf;
 sed -i "s/define('DB_USER'.*/define('DB_USER', '$bloguser');/" $blogconf;
 sed -i "s/define('DB_PASSWORD'.*/define('DB_PASSWORD', '$blogpass');/" $blogconf;
 sed -i "s/define('DB_HOST'.*/define('DB_HOST', 'db');/" $blogconf;
+echo "Done."
+
+# add prefix on hardcoded urls
+echo "Adding prefix to hardlinks... please wait."
+for file in $(find $blogdir -type f); do
+    if [ "$(file $file | grep -c ASCII\ text)" -eq "1" ]; then
+        for name in docs data manage; do
+            for proto in https https; do
+                sed -i "s/$proto:\/\/[a-zA-Z0-9\-]*$name.${HDX_DOMAIN}/$proto:\/\/${HDX_PREFIX}$name.${HDX_DOMAIN}/g" $file
+            done
+        done
+    fi
+done
+echo "Done."
 
 # restore last db save
 last_blog_db_save=$(ls -1 prod.blog.$today*.sql.gz -t | head -n 1)
 gunzip $last_blog_db_save
 last_blog_db_save=$(echo $last_blog_db_save | sed 's/\.gz//')
-new_url=${HDX_PREFIX}docs.${HDX_DOMAIN}
-new_data_url=${HDX_PREFIX}data.${HDX_DOMAIN}
+#new_url=${HDX_PREFIX}docs.${HDX_DOMAIN}
+#new_data_url=${HDX_PREFIX}data.${HDX_DOMAIN}
 # replace prod url with your url
-sed -i "s/http:\/\/[a-zA-Z0-9\-]*docs\.hdx\.rwlabs\.org/http:\/\/$new_url/g" $last_blog_db_save
-sed -i "s/http:\/\/[a-zA-Z0-9\-]*data\.hdx\.rwlabs\.org/http:\/\/$new_data_url/g" $last_blog_db_save
-sed -i "s/https:\/\/[a-zA-Z0-9\-]*docs\.hdx\.rwlabs\.org/https:\/\/$new_url/g" $last_blog_db_save
-sed -i "s/https:\/\/[a-zA-Z0-9\-]*data\.hdx\.rwlabs\.org/https:\/\/$new_data_url/g" $last_blog_db_save
+echo "Adding the prefix to database content..."
+for name in docs data manage; do
+    new_url=${HDX_PREFIX}$name.${HDX_DOMAIN}
+    for proto in http https; do
+        sed -i "s/$proto:\/\/[a-zA-Z0-9\-]*$name.${HDX_DOMAIN}/$proto:\/\/$new_url/g" $last_blog_db_save
+    done
+done
+echo "Done."
+
+echo "Dropping and recreating database... please wait."
+echo "drop database ${DB_ENV_MYSQL_DB}; create database ${DB_ENV_MYSQL_DB}" | \
+    mysql -h db -u $bloguser -p$blogpass
+echo "Done."
+
+echo "Restoring database... please wait."
+#sed -i "s/http:\/\/[a-zA-Z0-9\-]*docs\.hdx\.rwlabs\.org/http:\/\/$new_url/g" $last_blog_db_save
+#sed -i "s/http:\/\/[a-zA-Z0-9\-]*data\.hdx\.rwlabs\.org/http:\/\/$new_data_url/g" $last_blog_db_save
+#sed -i "s/https:\/\/[a-zA-Z0-9\-]*docs\.hdx\.rwlabs\.org/https:\/\/$new_url/g" $last_blog_db_save
+#sed -i "s/https:\/\/[a-zA-Z0-9\-]*data\.hdx\.rwlabs\.org/https:\/\/$new_data_url/g" $last_blog_db_save
 cat $last_blog_db_save | mysql -h db -u $bloguser -p$blogpass
+echo "Done."
 
 echo "Starting fpm"
 sv start fpm
 echo "Done."
 
 echo "Restore completed!"
-
