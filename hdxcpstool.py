@@ -23,9 +23,6 @@ APPDIR = TOMCATDIR + '/webapps'
 BRANCH = os.getenv('HDX_CPS_BRANCH')
 # for backup
 BACKUP_AS = os.getenv('HDX_TYPE')
-# for restore
-RESTORE_FROM = 'prod'
-TMP_DIR = "/tmp/ckan-db-restore",
 TS = ''
 
 SQL = dict(
@@ -34,10 +31,11 @@ SQL = dict(
 
 # to get the snapshot
 RESTORE = dict(
-    FROM = RESTORE_FROM, 
-    SERVER = 'backup.hdx.atman.ro', USER = 'hdx', DIR = '/srv/hdx/backup/prod',
-    TMP_DIR = "/tmp/ckan-db-restore",
+    FROM = 'prod', 
+    SERVER = os.getenv('HDX_BACKUP_SERVER'), USER = os.getenv('HDX_BACKUP_USER'), DIR = os.getenv('HDX_BACKUP_BASE_DIR'),
+    TMP_DIR = "/tmp/cps-restore",
 )
+RESTORE['DIR'] = os.getenv('HDX_BACKUP_BASE_DIR') + RESTORE['FROM']
 RESTORE['PREFIX']= RESTORE['FROM'] + '.' + APP
 RESTORE['DB_PREFIX'] = RESTORE['PREFIX'] + '.db'
 RESTORE['DB_PREFIX_MAIN'] = RESTORE['DB_PREFIX'] + '.' + SQL['DB']
@@ -67,13 +65,13 @@ def show_usage():
             clean     - empty the database
             get       - get latest snapshot of the database
             restore   - overwrite db content from the latest snapshot of the database
-WIP             [db1] - restore on what local db? (default: cps)
-WIP             [-u user] - restore using what user? (default: cps)
         deploy        - deploy the branch configured as BRANCH
-WIP            [tags/tag]- deploy a certain tag
-WIP            [branch]  - deploy a certain branch
+            WIP [tags/tag]- deploy a certain tag
+            WIP [branch]  - deploy a certain branch
         pgpass        - create the pgpass entry required to operate on postgres
         restart       - restart ckan service
+        restore
+            cleanup   - remove temporary folder used for restore
         start         - start ckan service
         stop          - stop ckan service
     """
@@ -432,6 +430,12 @@ def refresh_pgpass():
         print('Permissions were incorrect. Fixed.')
     print('Done.')
 
+def restore_cleanup():
+    print('Cleaning up temporary directory used for restore (' + RESTORE['TMP_DIR'] + ')')
+    if os.path.isdir(RESTORE['TMP_DIR']):
+        rmtree(RESTORE['TMP_DIR'])
+    print('Done.')
+
 def exit(code=0):
     if code == 1:
         show_usage()
@@ -452,6 +456,11 @@ def main():
                 backup(verbose=False)
         else:
             backup()
+    elif cmd == 'restore':
+        if len(opts) == 1 and opts[0] == 'cleanup':
+            restore_cleanup()
+        else:
+            exit(1)
     elif cmd in no_subcommands_list:
         if cmd == 'restart':
             control('stop')
