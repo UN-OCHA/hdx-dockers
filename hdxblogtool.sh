@@ -10,12 +10,12 @@ server=${HDX_BACKUP_SERVER}
 user=${HDX_BACKUP_USER}
 srcdir=${HDX_BACKUP_BASE_DIR}
 today=$(date +%Y%m%d)
-basedir=/tmp
+basedir=/tmp/blog-restore
 blogdir=/srv/www/docs
 
 mkdir -p $basedir
 cd $basedir
-rm -rf *
+rm -rf $basedir/*
 mkdir -p $blogdir
 rm -rf $blogdir/*
 
@@ -135,6 +135,10 @@ echo "Done."
 
 echo "Starting fpm"
 sv start fpm
+echo "Done."
+
+echo "Removing temporary restore directory..."
+rm -rf $basedir
 echo "Done."
 
 echo "Restore completed!"
