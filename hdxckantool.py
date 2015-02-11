@@ -20,9 +20,6 @@ BASEDIR = "/srv/ckan"
 BRANCH = os.getenv('HDX_CKAN_BRANCH')
 # for backup
 BACKUP_AS = os.getenv('HDX_TYPE')
-# for restore
-RESTORE_FROM = 'prod'
-TMP_DIR = "/tmp/ckan-db-restore",
 # needed for paster and tests
 INI_FILE = "/srv/prod.ini"
 TS = ''
@@ -35,11 +32,12 @@ SQL = dict(
 
 # to get the snapshot
 RESTORE = dict(
-    FROM = RESTORE_FROM, 
+    FROM = 'prod', 
     # SERVER = 'backup.hdx.atman.ro', USER = 'hdx', DIR = '/srv/hdx/backup/prod',
-    SERVER = os.getenv('HDX_BACKUP_SERVER'), USER = os.getenv('HDX_BACKUP_USER'), DIR = os.getenv('HDX_BACKUP_BASE_DIR'),
-    TMP_DIR = "/tmp/ckan-db-restore",
+    SERVER = os.getenv('HDX_BACKUP_SERVER'), USER = os.getenv('HDX_BACKUP_USER'),
+    TMP_DIR = "/tmp/ckan-restore",
 )
+RESTORE['DIR'] = os.getenv('HDX_BACKUP_BASE_DIR') + RESTORE['FROM']
 RESTORE['PREFIX']= RESTORE['FROM'] + '.' + APP
 RESTORE['DB_PREFIX'] = RESTORE['PREFIX'] + '.db'
 RESTORE['DB_PREFIX_MAIN'] = RESTORE['DB_PREFIX'] + '.' + SQL['DB']
@@ -90,6 +88,8 @@ def show_usage():
             [fast]    - run a fast, multicore solr reindex
             [refresh] - only refresh index (do not remove index prior to reindexing)
         restart       - restart ckan service
+        restore
+            cleanup   - remove temporary folder used for restore
         start         - start ckan service
         stop          - stop ckan service
         sysadmin
@@ -285,9 +285,9 @@ def db_set_perms():
 
 def db_list_backups(listonly=True,ts=TODAY,server=RESTORE['SERVER'],directory=RESTORE['DIR'],user=RESTORE['USER'],ckandb=SQL['DB'],datastoredb=SQL['DB_DATASTORE']):
     if listonly:
-        line = ["rsync", '--list-only', user + '@' + server + ':' + directory + '/' + RESTORE['FROM'] + '/' + RESTORE['DB_PREFIX'] + '*' + ts + '*' ]
+        line = ["rsync", '--list-only', user + '@' + server + ':' + directory + '/' + RESTORE['DB_PREFIX'] + '*' + ts + '*' ]
     else:
-        line = ["rsync", "-a", "--progress", user + '@' + server + ':' + directory + '/' + RESTORE['FROM'] + '/' + RESTORE['DB_PREFIX'] + '*' + ts + '*', RESTORE['TMP_DIR'] + '/']
+        line = ["rsync", "-a", "--progress", user + '@' + server + ':' + directory + '/' + RESTORE['DB_PREFIX'] + '*' + ts + '*', RESTORE['TMP_DIR'] + '/']
         # empty the temp dir first.
         if os.path.isdir(RESTORE['TMP_DIR']):
             rmtree(RESTORE['TMP_DIR'])
@@ -421,7 +421,7 @@ def db_restore(filename='',db=''):
 def filestore_restore(ts=TODAY,server=RESTORE['SERVER'],directory=RESTORE['DIR'],user=RESTORE['USER'],clean=False):
     # print('This doesn\'t do anything right now...')
     # exit(0)
-    line = ["rsync", "-a", "--progress", user + '@' + server + ':' + directory + '/' + RESTORE['FROM'] + '/' + RESTORE['FILESTORE_PREFIX'] + '*' + ts + '*', RESTORE['TMP_DIR'] + '/']
+    line = ["rsync", "-a", "--progress", user + '@' + server + ':' + directory + '/' +  RESTORE['FILESTORE_PREFIX'] + '*' + ts + '*', RESTORE['TMP_DIR'] + '/']
     # if os.path.isdir(RESTORE['TMP_DIR']):
     #     for the_file in os.listdir(RESTORE['TMP_DIR']):
     #         file_path = os.path.join(RESTORE['TMP_DIR'], the_file)
@@ -722,6 +722,12 @@ def reinstall_plugins():
                     with open(os.devnull, 'wb') as devnull:
                         subprocess.call(cmd, stdout=devnull, stderr=subprocess.STDOUT)
 
+def restore_cleanup():
+    print('Cleaning up temporary directory used for restore (' + RESTORE['TMP_DIR'] + ')')
+    if os.path.isdir(RESTORE['TMP_DIR']):
+        rmtree(RESTORE['TMP_DIR'])
+    print('Done.')
+
 def solr_reindex():
     valid_subcommands = ['fast', 'refresh']
     cmd = ['paster', 'search-index']
@@ -764,9 +770,6 @@ def sysadmin():
         sysadmin_enable(user)
     else:
         sysadmin_disable(user)
-
-    exit(0)
-    pass
 
 def sysadmin_enable(user):
     if is_sysadmin(user):
@@ -1017,6 +1020,11 @@ def main():
                 filestore_restore()
     elif cmd == 'plugins':
         reinstall_plugins()
+    elif cmd == 'restore':
+        if len(opts) == 1 and opts[0] == 'cleanup':
+            restore_cleanup()
+        else:
+            exit(1)
     elif cmd == 'sysadmin':
         sysadmin()
     elif cmd == 'test':
