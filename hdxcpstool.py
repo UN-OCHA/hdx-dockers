@@ -35,7 +35,7 @@ RESTORE = dict(
     SERVER = os.getenv('HDX_BACKUP_SERVER'), USER = os.getenv('HDX_BACKUP_USER'), DIR = os.getenv('HDX_BACKUP_BASE_DIR'),
     TMP_DIR = "/tmp/cps-restore",
 )
-RESTORE['DIR'] = os.getenv('HDX_BACKUP_BASE_DIR') + RESTORE['FROM']
+RESTORE['DIR'] = os.getenv('HDX_BACKUP_BASE_DIR') + '/' + RESTORE['FROM']
 RESTORE['PREFIX']= RESTORE['FROM'] + '.' + APP
 RESTORE['DB_PREFIX'] = RESTORE['PREFIX'] + '.db'
 RESTORE['DB_PREFIX_MAIN'] = RESTORE['DB_PREFIX'] + '.' + SQL['DB']
