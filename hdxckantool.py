@@ -17,7 +17,7 @@ APP = "ckan"
 #
 BASEDIR = "/srv/ckan"
 # for deployment (might employ tags - unsuitable for backup)
-BRANCH = os.getenv('HDX_CKAN_BRANCH')
+BRANCH = str(os.getenv('HDX_CKAN_BRANCH'))
 # for backup
 BACKUP_AS = os.getenv('HDX_TYPE')
 # needed for paster and tests
@@ -33,11 +33,11 @@ SQL = dict(
 # to get the snapshot
 RESTORE = dict(
     FROM = 'prod', 
-    # SERVER = 'backup.hdx.atman.ro', USER = 'hdx', DIR = '/srv/hdx/backup/prod',
-    SERVER = os.getenv('HDX_BACKUP_SERVER'), USER = os.getenv('HDX_BACKUP_USER'),
+    SERVER = 'backup.hdx.atman.ro', USER = 'hdx', DIR = '/srv/hdx/backup/prod',
+    # SERVER = str(os.getenv('HDX_BACKUP_SERVER')), USER = str(os.getenv('HDX_BACKUP_USER')),
     TMP_DIR = "/tmp/ckan-restore",
 )
-RESTORE['DIR'] = os.getenv('HDX_BACKUP_BASE_DIR') + RESTORE['FROM']
+RESTORE['DIR'] = str(os.getenv('HDX_BACKUP_BASE_DIR')) + '/' + RESTORE['FROM']
 RESTORE['PREFIX']= RESTORE['FROM'] + '.' + APP
 RESTORE['DB_PREFIX'] = RESTORE['PREFIX'] + '.db'
 RESTORE['DB_PREFIX_MAIN'] = RESTORE['DB_PREFIX'] + '.' + SQL['DB']
@@ -284,6 +284,9 @@ def db_set_perms():
     print("Datastore permissions have been reset to default.")
 
 def db_list_backups(listonly=True,ts=TODAY,server=RESTORE['SERVER'],directory=RESTORE['DIR'],user=RESTORE['USER'],ckandb=SQL['DB'],datastoredb=SQL['DB_DATASTORE']):
+    print(server)
+    print(directory)
+    print(RESTORE['DB_PREFIX'])
     if listonly:
         line = ["rsync", '--list-only', user + '@' + server + ':' + directory + '/' + RESTORE['DB_PREFIX'] + '*' + ts + '*' ]
     else:
