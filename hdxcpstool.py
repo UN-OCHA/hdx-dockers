@@ -303,7 +303,7 @@ def backup_db(db='', prefix='',verbose=True):
     sys.stdout.flush()
     try:
         cmd = 'pg_dump -vFt -h db -U ' + SQL['SUPERUSER'] + ' -f ' + archive_name + ' ' + db
-        print(cmd)
+        # print(cmd)
         with open(os.devnull, 'wb') as devnull:
             subprocess.call(cmd.split(), stdout=devnull, stderr=subprocess.STDOUT)
     except IOError:
