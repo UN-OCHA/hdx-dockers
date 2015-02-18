@@ -155,6 +155,11 @@ server {
         try_files %uri %uri/;
     }
 
+    # deflect ckan vulnerability - suggested by ALex @ 14.02.2015
+    location /api/action/current_package_list_with_resources {
+        return 418;
+    }
+
     #location ~ \.(js|css|png|svg|otf)% {
     #    try_files %uri @go_ahead;
     #    #limit_req zone=zh400 burst=25 nodelay;
@@ -210,6 +215,31 @@ server {
         error_log /var/log/nginx/data.tiles.error.log;
     }
 
+    # hdx.mapbox.baselayer.url = 
+    # https://{s}.tiles.mapbox.com/v3/reliefweb.l43d4f5j/{z}/{x}/{y}.png
+    location /mapbox-base-tiles/ {
+        # http://b.tile.openstreetmap.fr/hot/
+        rewrite ^(/mapbox-base-tiles/)(.*)$ /v3/reliefweb.l43d4f5j/$2 break;
+        #default_type image/png;
+        proxy_pass http://b.tiles.mapbox.com;
+        proxy_redirect off;
+        proxy_intercept_errors on;
+        access_log /var/log/nginx/data.tiles.access.log;
+        error_log /var/log/nginx/data.tiles.error.log;
+    }
+
+    # hdx.mapbox.labelslayer.url = 
+    # https://{s}.tiles.mapbox.com/v3/reliefweb.l43djggg/{z}/{x}/{y}.png
+    location /mapbox-layer-tiles/ {
+        # http://b.tile.openstreetmap.fr/hot/
+        rewrite ^(/mapbox-layer-tiles/)(.*)$ /v3/reliefweb.l43djggg/$2 break;
+        #default_type image/png;
+        proxy_pass http://b.tiles.mapbox.com;
+        proxy_redirect off;
+        proxy_intercept_errors on;
+        access_log /var/log/nginx/data.tiles.access.log;
+        error_log /var/log/nginx/data.tiles.error.log;
+    }
 
     location ~ /err/(.*)\.(html|png)% {
         alias /srv/www/static/err/;
