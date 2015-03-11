@@ -753,7 +753,7 @@ def solr_reindex():
     subprocess.call(cmd)
 
 def less_compile():
-    cmd = ['paster', 'custom-less-compile', '-c', INI_FILE]
+    cmd = ['paster', '--plugin=ckanext-hdx_theme','custom-less-compile', '-c', INI_FILE]
     os.chdir(BASEDIR)
     subprocess.call(cmd)
 
