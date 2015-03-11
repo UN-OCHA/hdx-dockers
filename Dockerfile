@@ -6,7 +6,11 @@ RUN apt-get -qq update
 RUN apt-get install -qq -y \
     postgresql-client-9.3 \
     libpq-dev \
-    python3-psycopg2
+    python3-psycopg2 \
+    nodejs npm
+
+RUN npm install -g less
+RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
