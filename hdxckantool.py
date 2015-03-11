@@ -82,6 +82,7 @@ def show_usage():
         filestore
            restore    - overwrite the filestore content from the latest filestore backup
               clean   - remove filestore content first
+        less compile  - compiles less resource defined in prod.ini
         pgpass        - create the pgpass entry required to operate on postgres
         plugins       - reinstall plugins (in develop mode for now)
         reindex       - run solr reindex
@@ -751,6 +752,11 @@ def solr_reindex():
     os.chdir(BASEDIR)
     subprocess.call(cmd)
 
+def less_compile():
+    cmd = ['paster', 'custom-less-compile', '-c', INI_FILE]
+    os.chdir(BASEDIR)
+    subprocess.call(cmd)
+
 def sysadmin():
     if len(opts) == 0:
         exit(1)
@@ -1026,6 +1032,11 @@ def main():
     elif cmd == 'restore':
         if len(opts) == 1 and opts[0] == 'cleanup':
             restore_cleanup()
+        else:
+            exit(1)
+    elif cmd == 'less':
+        if len(opts) == 1 and opts[0] == 'compile':
+            less_compile()
         else:
             exit(1)
     elif cmd == 'sysadmin':

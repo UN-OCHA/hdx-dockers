@@ -56,6 +56,10 @@ hdx.rest.indicator.endpoint.facets = http://${HDX_PREFIX}manage.${HDX_DOMAIN}/pu
 ofs.storage_dir = ${HDX_FILESTORE}
 ckan.storage_path = ${HDX_FILESTORE}
 
+hdx.css.basepath = /srv/ckan/ckanext-hdx_theme/ckanext/hdx_theme/public/css/generated
+hdx.less.basepath = /srv/ckan/ckanext-hdx_theme/ckanext/hdx_theme/less
+hdx.less_compile.onstartup = False
+
 ## Logging configuration
 [loggers]
 keys = root, ckan, ckanext
