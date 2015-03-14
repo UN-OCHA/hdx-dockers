@@ -755,7 +755,18 @@ def solr_reindex():
 def less_compile():
     cmd = ['paster', '--plugin=ckanext-hdx_theme','custom-less-compile', '-c', INI_FILE]
     os.chdir(BASEDIR)
+    print('Compiling...')
     subprocess.call(cmd)
+    print('Fixing permissions on filestore...')
+    less_wr_dirs = ["ckanext-hdx_theme/ckanext/hdx_theme/public/css/generated", "/srv/ckan/ckanext-hdx_theme/ckanext/hdx_theme/less/tmp"]
+    for location in less_wr_dirs:
+        for root, dirs, files in os.walk(os.path.join(BASEDIR, location)):  
+            for item in dirs:  
+                os.chown(os.path.join(root, item), 33, 33)
+            for item in files:
+                os.chown(os.path.join(root, item), 33, 33)
+    print('Done.')
+
 
 def sysadmin():
     if len(opts) == 0:
