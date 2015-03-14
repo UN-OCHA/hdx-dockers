@@ -11,7 +11,7 @@ RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     /etc/my_init.d/00_regen_ssh_host_keys.sh
 
-VOLUME ["/src"]
+VOLUME ["/src", "/srv", "/var/log"]
 
 EXPOSE 3000
 
