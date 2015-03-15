@@ -24,3 +24,4 @@ VOLUME ["/src", "/srv", "/var/log"]
 EXPOSE 3000
 
 CMD ["/sbin/my_init"]
+
