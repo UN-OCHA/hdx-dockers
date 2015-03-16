@@ -155,6 +155,7 @@ preffix="prod"
 if [ "$1" == "restore" ]; then
     blog_restore;
 elif [ "$1" == "backup" ]; then
+    [ -d /srv/backup ] || mkdir -p /srv/backup
     dump_db;
     arch_files;
 else
