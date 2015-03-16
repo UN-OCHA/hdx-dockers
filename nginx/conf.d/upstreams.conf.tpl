@@ -10,6 +10,10 @@ upstream dataproxy {
     server ${HDX_DATAPROXY_ADDR}:${HDX_DATAPROXY_PORT};
 }
 
+upstream dataproxy {
+    server ${HDX_OGRE_ADDR}:${HDX_OGRE_PORT};
+}
+
 upstream crisismap {
     server a.tile.openstreetmap.fr;
     server b.tile.openstreetmap.fr;

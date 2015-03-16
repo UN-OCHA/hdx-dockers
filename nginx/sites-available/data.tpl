@@ -173,6 +173,14 @@ server {
         error_log /var/log/nginx/data.proxy.error.log;
     }
 
+    location /ogre {
+        rewrite  ^/ogre/(.*)  /%1 break;
+        rewrite  ^/ogre(.*)  /%1 break;
+        proxy_pass          http://ogre;
+        access_log /var/log/nginx/ogre.access.log;
+        error_log /var/log/nginx/ogre.error.log;
+    }
+
     location /tiles/ {
         #root /srv/www/static;
         #try_files %uri %uri/ =404;
