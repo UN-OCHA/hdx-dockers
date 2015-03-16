@@ -1,32 +1,5 @@
 #!/bin/bash
 
-if [ "$1" == "restore" ]; then
-    blog_restore;
-elif [ "$1" == "backup" ]; then
-    dump_db;
-    arch_files;
-else
-    me=$(basename $0)
-    echo -en "\nUsage: $me [restore|backup]\n\n"
-    exit 1
-fi
-
-server=${HDX_BACKUP_SERVER}
-user=${HDX_BACKUP_USER}
-srcdir=${HDX_BACKUP_BASE_DIR}
-suffix=$(date +%Y%m%d-%H%M%S)
-today=$(date +%Y%m%d)
-basedir=/tmp/blog-restore
-blogdir=/srv/www/docs
-bloguser=${DB_ENV_MYSQL_PASS}
-blogpass=${DB_ENV_MYSQL_PASS}
-blogdb=${DB_ENV_MYSQL_DB}
-blogconf=$blogdir/wp-config.php
-backupdir=/srv/backup
-preffix="prod"
-
-
-
 function blog_restore() {
 
     mkdir -p $basedir
@@ -164,3 +137,29 @@ function dump_db {
 function arch_files {
     tar czf $backupdir/$preffix.$blogdb.$suffix.tar.gz -C $blogdir .
 }
+
+server=${HDX_BACKUP_SERVER}
+user=${HDX_BACKUP_USER}
+srcdir=${HDX_BACKUP_BASE_DIR}
+suffix=$(date +%Y%m%d-%H%M%S)
+today=$(date +%Y%m%d)
+basedir=/tmp/blog-restore
+blogdir=/srv/www/docs
+bloguser=${DB_ENV_MYSQL_PASS}
+blogpass=${DB_ENV_MYSQL_PASS}
+blogdb=${DB_ENV_MYSQL_DB}
+blogconf=$blogdir/wp-config.php
+backupdir=/srv/backup
+preffix="prod"
+
+if [ "$1" == "restore" ]; then
+    blog_restore;
+elif [ "$1" == "backup" ]; then
+    dump_db;
+    arch_files;
+else
+    me=$(basename $0)
+    echo -en "\nUsage: $me [restore|backup]\n\n"
+    exit 1
+fi
+
