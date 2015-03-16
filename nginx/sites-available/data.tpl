@@ -174,6 +174,13 @@ server {
     }
 
     location /ogre {
+        #allow 10.0.0.0/8;
+        allow 10.66.32.110;
+        allow 10.66.32.109;
+        allow 10.66.32.108;
+        #allow 192.168.0.0/16;
+        allow 172.16.0.0/12;
+        deny all;
         rewrite  ^/ogre/(.*)  /%1 break;
         rewrite  ^/ogre(.*)  /%1 break;
         proxy_pass          http://ogre;
