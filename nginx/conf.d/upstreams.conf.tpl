@@ -10,7 +10,7 @@ upstream dataproxy {
     server ${HDX_DATAPROXY_ADDR}:${HDX_DATAPROXY_PORT};
 }
 
-upstream dataproxy {
+upstream ogre {
     server ${HDX_OGRE_ADDR}:${HDX_OGRE_PORT};
 }
 
