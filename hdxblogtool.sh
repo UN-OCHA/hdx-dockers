@@ -130,7 +130,7 @@ function blog_restore() {
 
 function dump_db {
     #mysqldump --user=$user --password=$pass --extended-insert=FALSE --add-drop-database $db > $bkdir/$preffix.$db.$suffix.sql
-    mysqldump --user=$bloguser --password=$blogpass --add-drop-database -B $blogdb > $backupdir/$preffix.$blogdb.$suffix.sql
+    mysqldump -h db --user=$bloguser --password=$blogpass --add-drop-database -B $blogdb > $backupdir/$preffix.$blogdb.$suffix.sql
     gzip $backupdir/*sql
 }
 
