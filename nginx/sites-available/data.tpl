@@ -16,6 +16,7 @@ server {
 
     error_page 503 = /503.html;
 
+    set_real_ip_from   172.17.42.1;
     #set_real_ip_from   10.66.32.65;
     #real_ip_header     X-Forwarded-For;
 
@@ -300,9 +301,9 @@ server {
         #proxy_pass http://10.66.32.108:9220;
         proxy_set_header Host %host;
 
-        # proxy_set_header    X-Forwarded-For %remote_addr;
+        proxy_set_header    X-Forwarded-For %remote_addr;
         # proxy_set_header    X-Forwarded-For %proxy_add_x_forwarded_for;
-        # proxy_set_header    X-Real-IP %remote_addr;
+        proxy_set_header    X-Real-IP %remote_addr;
 
         # add_header                X-Proxy-Cache %upstream_cache_status;
         add_header	X-Nginx-Cache %upstream_cache_status;
