@@ -83,6 +83,11 @@ def show_usage():
            restore    - overwrite the filestore content from the latest filestore backup
               clean   - remove filestore content first
         less compile  - compiles less resource defined in prod.ini
+        log           - shows ALL ckan logs
+           noaccess   - shows only error and pain log
+           pain       - shows only pain log
+           access     - shows only access log
+           error      - shows only error log
         pgpass        - create the pgpass entry required to operate on postgres
         plugins       - reinstall plugins (in develop mode for now)
         reindex       - run solr reindex
@@ -770,6 +775,27 @@ def less_compile():
                 os.chown(os.path.join(root, item), 33, 0)
     print('Done.')
 
+def show_logs():
+    logs = ['/var/log/ckan/ckan.access.log', '/var/log/ckan/ckan.error.log', '/var/log/ckan/ckan.pain.log']
+    if len(opts) == 1:
+        opt = opts.pop(0)
+        if opt == 'noaccess':
+            logs.pop(0)
+        elif opt == 'pain':
+            logs.pop(0)
+            logs.pop(0)
+        elif opt == 'access':
+            logs.pop(-1)
+            logs.pop(-1)
+        elif opt == 'error':
+            logs.pop(0)
+            logs.pop(-1)
+    cmd = ['tail', '-f']
+    cmd.extend(logs)
+    print('+++++++++++++++++++++++++++++++++++++++++++++++++++')
+    print('      Stop following the logs with Ctrl+C')
+    print('+++++++++++++++++++++++++++++++++++++++++++++++++++')
+    subprocess.call(cmd)
 
 def sysadmin():
     if len(opts) == 0:
@@ -864,8 +890,9 @@ def tests_nose(dirname):
     #test_call = ['nosetests', '-ckan', '--with-xunit', xunit_file, '--nologcapture', pylons, tests]
     loglevel = 'WARNING'
     if len(opts) == 1:
-        if opts.pop(0) in ['DEBUG', 'INFO', 'CRITICAL']:
-            loglevel = opts.pop(0)
+        opt = opts.pop(0)
+        if opt in ['DEBUG', 'INFO', 'CRITICAL']:
+            loglevel = opt
     test_call = ['nosetests', '-ckan', '--with-xunit', xunit_file, '--logging-level', loglevel, pylons, tests]
     os.chdir(BASEDIR)
     subprocess.call(test_call)
@@ -1053,6 +1080,8 @@ def main():
             less_compile()
         else:
             exit(1)
+    elif cmd == 'log':
+        show_logs()
     elif cmd == 'sysadmin':
         sysadmin()
     elif cmd == 'test':
