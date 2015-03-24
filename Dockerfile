@@ -20,5 +20,6 @@ apt-get -qq -y install \
     software-properties-common \
     git \
     build-essential && \
+    msmtp && \
 apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 # update to solve ghost vulnerability
