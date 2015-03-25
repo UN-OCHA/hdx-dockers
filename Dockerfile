@@ -15,7 +15,7 @@ RUN ln -s /usr/bin/nodejs /usr/bin/node
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 ADD msmtprc /etc/
-RUN [ -e /usr/sbin/sendmail ] && mv /usr/sbin/sendmail /usr/sbin/sendmail.orig
+RUN if [ -e /usr/sbin/sendmail ]; then mv /usr/sbin/sendmail /usr/sbin/sendmail.orig; fi
 RUN cd /usr/lib && ln -sf ../bin/msmtp sendmail && cd /usr/sbin && ln -sf ../bin/msmtp sendmail
 
 RUN mkdir -p         /srv/ckan /var/log/ckan /srv/filestore
