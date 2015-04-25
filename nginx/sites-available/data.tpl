@@ -97,6 +97,10 @@ server {
         rewrite .* /dataset?tags=ruby&_show_filters=false last;
     }
 
+    location ~* nepal[._-]?(earth)?quake {
+        rewrite .* /dataset?tags=nepal+earthquake last;
+    }
+
     location @ebola_page {
             rewrite .* /ebola? permanent;
     }
