@@ -38,10 +38,10 @@ ADD server.key /srv/
 RUN chown postgres:postgres /srv/server.*
 RUN chmod 640 /srv/server.key
 
-ADD psql_ckan_backup.sh /srv/
-RUN chmod +x /srv/psql_ckan_backup.sh
+#ADD psql_ckan_backup.sh /srv/
+#RUN chmod +x /srv/psql_ckan_backup.sh
 
-RUN echo "02 02 * * * /srv/psql_ckan_backup.sh" | crontab -
+#RUN echo "02 02 * * * /srv/psql_ckan_backup.sh" | crontab -
 
 RUN mkdir -p /etc/service/postgresql
 ADD run /etc/service/postgresql/
