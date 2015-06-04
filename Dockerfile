@@ -7,9 +7,6 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV POSTGRESQL_USER ckan
 ENV POSTGRESQL_PASS ckan
 ENV POSTGRESQL_DB ckan
-ENV POSTGRESQL_DATASTORE_USER datastore
-ENV POSTGRESQL_DATASTORE_PASS datastore
-ENV POSTGRESQL_DATASTORE_DB datastore
 
 RUN apt-get -qq -y update
 
@@ -24,6 +21,9 @@ ADD pg_hba.conf /etc/postgresql/9.3/main/pg_hba.conf
 
 RUN cp -R /etc/postgresql/9.3/main/postgresql.conf /etc/postgresql/9.3/main/postgresql.conf.bak
 ADD postgresql.conf /etc/postgresql/9.3/main/postgresql.conf
+
+COPY .pgpass /root/.pgpass
+RUN chmod 600 /root/.pgpass
 
 RUN mkdir -p /srv/backup
 
