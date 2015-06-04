@@ -2,27 +2,20 @@ FROM teodorescuserban/hdx-base:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
-RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable && \
+#RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable && \
+RUN add-apt-repository ppa:mapnik/nightly-2.3 && \
     apt-get -qq update && \
-    apt-get -qq -y install nodejs npm gdal-bin && \
+    apt-get -qq -y install nodejs npm gdal-bin \
+        libmapnik \
+        libmapnik-dev \
+        mapnik-utils \
+        python-mapnik \
+        mapnik-input-plugin-gdal \
+        mapnik-input-plugin-postgis && \
     ln -s /usr/bin/nodejs /usr/bin/node && \
     npm install -g nodemon && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     /etc/my_init.d/00_regen_ssh_host_keys.sh
-
-# npm-install -g ogre
-
-
-RUN apt-get -qq -y update
-# && \
-#    add-apt-repository ppa:mapnik/nightly-2.3 && \
-#    apt-get -qq -y update && \
-#    apt-get -qq -y install libmapnik && \
-#        libmapnik-dev && \
-#        mapnik-utils && \python-mapnik && \
-#        mapnik-input-plugin-gdal && \
-#        mapnik-input-plugin-postgis
-#        # last 2 lines: also install datasource plugins if you need them
 
 #RUN echo "alias psql='psql -h db'" >> ~/.bashrc
 
@@ -53,7 +46,7 @@ RUN cd /srv/spatial && \
 COPY settings.js /srv/spatial/hdx-pgrestapi/settings/settings.js
 
 #install ogr2ogr
-RUN apt-get -qq -y install gdal-bin
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+#RUN apt-get -qq -y install gdal-bin
+# npm-install -g ogre
 
 EXPOSE 80 5858
