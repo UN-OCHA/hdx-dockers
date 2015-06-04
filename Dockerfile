@@ -28,8 +28,8 @@ RUN apt-get -qq -y update
 
 #RUN echo "alias psql='psql -h db'" >> ~/.bashrc
 
-#COPY .pgpass /root/.pgpass
-#RUN chmod 600 /root/.pgpass
+COPY .pgpass /root/.pgpass
+RUN chmod 600 /root/.pgpass
 
 # COPY mysetup.py /srv/
 #ENV PYTHONPATH /srv/pysrc
