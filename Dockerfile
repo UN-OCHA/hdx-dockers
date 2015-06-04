@@ -24,8 +24,6 @@ RUN apt-get -qq -y update
 #        mapnik-input-plugin-postgis
 #        # last 2 lines: also install datasource plugins if you need them
 
-
-
 #RUN echo "alias psql='psql -h db'" >> ~/.bashrc
 
 COPY .pgpass /root/.pgpass
