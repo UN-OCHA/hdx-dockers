@@ -19,8 +19,6 @@ RUN apt-get install -qq -y \
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-
-
 RUN cp -R /etc/postgresql/9.3/main/pg_hba.conf /etc/postgresql/9.3/main/pg_hba.conf.bak
 ADD pg_hba.conf /etc/postgresql/9.3/main/pg_hba.conf
 
