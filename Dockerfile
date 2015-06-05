@@ -4,9 +4,9 @@ MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
 ENV DEBIAN_FRONTEND noninteractive
 
-ENV POSTGRESQL_USER ckan
-ENV POSTGRESQL_PASS ckan
-ENV POSTGRESQL_DB ckan
+ENV POSTGRESQL_USER gis
+ENV POSTGRESQL_PASS gis
+ENV POSTGRESQL_DB gis
 
 RUN apt-get -qq -y update
 
