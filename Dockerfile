@@ -5,7 +5,10 @@ MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 #RUN add-apt-repository -y ppa:ubuntugis/ubuntugis-unstable && \
 RUN add-apt-repository ppa:mapnik/nightly-2.3 && \
     apt-get -qq update && \
-    apt-get -qq -y install nodejs npm gdal-bin \
+    apt-get -qq -y install nodejs \
+        npm \
+        gdal-bin \
+        postgresql-client-9.3 \
         libmapnik \
         libmapnik-dev \
         mapnik-utils \
