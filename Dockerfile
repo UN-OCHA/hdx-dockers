@@ -20,7 +20,6 @@ RUN chmod 600 /root/.pgpass
 #RUN chmod 600 /etc/ssh/ssh_host*
 #RUN rm /etc/service/sshd/down
 
-
 #install spatial
 RUN mkdir -p /srv/spatial
 RUN cd /srv/spatial && \
