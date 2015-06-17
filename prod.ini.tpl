@@ -43,7 +43,7 @@ hdx.orgrequest.email = hdx.feedback@gmail.com
 hdx.orgrequest.sendmails = true 
 
 hdx.datapreview.url = /dataproxy
-hdx.ogre.url = http://${HDX_PREFIX}data.${HDX_DOMAIN}/ogre
+hdx.ogre.url = /ogre
 hdx.previewmap.url = /tiles/{z}/{x}/{y}.png
 hdx.crisismap.url = /crisis-tiles/{z}/{x}/{y}.png
 #https://{s}.tiles.mapbox.com/v3/reliefweb.l43d4f5j/{z}/{x}/{y}.png
