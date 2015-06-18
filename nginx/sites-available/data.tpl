@@ -44,14 +44,15 @@ server {
 
         #limit_req zone=zh400 burst=4000;
 
-        #auth_basic "HDX site";
-        #auth_basic_user_file datapass;
+        auth_basic "HDX site";
+        auth_basic_user_file ${HDX_PREFIX}-datapass;
 
-        #allow 127.0.0.1;
-        #allow 10.66.32.108;
-        #deny all;
+        allow 127.0.0.1;
+        allow 172.16.0.0/12;
+        allow 10.66.32.108;
+        deny all;
 
-        #satisfy any;
+        satisfy any;
     }
 
     location /data-ebola-public.xlsx {
@@ -97,8 +98,14 @@ server {
         rewrite .* /dataset?tags=ruby&_show_filters=false last;
     }
 
-    location ~* nepal[._-]?(earth)?quake {
-        rewrite .* /dataset?tags=nepal+earthquake last;
+    location = /nepal-earthquake {
+        rewrite .* /group/nepal-earthquake last;
+    }
+
+    location ~* ^/nepal[._-]?(earth)?quake {
+        #rewrite .* /dataset?tags=nepal+earthquake last;
+        #rewrite .* /group/nepal-earthquake permanent;
+        rewrite .* /nepal-earthquake permanent;
     }
 
     location @ebola_page {
@@ -179,6 +186,8 @@ server {
     }
 
     location /ogre {
+        rewrite  ^/ogre/(.*)  /%1 break;
+        rewrite  ^/ogre(.*)  /%1 break;
         #allow 10.0.0.0/8;
         allow 10.66.32.110;
         allow 10.66.32.109;
@@ -186,14 +195,13 @@ server {
         #allow 192.168.0.0/16;
         allow 172.16.0.0/12;
         deny all;
-        rewrite  ^/ogre/(.*)  /%1 break;
-        rewrite  ^/ogre(.*)  /%1 break;
         proxy_pass          http://ogre;
+        include /etc/nginx/proxy_params;
         access_log /var/log/nginx/ogre.access.log;
         error_log /var/log/nginx/ogre.error.log;
     }
 
-    location /tiles/ {
+    location ^~ /tiles/ {
         #root /srv/www/static;
         #try_files %uri %uri/ =404;
         #error_page 404 = /errors/404.html;
@@ -237,7 +245,7 @@ server {
 
     # hdx.mapbox.baselayer.url = 
     # https://{s}.tiles.mapbox.com/v3/reliefweb.l43d4f5j/{z}/{x}/{y}.png
-    location /mapbox-base-tiles/ {
+    location ^~ /mapbox-base-tiles/ {
         # http://b.tile.openstreetmap.fr/hot/
         rewrite ^(/mapbox-base-tiles/)(.*)$ /v3/reliefweb.l43d4f5j/$2 break;
         #default_type image/png;
@@ -250,7 +258,7 @@ server {
 
     # hdx.mapbox.labelslayer.url = 
     # https://{s}.tiles.mapbox.com/v3/reliefweb.l43djggg/{z}/{x}/{y}.png
-    location /mapbox-layer-tiles/ {
+    location ^~ /mapbox-layer-tiles/ {
         # http://b.tile.openstreetmap.fr/hot/
         rewrite ^(/mapbox-layer-tiles/)(.*)$ /v3/reliefweb.l43djggg/$2 break;
         #default_type image/png;
@@ -285,6 +293,9 @@ server {
     #    error_log /var/log/nginx/data.static.error.log;
     #    try_files %uri @go_ahead;
     #}
+
+    include /etc/nginx/includes/ckan-cache-adjust.conf;
+
 
     location @go_ahead {
 
@@ -324,7 +335,10 @@ server {
         proxy_cache_valid         any 30s;
         # proxy_cache_valid         200 302 1m;
         proxy_cache_valid         200 1m;
-        proxy_cache_bypass        302;
+        #########
+        # was on! 30.04.2015
+        #proxy_cache_bypass        302;
+        #########
         # proxy_cache_valid         301 24h;
         # proxy_ignore_headers      Cache-Control Expires;
 
