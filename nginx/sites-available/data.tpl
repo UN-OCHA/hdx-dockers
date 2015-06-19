@@ -219,7 +219,7 @@ server {
     }
 
     # enable caching for the tiles at zoom level 6 (default map show)
-    location /crisis-tiles/6/ {
+    location ^~ /crisis-tiles/6/ {
         rewrite ^(/crisis-tiles/)(.*)% /hot/%2 break;
         #default_type image/png;
         #proxy_pass http://crisismap;
@@ -232,7 +232,7 @@ server {
         error_log /var/log/nginx/data.tiles.error.log;
     }
 
-    location /crisis-tiles/ {
+    location ^~ /crisis-tiles/ {
         # http://b.tile.openstreetmap.fr/hot/
         rewrite ^(/crisis-tiles/)(.*)% /hot/%2 break;
         #default_type image/png;
