@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# update hosts
+if [ $(grep -c "10.66.32.110" /etc/hosts) -eq 0 ]; then
+        echo "10.66.32.110 dev.hdx.rwlabs.org  dev-docs.hdx.rwlabs.org  dev-data.hdx.rwlabs.org  dev-manage.hdx.rwlabs.org"  >> /etc/hosts
+fi
+if [ $(grep -c "10.66.32.109" /etc/hosts) -eq 0 ]; then
+        echo "10.66.32.109 test.hdx.rwlabs.org test-docs.hdx.rwlabs.org test-data.hdx.rwlabs.org test-manage.hdx.rwlabs.org" >> /etc/hosts
+fi
+if [ $(grep -c "10.66.32.108" /etc/hosts) -eq 0 ]; then
+        echo "10.66.32.108 hdx.rwlabs.org      docs.hdx.rwlabs.org      data.hdx.rwlabs.org      manage.hdx.rwlabs.org"      >> /etc/hosts
+fi
+
+cd /srv/dataproxy/dataproxy
+exec gunicorn dataproxy:application -c /srv/gunicorn_conf.py
