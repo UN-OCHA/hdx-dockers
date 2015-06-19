@@ -1,0 +1,101 @@
+#!/bin/bash
+
+# update hosts
+if [ $(grep -c "10.66.32.110" /etc/hosts) -eq 0 ]; then
+        echo "10.66.32.110 dev.hdx.rwlabs.org  dev-docs.hdx.rwlabs.org  dev-data.hdx.rwlabs.org  dev-manage.hdx.rwlabs.org"  >> /etc/hosts
+fi
+if [ $(grep -c "10.66.32.109" /etc/hosts) -eq 0 ]; then
+        echo "10.66.32.109 test.hdx.rwlabs.org test-docs.hdx.rwlabs.org test-data.hdx.rwlabs.org test-manage.hdx.rwlabs.org" >> /etc/hosts
+fi
+if [ $(grep -c "10.66.32.108" /etc/hosts) -eq 0 ]; then
+        echo "10.66.32.108 hdx.rwlabs.org      docs.hdx.rwlabs.org      data.hdx.rwlabs.org      manage.hdx.rwlabs.org"      >> /etc/hosts
+fi
+
+# not really needed
+#/srv/create_tomcat_admin_user.sh
+
+envsubst < ${HDX_FOLDER}/config/hdx-config.tpl > ${HDX_FOLDER}/config/hdx-config
+envsubst < ${HDX_FOLDER}/config/log4j.xml.tpl > ${HDX_FOLDER}/config/log4j.xml
+
+# create pgpass
+pf="/root/.pgpass"
+line="db:5432:*:$DB_ENV_POSTGRESQL_USER:$DB_ENV_POSTGRESQL_PASS"
+[ -f $pf ] || touch $pf
+if [ $(cat $pf | grep -cE $line) -ne 1 ]; then
+    echo $line > $pf
+    chmod 600 $pf
+fi
+
+# create cps schema and a default user if we have an empty database
+if [ "$(psql -h db -U cps cps -c '\d')" == "No relations found." ]; then
+    echo "gogog"
+    echo "Create empty cps schema"
+    pg_restore -vOx -h db -U cps -d cps /srv/cps_schema_0_5_16.plsql
+    echo "Create example admin user"
+    psql -h db -U cps cps -f /srv/cps-initial-user.sql
+fi
+
+# add in ssh keys for restore
+ssh_base_dir="/root/.ssh"
+[ -d $ssh_base_dir ] || mkdir -p $ssh_base_dir
+
+key_file=$ssh_base_dir"/id_rsa"
+ssh_key=${HDX_SSH_KEY}
+pub_file=$ssh_base_dir"/id_rsa.pub"
+ssh_pub=${HDX_SSH_PUB}
+if [ ! -f $key_file ]; then
+    echo "SSH Key file not found. Creating..."
+    ssh_key=$(echo $ssh_key | sed -e 's/-----BEGIN RSA PRIVATE KEY----- //')
+    ssh_key=$(echo $ssh_key | sed -e 's/ -----END RSA PRIVATE KEY-----//')
+    touch $key_file
+    echo "-----BEGIN RSA PRIVATE KEY-----" >> $key_file
+    for i in $ssh_key; do
+        echo "$i" | sed -e 's/\"//' >> $key_file
+    done
+    echo "-----END RSA PRIVATE KEY-----" >> $key_file
+fi
+
+# fix perms of the ssh key
+status=$(stat $key_file | grep Uid)
+perms=$(echo $status | awk '{ print $2 }' | sed -e 's/^(//; s/\/.*//')
+owner=$(echo $status | awk '{ print $5 }' | sed -e 's/\/.*//')
+if [ "$owner" -ne "0" ]; then
+    echo "Changing owner to root."
+    chown root:root $key_file
+fi
+
+if [ "$perms" -ne "0600" ]; then
+    echo "Changing perms to 0600."
+    chmod 0600 $key_file
+fi
+
+if [ ! -f $pub_file ]; then
+    echo "SSH Pub file not found. Creating..."
+    echo "$ssh_pub" | sed -e 's/\"//' > $pub_file
+fi
+
+function shutdown()
+{
+    date
+    echo "Shutting down Tomcat"
+    unset CATALINA_PID # Necessary in some cases
+    unset LD_LIBRARY_PATH # Necessary in some cases
+    unset JAVA_OPTS # Necessary in some cases
+
+    $CATALINA_HOME/bin/catalina.sh stop
+}
+
+date
+echo "Starting Tomcat"
+export CATALINA_PID=/tmp/$$
+#export LD_LIBRARY_PATH=/usr/local/apr/lib
+
+echo "JAVA_OPTS=$JAVA_OPTS"
+
+. $CATALINA_HOME/bin/catalina.sh start
+
+# Allow any signal which would kill a process to stop Tomcat
+trap shutdown HUP INT QUIT ABRT KILL ALRM TERM TSTP
+
+echo "Waiting for $(cat $CATALINA_PID)"
+wait $(cat $CATALINA_PID)
