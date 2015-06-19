@@ -1,0 +1,32 @@
+#!/bin/sh
+set -e
+
+key_file="/etc/postfix/dkim.hdx.rwlabs.org.private"
+dkim_key=$HDX_DKIM_KEY
+
+# construct the key
+if [ ! -f $key_file ]; then
+    echo "File not found. Creating..."
+    echo "-----BEGIN RSA PRIVATE KEY-----" > $key_file
+    for i in $dkim_key; do
+        echo "$i" | sed -e 's/\"//' >> $key_file
+    done
+    echo "-----END RSA PRIVATE KEY-----" >> $key_file
+else
+    echo "File already there. Skipping..."
+fi
+
+# fix perms of the ssl key
+status=$(stat $key_file | grep Uid)
+perms=$(echo $status | awk '{ print $2 }' | sed -e 's/^(//; s/\/.*//')
+owner=$(echo $status | awk '{ print $5 }' | sed -e 's/\/.*//')
+if [ "$owner" -ne "0" ]; then
+    echo "Changing owner to root."
+    chown root:root $key_file
+fi
+if [ "$perms" -ne "0600" ]; then
+    echo "Changing perms to 0600."
+    chmod 0600 $key_file
+fi
+
+exec /usr/sbin/opendkim -f -x /etc/opendkim.conf -u opendkim -P /var/run/opendkim/opendkim.pid -p inet:8891@localhost
