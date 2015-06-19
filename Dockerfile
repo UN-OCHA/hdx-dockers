@@ -1,11 +1,8 @@
-FROM teodorescuserban/hdx-base-python:latest
+FROM teodorescuserban/hdx-base-girestlayer:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
-RUN apt-get update && \
-    apt-get install gdal-bin && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
-    mkdir -p /srv && \
+RUN mkdir -p /srv && \
     cd /srv && \
     git clone https://bitbucket.org/agartner/gisrestlayer.git && \
     cd /srv/gisrestlayer && \
