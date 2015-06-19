@@ -1,0 +1,6 @@
+#!/bin/sh
+
+[ -f /srv/www/docs/test.php ] || cp -a /srv/test.php /srv/www/docs/test.php
+
+set -e
+exec php5-fpm -c /etc/php5/fpm/php.ini -g /var/run/php5-fpm.pid -y /etc/php5/fpm/php-fpm.conf -F
