@@ -17,8 +17,8 @@ settings.application.port = 80;
 
 
 //Settings for postgres DB
-settings.pg.username = 'postgres';
-settings.pg.password = 'abc';
+settings.pg.username = 'gis';
+settings.pg.password = 'gis';
 settings.pg.server = 'db';
 settings.pg.port = '5432';
 settings.pg.database = 'gis';
