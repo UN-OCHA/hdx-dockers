@@ -41,4 +41,3 @@ VOLUME ["/srv/db", "/srv/backup"]
 EXPOSE 5432
 
 CMD ["/sbin/my_init"]
-
