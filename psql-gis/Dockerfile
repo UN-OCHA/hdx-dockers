@@ -22,7 +22,7 @@ ADD pg_hba.conf /etc/postgresql/9.3/main/pg_hba.conf
 RUN cp -R /etc/postgresql/9.3/main/postgresql.conf /etc/postgresql/9.3/main/postgresql.conf.bak
 ADD postgresql.conf /etc/postgresql/9.3/main/postgresql.conf
 
-COPY .pgpass /root/.pgpass
+COPY pgpass /root/.pgpass
 RUN chmod 600 /root/.pgpass
 
 RUN mkdir -p /srv/backup
