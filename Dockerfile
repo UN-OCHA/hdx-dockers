@@ -1,4 +1,4 @@
-FROM teodorescuserban/hdx-base-girestlayer:latest
+FROM teodorescuserban/hdx-base-gisrestlayer:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
