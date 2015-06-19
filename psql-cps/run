@@ -1,0 +1,35 @@
+#!/bin/bash
+set -e
+
+POSTGRESQL_USER=${POSTGRESQL_USER:-"docker"}
+POSTGRESQL_PASS=${POSTGRESQL_PASS:-"docker"}
+POSTGRESQL_DB=${POSTGRESQL_DB:-"docker"}
+POSTGRESQL_TEMPLATE=${POSTGRESQL_TEMPLATE:-"DEFAULT"}
+
+POSTGRESQL_BIN=/usr/lib/postgresql/9.3/bin/postgres
+POSTGRESQL_CONFIG_FILE=/etc/postgresql/9.3/main/postgresql.conf
+POSTGRESQL_DATA=/srv/db
+
+# prepare data directory and initialize database if necessary
+[ -d $POSTGRESQL_DATA ] || mkdir -p $POSTGRESQL_DATA
+chown -R postgres:postgres $POSTGRESQL_DATA
+#[ -d $POSTGRESQL_DATA/global ] || sudo -u postgres /usr/lib/postgresql/9.3/bin/initdb -D /srv/db -E utf-8 --locale=en_US.UTF-8
+[ $(cd $POSTGRESQL_DATA && ls -lA | wc -l) -ne 1 ] || \
+    sudo -u postgres /usr/lib/postgresql/9.3/bin/initdb -D /srv/db -E utf-8 --locale=en_US.UTF-8
+
+# create pgpass
+pf="/root/.pgpass"
+line="127.0.0.1:5432:*:$POSTGRESQL_USER:$POSTGRESQL_PASS"
+[ -f $pf ] || touch $pf
+if [ $(cat $pf | grep -cE $line) -ne 1 ]; then
+    echo $line > $pf
+    chmod 600 $pf
+fi
+
+POSTGRESQL_SINGLE="sudo -u postgres $POSTGRESQL_BIN --single --config-file=$POSTGRESQL_CONFIG_FILE"
+
+$POSTGRESQL_SINGLE <<< "CREATE USER $POSTGRESQL_USER WITH SUPERUSER;" > /dev/null
+$POSTGRESQL_SINGLE <<< "ALTER USER $POSTGRESQL_USER WITH PASSWORD '$POSTGRESQL_PASS';" > /dev/null
+$POSTGRESQL_SINGLE <<< "CREATE DATABASE $POSTGRESQL_DB OWNER $POSTGRESQL_USER" > /dev/null # TEMPLATE $POSTGRESQL_TEMPLATE ENCODING=UTFf-8;
+
+exec /sbin/setuser postgres $POSTGRESQL_BIN --config-file=$POSTGRESQL_CONFIG_FILE
