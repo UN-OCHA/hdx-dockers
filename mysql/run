@@ -1,0 +1,42 @@
+#!/bin/bash
+set -e
+
+datadir=${MYSQL_DIR}
+args=""
+
+# create datadir if not exists
+if [ ! -d $datadir ]; then
+    mkdir -p $datadir;
+    chown -R mysql:mysql $datadir;
+    chmod 700 $datadir;
+fi
+
+# init db if datadir is empty
+if [ ! "$(ls -A $datadir)" ]; then
+    mysql_install_db
+    tempSqlFile='/tmp/mysql-first-time.sql'
+    cat > "$tempSqlFile" <<-EOSQL
+DELETE FROM mysql.user ;
+CREATE USER 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASS}' ;
+GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION ;
+DROP DATABASE IF EXISTS test ;
+EOSQL
+    if [ "$MYSQL_DB" ]; then
+        echo "CREATE DATABASE IF NOT EXISTS \`$MYSQL_DB\` ;" >> "$tempSqlFile"
+    fi
+    if [ "$MYSQL_USER" -a "$MYSQL_PASS" ]; then
+        echo "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASS' ;" >> "$tempSqlFile"
+        if [ "$MYSQL_DB" ]; then
+            echo "GRANT ALL ON \`$MYSQL_DB\`.* TO '$MYSQL_USER'@'%' ;" >> "$tempSqlFile"
+        fi
+    fi
+    echo 'FLUSH PRIVILEGES ;' >> "$tempSqlFile"
+
+    args="--init-file=$tempSqlFile"
+else
+    echo "Data dir ($datadir) not empty. Skipping mysql initialisation."
+fi
+
+chown -R mysql:mysql $datadir
+
+exec mysqld $args
