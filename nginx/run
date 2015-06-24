@@ -5,6 +5,7 @@ prefix=$HDX_PREFIX
 domain=$HDX_DOMAIN
 ssl_key=$HDX_SSL_KEY
 key_file="/etc/ssl/private/hdx.rwlabs.org.key"
+pass=$HDX_NGINX_PASS
 
 # construct the key
 if [ ! -f $key_file ]; then
@@ -38,6 +39,14 @@ fi
 if [ "$perms" -ne "0600" ]; then
     echo "Changing perms to 0600."
     chmod 0600 $key_file
+fi
+
+# add datapass file
+passfile=${HDX_TYPE}'-datapass'
+if [ ! -f /etc/nginx/$passfile ]; then
+    echo pass > /etc/nginx/$passfile
+elif [ "$(cat /etc/nginx/$passfile | grep -c dataproject) " -ne "1" ]; then
+    echo pass > /etc/nginx/$passfile
 fi
 
 cd /etc/nginx;
