@@ -138,6 +138,16 @@ function arch_files {
     tar czf $backupdir/$preffix.$blogdb.$suffix.tar.gz -C $blogdir .
 }
 
+function make_read_write {
+    chown -R root $blogdir; chown -R www-data $blogdir/wp-content/uploads/
+    find $blogdir -type d -exec chmod 755 {} \;
+    find $blogdir -type f -exec chmod 644 {} \;
+}
+
+function make_read_only {
+    chown -R www-data $wpdir
+}
+
 server=${HDX_BACKUP_SERVER}
 user=${HDX_BACKUP_USER}
 srcdir=${HDX_BACKUP_BASE_DIR}
@@ -158,9 +168,12 @@ elif [ "$1" == "backup" ]; then
     [ -d /srv/backup ] || mkdir -p /srv/backup
     dump_db;
     arch_files;
+elif [ "$1" == "rw" ]; then
+    make_read_write;
+elif [ "$1" == "ro" ]; then
+    make_read_only;
 else
     me=$(basename $0)
     echo -en "\nUsage: $me [restore|backup]\n\n"
     exit 1
 fi
-
