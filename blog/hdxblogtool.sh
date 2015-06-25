@@ -174,6 +174,6 @@ elif [ "$1" == "ro" ]; then
     make_read_only;
 else
     me=$(basename $0)
-    echo -en "\nUsage: $me [restore|backup]\n\n"
+    echo -en "\nUsage: $me [restore|backup|rw|ro]\n\n"
     exit 1
 fi
