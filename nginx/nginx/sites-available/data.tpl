@@ -185,6 +185,15 @@ server {
         error_log /var/log/nginx/data.proxy.error.log;
     }
 
+    location /gis {
+        rewrite  ^/gis/(.*)  /%1 break;
+        rewrite  ^/gis(.*)  /%1 break;
+        proxy_pass          http://gis;
+        access_log /var/log/nginx/data.gis.access.log;
+        error_log /var/log/nginx/data.gis.error.log;
+    }
+
+
     location /ogre {
         rewrite  ^/ogre/(.*)  /%1 break;
         rewrite  ^/ogre(.*)  /%1 break;
