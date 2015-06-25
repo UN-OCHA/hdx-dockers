@@ -61,6 +61,10 @@ hdx.css.basepath = /srv/ckan/ckanext-hdx_theme/ckanext/hdx_theme/public/css/gene
 hdx.less.basepath = /srv/ckan/ckanext-hdx_theme/ckanext/hdx_theme/less
 hdx.less_compile.onstartup = False
 
+# Nepal Earthquake page
+hdx.nepal_earthquake.filestore.circle_markers = /dataset/json-repository/resource_download/c7a5b4a5-ce29-484e-9f8c-581ccefba04e
+hdx.nepal_earthquake.filestore.shakemap = /dataset/json-repository/resource_download/475656c7-ee1e-4cd1-a11e-fd20e397be1c
+
 ## Logging configuration
 [loggers]
 keys = root, ckan, ckanext
