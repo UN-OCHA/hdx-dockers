@@ -14,6 +14,10 @@ upstream ogre {
     server ${HDX_OGRE_ADDR}:${HDX_OGRE_PORT};
 }
 
+upstream gis {
+    server ${HDX_GISAPI_ADDR}:${HDX_GISAPI_PORT};
+}
+
 upstream crisismap {
     server a.tile.openstreetmap.fr;
     server b.tile.openstreetmap.fr;
