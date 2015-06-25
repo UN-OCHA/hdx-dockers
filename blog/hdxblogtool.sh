@@ -139,13 +139,13 @@ function arch_files {
 }
 
 function make_read_write {
-    chown -R root $blogdir; chown -R www-data $blogdir/wp-content/uploads/
-    find $blogdir -type d -exec chmod 755 {} \;
-    find $blogdir -type f -exec chmod 644 {} \;
+    chown -R www-data $blogdir
 }
 
 function make_read_only {
-    chown -R www-data $wpdir
+    chown -R root $blogdir; chown -R www-data $blogdir/wp-content/uploads/
+    find $blogdir -type d -exec chmod 755 {} \;
+    find $blogdir -type f -exec chmod 644 {} \;
 }
 
 server=${HDX_BACKUP_SERVER}
