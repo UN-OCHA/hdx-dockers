@@ -459,14 +459,16 @@ def filestore_restore(ts=TODAY,server=RESTORE['SERVER'],directory=RESTORE['DIR']
         print('try another timestamp')
         return False
     print('Done.')
-    tfilename =  os.path.join(RESTORE['TMP_DIR'], os.listdir(RESTORE['TMP_DIR'])[0])
+    #tfilename =  os.path.join(RESTORE['TMP_DIR'], os.listdir(RESTORE['TMP_DIR'])[0])
+    # changed per Steven Merrill suggestion
+    tfilename = [f in os.listdir(RESTORE['TMP_DIR']) if re.search('.tpl$', f)][0]
     if tarfile.is_tarfile(tfilename):
         if clean:
             filestore_dir = '/srv/filestore'
             for root, dirs, files in os.walk(filestore_dir, topdown=False):  
                 for item in files:
                     try:
-                        os.remove(os.path.join(root,item))
+                        os.remove(os.path.join(root, item))
                     except Exception as e:
                         print(e)
                         print('error removing ' + item)
