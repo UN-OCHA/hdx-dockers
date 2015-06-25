@@ -4,7 +4,7 @@ MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
 #RUN echo "alias psql='psql -h db'" >> ~/.bashrc
 
-COPY .pgpass /root/.pgpass
+COPY pgpass /root/.pgpass
 RUN chmod 600 /root/.pgpass
 
 RUN mkdir -p /etc/service/gisapi
