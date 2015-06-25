@@ -1,4 +1,4 @@
-FROM teodorescuserban/hdx-gisapi:latest
+FROM teodorescuserban/hdx-base-gisapi:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
