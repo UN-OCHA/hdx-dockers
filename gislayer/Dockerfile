@@ -1,11 +1,11 @@
-FROM teodorescuserban/hdx-base-gisrestlayer:latest
+FROM teodorescuserban/hdx-base-gislayer:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
 RUN mkdir -p /srv && \
     cd /srv && \
-    git clone https://bitbucket.org/agartner/gisrestlayer.git && \
-    cd /srv/gisrestlayer && \
+    git clone https://bitbucket.org/agartner/gisrestlayer.git gislayer && \
+    cd /srv/gislayer && \
     pip install -r requirements.txt
 
 RUN mkdir -p /etc/service/gislayer

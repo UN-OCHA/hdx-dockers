@@ -1,4 +1,4 @@
-FROM teodorescuserban/hdx-base-pgrestapi:latest
+FROM teodorescuserban/hdx-gisapi:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
@@ -14,9 +14,9 @@ RUN chmod +x /etc/service/gisapi/run
 #install spatial
 RUN mkdir -p /srv && \
     cd /srv && \
-    git clone https://bitbucket.org/agartner/hdx-pgrestapi.git && \
-    cd /srv/hdx-pgrestapi && \
+    git clone https://bitbucket.org/agartner/hdx-pgrestapi.git gisapi && \
+    cd /srv/gisapi && \
     npm install
-COPY settings.js /srv/hdx-pgrestapi/settings/settings.js
+COPY settings.js /srv/gisapi/settings/settings.js
 
 EXPOSE 80 5858

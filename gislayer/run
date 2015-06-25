@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-cd /srv/gisrestlayer
+cd /srv/gislayer
 export GIS_REST_LAYER_CONF=/srv/app.conf
 
 exec python gis_rest_layer.py
