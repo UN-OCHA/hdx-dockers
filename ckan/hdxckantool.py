@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 
-import sys
-import os
 import datetime
-import subprocess
-import psycopg2
-import tarfile
 import gzip
+import psycopg2
+import os
+import re
+import subprocess
+import sys
+import tarfile
+
 from shutil import rmtree
 
 #import argparse
@@ -38,10 +40,10 @@ RESTORE = dict(
     TMP_DIR = "/tmp/ckan-restore",
 )
 RESTORE['DIR'] = str(os.getenv('HDX_BACKUP_BASE_DIR')) + '/' + RESTORE['FROM']
-RESTORE['PREFIX']= RESTORE['FROM'] + '.' + APP
+RESTORE['PREFIX'] = RESTORE['FROM'] + '.' + APP
 RESTORE['DB_PREFIX'] = RESTORE['PREFIX'] + '.db'
 RESTORE['DB_PREFIX_MAIN'] = RESTORE['DB_PREFIX'] + '.' + SQL['DB']
-RESTORE['DB_PREFIX_DATASTORE'] = RESTORE['DB_PREFIX'] + '.' +  SQL['DB_DATASTORE']
+RESTORE['DB_PREFIX_DATASTORE'] = RESTORE['DB_PREFIX'] + '.' + SQL['DB_DATASTORE']
 RESTORE['FILESTORE_PREFIX'] = RESTORE['PREFIX'] + '.filestore'
 
 BACKUP = dict(
@@ -51,7 +53,7 @@ BACKUP = dict(
 BACKUP['PREFIX'] = BACKUP['AS'] + '.' + APP
 BACKUP['DB_PREFIX'] = BACKUP['PREFIX'] + '.db'
 BACKUP['DB_PREFIX_MAIN'] = BACKUP['DB_PREFIX'] + '.' + SQL['DB']
-BACKUP['DB_PREFIX_DATASTORE'] = BACKUP['DB_PREFIX'] + '.' +  SQL['DB_DATASTORE']
+BACKUP['DB_PREFIX_DATASTORE'] = BACKUP['DB_PREFIX'] + '.' + SQL['DB_DATASTORE']
 BACKUP['FILESTORE_PREFIX'] = BACKUP['PREFIX'] + '.filestore'
 
 SUFFIX = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
@@ -115,6 +117,7 @@ def show_usage():
     """
     print(doc)
 
+
 def query_yes_no(question, default="yes"):
     """Ask a yes/no question via raw_input() and return their answer.
 
@@ -147,6 +150,7 @@ def query_yes_no(question, default="yes"):
             sys.stdout.write("Please respond with 'yes' or 'no' "
                              "(or 'y' or 'n').\n")
 
+
 def get_input(text='what?', lower=True, empty=''):
     sys.stdout.flush()
     if lower:
@@ -161,6 +165,7 @@ def get_input(text='what?', lower=True, empty=''):
         result = empty
     return result
 
+
 def control(cmd):
     line = ["sv", cmd, 'ckan']
     try:
@@ -168,6 +173,7 @@ def control(cmd):
     except:
         print(cmd + " failed.")
         exit(1)
+
 
 def db():
     # db
@@ -253,11 +259,13 @@ def db():
 
     exit(0)
 
-def db_clean(dbckan=SQL['DB'],dbdatastore=SQL['DB_DATASTORE']):
+
+def db_clean(dbckan=SQL['DB'], dbdatastore=SQL['DB_DATASTORE']):
     for dbname in [dbckan, dbdatastore]:
         print('db_drop(' + dbname + ')')
         db_drop(dbname)
     db_set_perms()
+
 
 def db_set_perms():
     con = db_connect_to_postgres(dbname=SQL['DB_DATASTORE'])
@@ -289,7 +297,8 @@ def db_set_perms():
 
     print("Datastore permissions have been reset to default.")
 
-def db_list_backups(listonly=True,ts=TODAY,server=RESTORE['SERVER'],directory=RESTORE['DIR'],user=RESTORE['USER'],ckandb=SQL['DB'],datastoredb=SQL['DB_DATASTORE']):
+
+def db_list_backups(listonly=True, ts=TODAY, server=RESTORE['SERVER'], directory=RESTORE['DIR'], user=RESTORE['USER'], ckandb=SQL['DB'], datastoredb=SQL['DB_DATASTORE']):
     print(server)
     print(directory)
     print(RESTORE['DB_PREFIX'])
@@ -327,6 +336,7 @@ def db_list_backups(listonly=True,ts=TODAY,server=RESTORE['SERVER'],directory=RE
         print(("Output: \n{}\n".format(result)))
         print('+++++++++++++++++++++++++++++++++++++++++++++++++++++')                                                                                                   
     return result
+
 
 def db_get_last_backups():
     list = db_list_backups().split('\n')
@@ -391,15 +401,17 @@ def db_get_last_backups():
     # global TS
     # TS = ts
 
-def db_restore(filename='',db=''):
+
+def db_restore(filename='', db=''):
     if not filename or not db:
         print('No filename to restore from or no db found. Aborting...')
         exit(0)
+    print('Please wait. This may take a while...')
     db_drop(db)
     db_create(db)
     print('Restoring database', db, 'from', filename)
-    print('This may take a while...')
-    cmd = [ 'pg_restore', '-vOx', '-h', SQL['HOST'], '-U', SQL['USER'], '-d', db, filename ]
+    print('Please wait. This may take a while...')
+    cmd = ['pg_restore', '-vOx', '-h', SQL['HOST'], '-U', SQL['USER'], '-d', db, filename]
     with open(os.devnull, 'wb') as devnull:
         subprocess.call(cmd, stdout=devnull, stderr=subprocess.STDOUT)
 
@@ -427,7 +439,8 @@ def db_restore(filename='',db=''):
     # print(ts)
     # exit(0)
 
-def filestore_restore(ts=TODAY,server=RESTORE['SERVER'],directory=RESTORE['DIR'],user=RESTORE['USER'],clean=False):
+
+def filestore_restore(ts=TODAY, server=RESTORE['SERVER'], directory=RESTORE['DIR'], user=RESTORE['USER'], clean=False):
     # print('This doesn\'t do anything right now...')
     # exit(0)
     line = ["rsync", "-a", "--progress", user + '@' + server + ':' + directory + '/' +  RESTORE['FILESTORE_PREFIX'] + '*' + ts + '*', RESTORE['TMP_DIR'] + '/']
@@ -461,7 +474,12 @@ def filestore_restore(ts=TODAY,server=RESTORE['SERVER'],directory=RESTORE['DIR']
     print('Done.')
     #tfilename =  os.path.join(RESTORE['TMP_DIR'], os.listdir(RESTORE['TMP_DIR'])[0])
     # changed per Steven Merrill suggestion
-    tfilename = [f in os.listdir(RESTORE['TMP_DIR']) if re.search('.tpl$', f)][0]
+    tf = []
+    for f in os.listdir(RESTORE['TMP_DIR']):
+        if re.search('.tar.gz$', f):
+            tf.append(f)
+    #tf = [f in os.listdir(RESTORE['TMP_DIR']) if re.search('.tpl$', f)]
+    tfilename = os.path.join(RESTORE['TMP_DIR'], tf[0])
     if tarfile.is_tarfile(tfilename):
         if clean:
             filestore_dir = '/srv/filestore'
@@ -510,6 +528,7 @@ def filestore_restore(ts=TODAY,server=RESTORE['SERVER'],directory=RESTORE['DIR']
         os.chmod(os.path.join(root, item), 1230)
     print('All done! Please do not forget to remove the archives in ' + RESTORE['TMP_DIR'])
 
+
 def deploy():
     control('stop')
     print("changing dir to "+ BASEDIR)
@@ -530,6 +549,7 @@ def deploy():
     if (len(opts) != 0) and (opts[0] == 'test'):
         tests()
 
+
 def tests():
     db_test_refresh()
     os.chdir(BASEDIR)
@@ -541,12 +561,14 @@ def tests():
             print("Running tests for plugin", dirname)
             tests_nose(dirname)
 
+
 def backup(verbose=True):
     backup_db(SQL['DB'], BACKUP['DB_PREFIX'],verbose)
     backup_db(SQL['DB_DATASTORE'],BACKUP['DB_PREFIX'],verbose)
     backup_filestore(verbose)
 
-def backup_db(db='', prefix='',verbose=True):
+
+def backup_db(db='', prefix='', verbose=True):
     if not db or not prefix:
         print('backup_db called with empty archive or prefix')
         exit(0)
@@ -575,6 +597,7 @@ def backup_db(db='', prefix='',verbose=True):
         else:
             sys.stdout.write(archive_name + ' not found\n')
             sys.stdout.flush()
+
 
 def backup_filestore(verbose=True):
     # backup filestore
@@ -605,7 +628,8 @@ def backup_filestore(verbose=True):
             sys.stdout.flush()
             exit(0)
 
-def decompress_file(f_in='', f_out='',remove=False):
+
+def decompress_file(f_in='', f_out='', remove=False):
     if not f_in:
         return False
     if not f_out:
@@ -622,7 +646,8 @@ def decompress_file(f_in='', f_out='',remove=False):
             # print(f_in)
             os.remove(f_in)
 
-def compress_file(f_in='', f_out='',remove=False):
+
+def compress_file(f_in='', f_out='', remove=False):
     if not f_in:
         return False
     if not f_out:
@@ -639,10 +664,12 @@ def compress_file(f_in='', f_out='',remove=False):
             # print(f_in)
             os.remove(f_in)
 
+
 def db_test_refresh():
     for dbname in [SQL['DB_TEST'], SQL['DB_DATASTORE_TEST']]:
         db_drop(dbname)
         db_create(dbname)
+
 
 def db_connect_to_postgres(host=SQL['HOST'], dbname='postgres', user=SQL['SUPERUSER']):
     try:
@@ -651,6 +678,7 @@ def db_connect_to_postgres(host=SQL['HOST'], dbname='postgres', user=SQL['SUPERU
         print("I am unable to connect to the database, exiting.")
         exit(2) 
     return con
+
 
 def db_drop(dbname):
     con = db_connect_to_postgres()
@@ -665,6 +693,7 @@ def db_drop(dbname):
         print("I can't drop database " + dbname)
     finally:
         con.close()
+
 
 def db_create(dbname, owner=SQL['USER']):
     # list databases
@@ -684,6 +713,7 @@ def db_create(dbname, owner=SQL['USER']):
         exit(2)
     finally:
         con.close()
+
 
 def refresh_pgpass():
     pgpass = '/root/.pgpass'
@@ -715,6 +745,7 @@ def refresh_pgpass():
         print('Permissions were incorrect. Fixed.')
     print('Done.')
 
+
 def reinstall_plugins():
     path = '/srv/ckan'
     cmd = ['python', 'setup.py']
@@ -733,11 +764,13 @@ def reinstall_plugins():
                     with open(os.devnull, 'wb') as devnull:
                         subprocess.call(cmd, stdout=devnull, stderr=subprocess.STDOUT)
 
+
 def restore_cleanup():
     print('Cleaning up temporary directory used for restore (' + RESTORE['TMP_DIR'] + ')')
     if os.path.isdir(RESTORE['TMP_DIR']):
         rmtree(RESTORE['TMP_DIR'])
     print('Done.')
+
 
 def solr_reindex():
     valid_subcommands = ['fast', 'refresh']
@@ -759,6 +792,7 @@ def solr_reindex():
     os.chdir(BASEDIR)
     subprocess.call(cmd)
 
+
 def less_compile():
     cmd = ['paster', '--plugin=ckanext-hdx_theme','custom-less-compile', '-c', INI_FILE]
     os.chdir(BASEDIR)
@@ -776,6 +810,7 @@ def less_compile():
             for item in files:
                 os.chown(os.path.join(root, item), 33, 0)
     print('Done.')
+
 
 def show_logs():
     logs = ['/var/log/ckan/ckan.access.log', '/var/log/ckan/ckan.error.log', '/var/log/ckan/ckan.pain.log']
@@ -798,6 +833,7 @@ def show_logs():
     print('      Stop following the logs with Ctrl+C')
     print('+++++++++++++++++++++++++++++++++++++++++++++++++++')
     subprocess.call(cmd)
+
 
 def sysadmin():
     if len(opts) == 0:
@@ -822,6 +858,7 @@ def sysadmin():
     else:
         sysadmin_disable(user)
 
+
 def sysadmin_enable(user):
     if is_sysadmin(user):
         print('User ' + user + ' is already sysadmin.')
@@ -830,6 +867,7 @@ def sysadmin_enable(user):
     os.chdir(BASEDIR)
     subprocess.call(cmd)
     exit(0)
+
 
 def sysadmin_disable(user):
     if not is_sysadmin(user):
@@ -840,6 +878,7 @@ def sysadmin_disable(user):
     subprocess.call(cmd)
     print('User ' + user + " has been (hopefully) made sysadmin (paster doesn't return anything useful)")
     exit(0)
+
 
 def sysadmins_list():
     con = db_connect_to_postgres(dbname=SQL['DB'])
@@ -858,6 +897,7 @@ def sysadmins_list():
 
     user_pretty_list(rows)
     exit(0)
+
 
 def is_sysadmin(user):
     con = db_connect_to_postgres(dbname=SQL['DB'])
@@ -879,10 +919,12 @@ def is_sysadmin(user):
             return True
     return False
 
+
 def tracking_update():
     cmd = ['paster', 'tracking', 'update', '-c', INI_FILE]
     os.chdir(BASEDIR)
     subprocess.call(cmd)
+
 
 def tests_nose(dirname):  
     plugin = dirname.replace('ckanext-', '')
@@ -898,6 +940,7 @@ def tests_nose(dirname):
     test_call = ['nosetests', '-ckan', '--with-xunit', xunit_file, '--logging-level', loglevel, pylons, tests]
     os.chdir(BASEDIR)
     subprocess.call(test_call)
+
 
 def users():
     if len(opts) == 0:
@@ -933,6 +976,7 @@ def users():
         user_search(user)
     exit(0)
 
+
 def users_list():
     con = db_connect_to_postgres(dbname=SQL['DB'])
     con.set_isolation_level(0)
@@ -950,6 +994,7 @@ def users_list():
 
     user_pretty_list(rows)
 
+
 def user_show(user):
     con = db_connect_to_postgres(dbname=SQL['DB'])
     con.set_isolation_level(0)
@@ -966,6 +1011,7 @@ def user_show(user):
         con.close()
 
     user_pretty_list(rows)
+
 
 def user_search(user):
     con = db_connect_to_postgres(dbname=SQL['DB'])
@@ -986,6 +1032,7 @@ def user_search(user):
         exit(0)
     user_pretty_list(rows)
 
+
 def user_add(user):
     email = get_input('Email')
     password = get_input('Password', lower=False)
@@ -1000,12 +1047,14 @@ def user_add(user):
         print('I could not create the user ' + user)
     exit(0)
 
+
 def user_delete(user):
     if is_sysadmin(user):
         sysadmin_disable(user)
     cmd = ['paster', 'user', 'remove', user, '-c', INI_FILE]
     os.chdir(BASEDIR)
     subprocess.call(cmd)
+
 
 def user_pretty_list(userlist):
     for row in userlist:
@@ -1019,6 +1068,7 @@ def user_pretty_list(userlist):
     print('+++++++++++++++++++++++++++++++++++++++++++++++')
     if len(userlist) > 1:
         print('Got a total of ' + str(len(userlist)) + ' users.')
+
 
 def user_exists(user):
     con = db_connect_to_postgres(dbname=SQL['DB'])
@@ -1040,11 +1090,13 @@ def user_exists(user):
     else:
         return False
 
+
 def exit(code=0):
     if code == 1:
         show_usage()
     os.chdir(CURRPATH)
     sys.exit(code)
+
 
 def main():
     cmd = opts.pop(0)
@@ -1096,6 +1148,7 @@ def main():
         print('bzzz')
     else:
         exit(1)
+
 
 if __name__ == '__main__':
     opts=sys.argv

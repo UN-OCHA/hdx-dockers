@@ -61,9 +61,11 @@ hdx.css.basepath = /srv/ckan/ckanext-hdx_theme/ckanext/hdx_theme/public/css/gene
 hdx.less.basepath = /srv/ckan/ckanext-hdx_theme/ckanext/hdx_theme/less
 hdx.less_compile.onstartup = False
 
-# Nepal Earthquake page
-hdx.nepal_earthquake.filestore.circle_markers = /dataset/json-repository/resource_download/c7a5b4a5-ce29-484e-9f8c-581ccefba04e
-hdx.nepal_earthquake.filestore.shakemap = /dataset/json-repository/resource_download/475656c7-ee1e-4cd1-a11e-fd20e397be1c
+# GIS
+# ip and address and port of gislayer - uncomment it when it goes to prod
+#hdx.gis.layer_import_url = http://${HDX_GISLAYER_ADDR}:${HDX_GISLAYER_PORT}/api/add-layer/dataset/{dataset_id}/resource/{resource_id}?resource_download_url={resource_download_url}
+# this is only needed for the clients to get the pbf
+#hdx.gis.resource_pbf_url = http://${HDX_PREFIX}data.${HDX_DOMAIN}/gis/services/postgis/{resource_id}/wkb_geometry/vector-tiles/{z}/{x}/{y}.pbf
 
 ## Logging configuration
 [loggers]
