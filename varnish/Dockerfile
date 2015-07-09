@@ -23,4 +23,4 @@ RUN mkdir -p /etc/service/varnish
 COPY varnish.run /etc/service/varnish/run
 RUN chmod +x /etc/service/varnish/run
 
-COPY default.vcl /etc/varnish/
+COPY default.vcl.tpl /etc/varnish/
