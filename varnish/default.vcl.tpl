@@ -54,7 +54,7 @@ sub vcl_recv {
   }
 
   # Redirect non-HTTP to HTTPS. See vcl_synth.
-  if (req.http.x-forwarded-proto == "http") {
+  if ("${HDX_HTTPS_REDIRECT}" == "on" && req.http.x-forwarded-proto == "http") {
     return (synth(750, ""));
   }
 
