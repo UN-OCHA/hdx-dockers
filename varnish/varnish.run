@@ -11,5 +11,7 @@
 #        echo "10.66.32.108 hdx.rwlabs.org      docs.hdx.rwlabs.org      data.hdx.rwlabs.org      manage.hdx.rwlabs.org"      >> /etc/hosts
 #fi
 
+envsubst < /etc/varnish/default.vcl.tpl > /etc/varnish/default.vcl
+
 exec /usr/sbin/varnishd -F -a $LISTEN_ADDR -f $CONFIG_FILE -u $DAEMON_USER -g $DAEMON_GROUP -s $STORAGE_BACKEND $EXTRA_ARGS
 
