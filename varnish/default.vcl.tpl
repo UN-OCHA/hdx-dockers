@@ -57,6 +57,11 @@ sub vcl_recv {
     }
   }
 
+  # Allow devs through without caching. Also never redirect them HTTP -> HTTPS.
+  if (req.http.user-agent == "HDX-Developer-2015") {
+    return (pass);
+  }
+
   # Redirect non-HTTP to HTTPS. See vcl_synth.
   if ("${HDX_HTTPS_REDIRECT}" == "on" && req.http.x-forwarded-proto == "http") {
     return (synth(750, ""));
