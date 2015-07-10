@@ -1,16 +1,24 @@
 vcl 4.0;
 
 acl purge {
+  ### Local dev / Docker.
   "localhost";
   "127.0.0.1";
   "172.17.42.0"/16; # Docker bridge.
+
+  ### Internal BlackMesh.
   "10.5.51.0"/24;   # 568elmp01 private
   "10.5.52.0"/24;   # 568elmp02 private
-  "10.5.68.0"/24;   # Internal BlackMesh routing
+  "10.5.68.0"/24;   # Internal BlackMesh routing and load balancers.
   "10.5.101.0"/24;  # 568elwb01 private
   "10.5.102.0"/24;  # 568elwb02 private
   "10.5.201.0"/24;  # 568eldb01 private
   "10.5.202.0"/24;  # 568eldb02 private
+
+  ### BlackMesh public IPs.
+  "162.249.108.148"/31;
+  "162.249.108.150"/31;
+  "162.249.108.152"/31;
 }
 
 backend default {
@@ -35,7 +43,7 @@ sub vcl_recv {
       return(synth(200, "All pages purged."));
     }
     elseif (req.url ~ "^/purge/") {
-      # You have to set headers to do variables. Yarr.
+      # You have to set headers to do variables.
       set req.http.x-purge-host = regsub(req.url, "^/purge/([^/]+)/.*$", "\1");
       set req.http.x-purge-path = regsub(req.url, "^/purge/[^/]+(/.*)$", "\1");
       ban("obj.http.x-host == " + req.http.x-purge-host + " && obj.http.x-url == " + req.http.x-purge-path);
