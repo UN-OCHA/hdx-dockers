@@ -36,16 +36,12 @@ sub vcl_recv {
     }
     elseif (req.url ~ "^/purge/") {
       # You have to set headers to do variables. Yarr.
-      set req.http.x-purge-host = regsub(req.url, "^/purge/[^/]+/[^/]+$", "\1");
-      set req.http.x-purge-path = regsub(req.url, "^/purge/[^/]+/[^/]+$", "\2");
-      ban("obj.http.x-host == " + req.http.x-purge-host + " && obj.http.x-url ~ ^" + req.http.x-purge-path);
-
-      # Unset the variables in place.
-      unset req.http.x-purge-host;
-      unset req.http.x-purge-path;
+      set req.http.x-purge-host = regsub(req.url, "^/purge/([^/]+)/.*$", "\1");
+      set req.http.x-purge-path = regsub(req.url, "^/purge/[^/]+(/.*)$", "\1");
+      ban("obj.http.x-host == " + req.http.x-purge-host + " && obj.http.x-url == " + req.http.x-purge-path);
 
       # Throw a synthetic page so no beresp is created.
-      return(synth(200, "All pages purged."));
+      return(synth(200, "Purged path " + req.http.x-purge-path + " from hostname " + req.http.x-purge-host + "."));
     }
     else {
       # Throw a synthetic warning page.
