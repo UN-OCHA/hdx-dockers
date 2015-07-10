@@ -21,15 +21,11 @@ server {
     #real_ip_header     X-Forwarded-For;
 
     location / {
-        # let David and Godfrey run some api ckan scripts
+        # let developers run some api ckan scripts
         # when the http basic auth is on
         # (can't have more than one auth header and that is for ckan api key)
-        error_page 418 = @hellodavid;
-        if (%http_user_agent = "Hello! I'm David.") {
-            return 418;
-        }
-
-        if (%http_user_agent = "Hello! I'm Godfrey.") {
+        error_page 418 = @hellodevelopers;
+        if (%http_user_agent = "HDX-Developer-2015") {
             return 418;
         }
 
@@ -147,7 +143,7 @@ server {
         try_files %uri @go_ahead;
     }
 
-    location @hellodavid {
+    location @hellodevelopers {
         try_files %uri @go_ahead;
     }
 
