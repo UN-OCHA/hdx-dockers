@@ -519,13 +519,13 @@ def filestore_restore(ts=TODAY, server=RESTORE['SERVER'], directory=RESTORE['DIR
         print(tfilename + ' is not a valid archive.')
         exit(0)
     print('Fixing permissions on filestore')
-    for root, dirs, files in os.walk('/srv/filestore'):  
-      for item in dirs:  
-        os.chown(os.path.join(root, item), 33, 33)
-        os.chmod(os.path.join(root, item), 1274)
-      for item in files:
-        os.chown(os.path.join(root, item), 33, 33)
-        os.chmod(os.path.join(root, item), 1230)
+    for root, dirs, files in os.walk('/srv/filestore'):
+        for item in dirs:
+            os.chown(os.path.join(root, item), 33, 33)
+            os.chmod(os.path.join(root, item), 0o755)
+        for item in files:
+            os.chown(os.path.join(root, item), 33, 33)
+            os.chmod(os.path.join(root, item), 0o644)
     print('All done! Please do not forget to remove the archives in ' + RESTORE['TMP_DIR'])
 
 
