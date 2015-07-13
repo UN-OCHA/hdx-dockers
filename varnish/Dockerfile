@@ -16,8 +16,7 @@ RUN apt-get -qq -y install apt-transport-https && \
     curl https://repo.varnish-cache.org/GPG-key.txt | apt-key add - && \
     echo "deb https://repo.varnish-cache.org/ubuntu/ precise varnish-4.0" >> /etc/apt/sources.list.d/varnish-cache.list && \
     apt-get -qq -y update && \
-    apt-get -qq -y install varnish
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    apt-get -qq -y install varnish && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     /etc/my_init.d/00_regen_ssh_host_keys.sh && \
     mkdir -p /etc/service/varnish
