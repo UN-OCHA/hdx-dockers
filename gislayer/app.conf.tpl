@@ -7,8 +7,7 @@ DB_NAME = 'gis'
 DB_USER = 'gis'
 DB_HOST = 'db'
 
-#GIS_API_PATTERN = 'http://${HDX_PREFIX}data.${HDX_DOMAIN}/gis/services/tables/{table_name}'
-GIS_API_PATTERN = 'http://${HDX_GISAPI_ADDR}:${HDX_GISAPI_PORT}/gis/services/tables/{table_name}'
+GIS_API_PATTERN = 'http://${HDX_GISAPI_ADDR}:${HDX_GISAPI_PORT}/services/tables/{table_name}'
 
 LOGGING_CONF_FILE = 'logging.conf'
 
