@@ -9,12 +9,14 @@ RUN mkdir -p /srv && \
     pip install -r requirements.txt
 
 RUN mkdir -p /etc/service/gislayer
-ADD run /etc/service/gislayer/
+COPY run /etc/service/gislayer/
 RUN chmod +x /etc/service/gislayer/run
 
-ADD pgpass /root/.pgpass
+COPY pgpass /root/.pgpass
 RUN chmod 600 /root/.pgpass
 
-ADD app.conf /srv/
+COPY app.conf /srv/
+# just temporarily
+COPY run_rqworker /srv/
 
 EXPOSE 5000

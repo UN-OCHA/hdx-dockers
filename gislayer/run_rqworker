@@ -1,0 +1,7 @@
+#!/bin/bash
+set -e
+
+cd /srv/gislayer
+rqworker --url redis://redis:6379/1 --name worker_1 geo_q
+# need test-data info on /etc/hosts for rq!!
+# need to know how to purge old, stucked workers!

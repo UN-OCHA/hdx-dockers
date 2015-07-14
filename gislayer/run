@@ -1,7 +1,20 @@
 #!/bin/bash
 set -e
 
+# make sure postgis extension are enabled on psql
+[ "$(psql -h db gis gis -c '\dx' | grep -c  postgis\ )" -eq "1" ] || psql -h db gis gis -c 'CREATE EXTENSION postgis;'
+# make sure postgis_topology extension are enabled on psql
+[ "$(psql -h db gis gis -c '\dx' | grep -c  postgis_topology)" -eq "1" ] || psql -h db gis gis -c 'CREATE EXTENSION postgis_topology;'
+
+# you need to add a second service for rq on gislayer
+# rqworker is started manually FROM /srv/gislayer folder like this:
+# rqworker --url redis://redis:6379/1 --name worker_1 geo_q
+# need test-data info on /etc/hosts for rq!!
+# need to know how to purge old, stucked workers!
+
 cd /srv/gislayer
 export GIS_REST_LAYER_CONF=/srv/app.conf
 
 exec python gis_rest_layer.py
+
+
