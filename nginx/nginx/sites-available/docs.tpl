@@ -1,3 +1,11 @@
+# Set $_SERVER['HTTPS'] for PHP if we're behind HAProxy terminating SSL
+# ($http_x_forwarded_proto) or native nginx SSL termination ($https).
+map $http_x_forwarded_proto $fastcgi_https {
+  default $https;
+  http '';
+  https on;
+}
+
 # wordpress caching instance
 server {
 
@@ -48,6 +56,7 @@ server {
         include fastcgi_params;
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME %document_root%fastcgi_script_name;
+        fastcgi_param HTTPS $fastcgi_https;
         # fastcgi_intercept_errors on;
         fastcgi_pass blog;
     }
