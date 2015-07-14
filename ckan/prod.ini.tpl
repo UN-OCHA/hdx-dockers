@@ -63,9 +63,10 @@ hdx.less_compile.onstartup = False
 
 # GIS
 # ip and address and port of gislayer - uncomment it when it goes to prod
-#hdx.gis.layer_import_url = http://${HDX_GISLAYER_ADDR}:${HDX_GISLAYER_PORT}/api/add-layer/dataset/{dataset_id}/resource/{resource_id}?resource_download_url={resource_download_url}
+hdx.gis.layer_import_url = http://${HDX_GISLAYER_ADDR}:${HDX_GISLAYER_PORT}/api/add-layer/dataset/{dataset_id}/resource/{resource_id}?resource_download_url={resource_download_url}
 # this is only needed for the clients to get the pbf
-#hdx.gis.resource_pbf_url = http://${HDX_PREFIX}data.${HDX_DOMAIN}/gis/services/postgis/{resource_id}/wkb_geometry/vector-tiles/{z}/{x}/{y}.pbf
+# at Alex suggestion, i made this proto unaware
+hdx.gis.resource_pbf_url = //${HDX_PREFIX}data.${HDX_DOMAIN}/gis/services/postgis/{resource_id}/wkb_geometry/vector-tiles/{z}/{x}/{y}.pbf
 
 ## Logging configuration
 [loggers]
