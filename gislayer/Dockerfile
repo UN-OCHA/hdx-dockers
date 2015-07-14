@@ -15,7 +15,7 @@ RUN chmod +x /etc/service/gislayer/run
 COPY pgpass /root/.pgpass
 RUN chmod 600 /root/.pgpass
 
-COPY app.conf /srv/
+COPY app.conf.tpl /srv/
 # just temporarily
 COPY run_rqworker /srv/
 

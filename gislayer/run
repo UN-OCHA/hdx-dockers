@@ -12,6 +12,8 @@ set -e
 # need test-data info on /etc/hosts for rq!!
 # need to know how to purge old, stucked workers!
 
+envsubst < /srv/app.conf.tpl > /srv/app.conf
+
 cd /srv/gislayer
 export GIS_REST_LAYER_CONF=/srv/app.conf
 
