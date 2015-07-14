@@ -189,22 +189,21 @@ server {
         error_log /var/log/nginx/data.gis.error.log;
     }
 
-
-    location /ogre {
-        rewrite  ^/ogre/(.*)  /%1 break;
-        rewrite  ^/ogre(.*)  /%1 break;
-        #allow 10.0.0.0/8;
-        allow 10.66.32.110;
-        allow 10.66.32.109;
-        allow 10.66.32.108;
-        #allow 192.168.0.0/16;
-        allow 172.16.0.0/12;
-        deny all;
-        proxy_pass          http://ogre;
-        include /etc/nginx/proxy_params;
-        access_log /var/log/nginx/ogre.access.log;
-        error_log /var/log/nginx/ogre.error.log;
-    }
+#    location /ogre {
+#        rewrite  ^/ogre/(.*)  /%1 break;
+#        rewrite  ^/ogre(.*)  /%1 break;
+#        #allow 10.0.0.0/8;
+#        allow 10.66.32.110;
+#        allow 10.66.32.109;
+#        allow 10.66.32.108;
+#        #allow 192.168.0.0/16;
+#        allow 172.16.0.0/12;
+#        deny all;
+#        proxy_pass          http://ogre;
+#        include /etc/nginx/proxy_params;
+#        access_log /var/log/nginx/ogre.access.log;
+#        error_log /var/log/nginx/ogre.error.log;
+#    }
 
     location ^~ /tiles/ {
         #root /srv/www/static;
