@@ -33,8 +33,8 @@ ckan.tracking_enabled = true
 
 email_to = ckan.${HDX_TYPE}@${HDX_DOMAIN}
 error_email_from = ckan.${HDX_TYPE}@${HDX_DOMAIN}
-smtp_server = 172.17.42.1
-smtp.server = 172.17.42.1
+smtp_server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
+smtp.server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
 smtp.starttls = False
 
 hdx.cache.onstartup = true
