@@ -12,6 +12,7 @@ GIS_API_PATTERN = 'http://${HDX_GISAPI_ADDR}:${HDX_GISAPI_PORT}/services/tables/
 LOGGING_CONF_FILE = 'logging.conf'
 
 # Needed to push the results back to CKAN (you can have this on public but.. beware dns resolution :(
+# You NEED to have this as the public ckan url!
 RESOURCE_UPDATE_API = 'http://${HDX_CKAN_ADDR}:${HDX_CKAN_PORT}/api/action/hdx_resource_update_metadata'
 
 # No worries, this is a dummy api key - replace it with CJ's bot API KEY!!!
