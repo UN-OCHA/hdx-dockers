@@ -189,6 +189,13 @@ server {
         error_log /var/log/nginx/data.gis.error.log;
     }
 
+    location ^~ /monitor {
+        #rewrite  ^/gis(.*)  /monitor/$1 break;
+        proxy_pass          http://gislayer;
+        access_log /var/log/nginx/data.gismonitor.access.log;
+        error_log /var/log/nginx/data.gismonitor.error.log;
+    }
+
 #    location /ogre {
 #        rewrite  ^/ogre/(.*)  /%1 break;
 #        rewrite  ^/ogre(.*)  /%1 break;

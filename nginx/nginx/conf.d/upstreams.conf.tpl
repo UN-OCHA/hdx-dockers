@@ -18,6 +18,10 @@ upstream gis {
     server ${HDX_GISAPI_ADDR}:${HDX_GISAPI_PORT};
 }
 
+upstream gislayer {
+    server ${HDX_GISLAYER_ADDR}:${HDX_GISLAYER_PORT};
+}
+
 upstream crisismap {
     server a.tile.openstreetmap.fr;
     server b.tile.openstreetmap.fr;
