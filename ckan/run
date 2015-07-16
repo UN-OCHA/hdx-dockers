@@ -64,7 +64,7 @@ hdxckantool pgpass > /dev/null
 # set proper permissions on datastore
 hdxckantool db set-perms > /dev/null
 
-hdxckantool less compile
+#hdxckantool less compile
 
 #echo "HDX-Ckan starting in 2 seconds..."
 #sleep 2
