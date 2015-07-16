@@ -1,7 +1,7 @@
-# Set $_SERVER['HTTPS'] for PHP if we're behind HAProxy terminating SSL
-# ($http_x_forwarded_proto) or native nginx SSL termination ($https).
-map $http_x_forwarded_proto $fastcgi_https {
-  default $https;
+# Set %_SERVER['HTTPS'] for PHP if we're behind HAProxy terminating SSL
+# (%http_x_forwarded_proto) or native nginx SSL termination ($https).
+map %http_x_forwarded_proto %fastcgi_https {
+  default %https;
   http '';
   https on;
 }
