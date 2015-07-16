@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+
+# exit if I can't get my own worker name
+[ "$(env | grep -cE 'DB_NAME.*workerr')" -eq "1" ] || exit 1
+# set my worker name
+myname=$(env | grep DB_NAME | sed -e 's/.*_gis/gis/; s/\/.*//')
+
+envsubst < /srv/app.conf.tpl > /srv/app.conf
+cd /srv/gislayer
+export GIS_REST_LAYER_CONF=/srv/app.conf
+
+exec rqworker --url redis://redis:6379/1 --name $myname geo_q
+# need to know how to purge old, stucked workers!
