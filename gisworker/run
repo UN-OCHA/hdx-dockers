@@ -2,7 +2,7 @@
 set -e
 
 # exit if I can't get my own worker name
-[ "$(env | grep -cE 'DB_NAME.*workerr')" -eq "1" ] || exit 1
+[ "$(env | grep -cE 'DB_NAME.*worker')" -eq "1" ] || exit 1
 # set my worker name
 myname=$(env | grep DB_NAME | sed -e 's/.*_gis/gis/; s/\/.*//')
 
