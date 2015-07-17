@@ -45,7 +45,6 @@ server {
 
         allow 127.0.0.1;
         allow 172.16.0.0/12;
-        allow 10.66.32.108;
         deny all;
 
         satisfy any;
@@ -196,22 +195,6 @@ server {
         error_log /var/log/nginx/data.gismonitor.error.log;
     }
 
-#    location /ogre {
-#        rewrite  ^/ogre/(.*)  /%1 break;
-#        rewrite  ^/ogre(.*)  /%1 break;
-#        #allow 10.0.0.0/8;
-#        allow 10.66.32.110;
-#        allow 10.66.32.109;
-#        allow 10.66.32.108;
-#        #allow 192.168.0.0/16;
-#        allow 172.16.0.0/12;
-#        deny all;
-#        proxy_pass          http://ogre;
-#        include /etc/nginx/proxy_params;
-#        access_log /var/log/nginx/ogre.access.log;
-#        error_log /var/log/nginx/ogre.error.log;
-#    }
-
     location ^~ /tiles/ {
         #root /srv/www/static;
         #try_files %uri %uri/ =404;
@@ -324,7 +307,6 @@ server {
         #access_log /var/log/nginx/proxy.docs.access.log upstreamlog;
         proxy_redirect off;
         proxy_pass http://127.0.0.1:9220;
-        #proxy_pass http://10.66.32.108:9220;
         proxy_set_header Host %host;
 
         proxy_set_header    X-Forwarded-For %remote_addr;
@@ -377,7 +359,6 @@ server {
     real_ip_header     X-Forwarded-For;
 
     listen 127.0.0.1:9220;
-    # listen 10.66.32.108:9220;
     root /srv/www/fake/;
     index index.html;
 
