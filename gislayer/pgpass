@@ -1,1 +1,1 @@
-db:*:*:gis:gis
+${HDX_GISDB_ADDR}:${HDX_GISDB_PORT}:*:gis:gis

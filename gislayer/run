@@ -1,17 +1,18 @@
 #!/bin/bash
 set -e
 
+dbhost=${HDX_GISDB_ADDR}
+dbport=${HDX_GISDB_PORT}
+
 # make sure postgis extension are enabled on psql
-[ "$(psql -h db gis gis -c '\dx' | grep -c  postgis\ )" -eq "1" ] || psql -h db gis gis -c 'CREATE EXTENSION postgis;'
+[ "$(psql -h $dbhost -p $dbport gis gis -c '\dx' | grep -c  postgis\ )" -eq "1" ] || psql -h $dbhost -p $dbport gis gis -c 'CREATE EXTENSION postgis;'
 # make sure postgis_topology extension are enabled on psql
-[ "$(psql -h db gis gis -c '\dx' | grep -c  postgis_topology)" -eq "1" ] || psql -h db gis gis -c 'CREATE EXTENSION postgis_topology;'
+[ "$(psql -h $dbhost -p $dbport gis gis -c '\dx' | grep -c  postgis_topology)" -eq "1" ] || psql -h $dbhost -p $dbport gis gis -c 'CREATE EXTENSION postgis_topology;'
 
-# you need to add a second service for rq on gislayer
-# rqworker is started manually FROM /srv/gislayer folder like this:
-# rqworker --url redis://redis:6379/1 --name worker_1 geo_q
-# need test-data info on /etc/hosts for rq!!
-# need to know how to purge old, stucked workers!
+# make sure pgpass is up to date
+[ "cat /root/.pgpass" -eq "$dbhost:$dbport:*:gis:gis" ] || envsubst < /root/.pgpass.tpl > /root/.pgpass
 
+# regenerate app.conf
 envsubst < /srv/app.conf.tpl > /srv/app.conf
 
 cd /srv/gislayer

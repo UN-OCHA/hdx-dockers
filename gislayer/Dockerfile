@@ -16,7 +16,5 @@ COPY pgpass /root/.pgpass
 RUN chmod 600 /root/.pgpass
 
 COPY app.conf.tpl /srv/
-# just temporarily
-COPY run_rqworker /srv/
 
 EXPOSE 5000

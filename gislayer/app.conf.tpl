@@ -6,7 +6,11 @@ LOGGING_CONF_FILE = 'logging.conf'
 
 DB_NAME = 'gis'
 DB_USER = 'gis'
-DB_HOST = 'db'
+DB_HOST = '${HDX_GISDB_ADDR}'
+DB_PORT = '${HDX_GISDB_PORT}'
+
+REDIS_HOST = '${HDX_GISREDIS_ADDR}'
+REDIS_PORT = ${HDX_GISREDIS_PORT}
 
 # gisapi url
 GIS_API_PATTERN = 'http://${HDX_PREFIX}data.${HDX_DOMAIN}/gis/services/tables/{table_name}'
