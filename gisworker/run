@@ -4,13 +4,18 @@ set -e
 # need to know how to purge old, stucked workers!
 
 # exit if I can't get my own worker name
-[ "$(env | grep -cE 'DB_NAME.*worker')" -eq "1" ] || exit 1
+#[ "$(env | grep -cE 'DB_NAME.*worker')" -eq "1" ] || exit 1
 # set my worker name
-myname=$(env | grep DB_NAME | sed -e 's/.*_gis/gis/; s/\/.*//')
+#myname=$(env | grep DB_NAME | sed -e 's/.*_gis/gis/; s/\/.*//')
+#name="--name "$myname
+name=""
+
+#ttl="--worker-ttl 600"
+ttl=""
 
 # not needed, it seems
 envsubst < /srv/app.conf.tpl > /srv/app.conf
 export GIS_REST_LAYER_CONF=/srv/app.conf
 
 cd /srv/gislayer
-exec rqworker --url redis://${HDX_GISREDIS_ADDR}:${HDX_GISREDIS_PORT}/1 --name $myname --worker-ttl 600 geo_q
+exec rqworker --url redis://${HDX_GISREDIS_ADDR}:${HDX_GISREDIS_PORT}/1 $name --worker-ttl 600 geo_q
