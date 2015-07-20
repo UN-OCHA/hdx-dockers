@@ -105,7 +105,7 @@ function blog_restore() {
     echo "Done."
 
     echo "Dropping and recreating database... please wait."
-    echo "drop database ${DB_ENV_MYSQL_DB}; create database ${DB_ENV_MYSQL_DB}" | \
+    echo "drop database $blogdb; create database $blogdb" | \
         mysql -h $dbhost -P $dbport -u $bloguser -p$blogpass
     echo "Done."
 
