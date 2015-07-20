@@ -2,8 +2,8 @@ FROM teodorescuserban/hdx-base:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
-ENV HDX_NGINX_HOST web
-ENV HDX_NGINX_PORT 80
+#ENV HDX_NGINX_HOST web
+#ENV HDX_NGINX_PORT 80
 ENV LISTEN_ADDR 0.0.0.0:80
 ENV CONFIG_FILE /etc/varnish/default.vcl
 ENV DAEMON_USER varnish
