@@ -18,6 +18,6 @@ RUN mkdir -p /srv && \
     cd /srv/gisapi && \
     npm install
 
-COPY settings.js /srv/gisapi/settings/settings.js
+COPY settings.js.tpl /srv/gisapi/settings/
 
 EXPOSE 80 5858
