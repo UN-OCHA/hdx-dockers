@@ -10,9 +10,9 @@ port = 9221
 use = egg:ckan
 use = config:/srv/ckan/common-config-ini.txt
 ## Database Settings
-sqlalchemy.url = postgresql://ckan:ckan@db:5432/ckan
-ckan.datastore.write_url = postgresql://ckan:ckan@db:5432/datastore
-ckan.datastore.read_url = postgresql://datastore:datastore@db:5432/datastore
+sqlalchemy.url = postgresql://ckan:ckan@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/ckan
+ckan.datastore.write_url = postgresql://ckan:ckan@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/datastore
+ckan.datastore.read_url = postgresql://datastore:datastore@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/datastore
 
 ## Site Settings
 ckan.site_url = http://${HDX_PREFIX}data.${HDX_DOMAIN}
@@ -21,7 +21,7 @@ app_instance_uuid = {0bcda427-a808-470f-a141-37eb1ac46ba1}
 
 ## Search Settings
 ckan.site_id = default
-solr_url = http://solr:8983/solr/ckan
+solr_url = http://${HDX_SOLR_ADDR}:${HDX_SOLR_PORT}/solr/ckan
 #ckan.simple_search = 1
 
 ckan.recaptcha.publickey = 6LfoIfMSAAAAADKSmGKOsRggVKv4CAOm2yqJoeto
@@ -54,7 +54,8 @@ hdx.mapbox.labelslayer.url = /mapbox-layer-tiles/{z}/{x}/{y}.png
 hdx.rest.indicator.endpoint = http://${HDX_PREFIX}manage.${HDX_DOMAIN}/public/api2/values
 hdx.rest.indicator.endpoint.facets = http://${HDX_PREFIX}manage.${HDX_DOMAIN}/public/api2
 
-ofs.storage_dir = ${HDX_FILESTORE}
+#ofs.impl = pairtree
+#ofs.storage_dir = ${HDX_FILESTORE}
 ckan.storage_path = ${HDX_FILESTORE}
 
 hdx.css.basepath = /srv/ckan/ckanext-hdx_theme/ckanext/hdx_theme/public/css/generated

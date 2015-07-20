@@ -27,7 +27,7 @@ INI_FILE = "/srv/prod.ini"
 TS = ''
 
 SQL = dict(
-    SUPERUSER  = "ckan", HOST = "db", USER = "ckan", PASSWORD = "ckan", DB = "ckan",
+    SUPERUSER  = "ckan", HOST = str(os.getenv('HDX_CKANDB_ADDR'), PORT = str(os.getenv('HDX_CKANDB_ADDR'), USER = "ckan", PASSWORD = "ckan", DB = "ckan",
     USER_DATASTORE = "datastore", DB_DATASTORE = "datastore",
     DB_TEST = "ckan_test", DB_DATASTORE_TEST = "datastore_test"
 )
@@ -671,9 +671,9 @@ def db_test_refresh():
         db_create(dbname)
 
 
-def db_connect_to_postgres(host=SQL['HOST'], dbname='postgres', user=SQL['SUPERUSER']):
+def db_connect_to_postgres(host=SQL['HOST'], port=SQL['PORT'], dbname='postgres', user=SQL['SUPERUSER']):
     try:
-        con=psycopg2.connect(host=host, database=dbname, user=user)
+        con=psycopg2.connect(host=host, port=port, database=dbname, user=user)
     except:
         print("I am unable to connect to the database, exiting.")
         exit(2) 
