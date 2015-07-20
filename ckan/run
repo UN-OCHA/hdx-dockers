@@ -2,6 +2,8 @@
 
 # configure prod.ini
 envsubst < /srv/prod.ini.tpl > /srv/prod.ini
+#configure test ini
+envsubst < /srv/hdx-test-core.ini.tpl > /srv/ckan/hdx-test-core.ini
 
 # fix permissions on filestore
 mkdir -p /srv/filestore /srv/backup /var/log/ckan

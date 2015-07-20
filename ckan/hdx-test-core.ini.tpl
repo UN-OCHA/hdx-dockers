@@ -15,16 +15,16 @@ debug = false
 
 #faster_db_test_hacks = True
 
-sqlalchemy.url = postgresql://ckan:ckan@db/ckan_test
+sqlalchemy.url = postgresql://ckan:ckan@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/ckan_test
 
 ## Datastore
-ckan.datastore.write_url = postgresql://ckan:ckan@db/datastore_test
-ckan.datastore.read_url = postgresql://ckan:ckan@db/datastore_test
+ckan.datastore.write_url = postgresql://ckan:ckan@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/datastore_test
+ckan.datastore.read_url = postgresql://ckan:ckan@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/datastore_test
 
 ckan.datapusher.url = http://datapusher.ckan.org/
 
 ## Solr support
-solr_url = http://solr:8983/solr/ckan
+solr_url = http://${HDX_SOLR_ADDR}:${HDX_SOLR_PORT}/solr/ckan
 
 ckan.auth.user_create_organizations = false
 ckan.auth.user_create_groups = false
