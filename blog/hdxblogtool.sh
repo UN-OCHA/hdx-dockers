@@ -72,7 +72,7 @@ function blog_restore() {
     sed -i "s/define('DB_NAME'.*/define('DB_NAME', '$blogdb');/" $blogconf;
     sed -i "s/define('DB_USER'.*/define('DB_USER', '$bloguser');/" $blogconf;
     sed -i "s/define('DB_PASSWORD'.*/define('DB_PASSWORD', '$blogpass');/" $blogconf;
-    sed -i "s/define('DB_HOST'.*/define('DB_HOST', 'db');/" $blogconf;
+    sed -i "s/define('DB_HOST'.*/define('DB_HOST', '$dbhost:$dbport');/" $blogconf;
     echo "Done."
 
     # add prefix on hardcoded urls
@@ -106,7 +106,7 @@ function blog_restore() {
 
     echo "Dropping and recreating database... please wait."
     echo "drop database ${DB_ENV_MYSQL_DB}; create database ${DB_ENV_MYSQL_DB}" | \
-        mysql -h db -u $bloguser -p$blogpass
+        mysql -h $dbhost -P $dbport -u $bloguser -p$blogpass
     echo "Done."
 
     echo "Restoring database... please wait."
@@ -114,7 +114,7 @@ function blog_restore() {
     #sed -i "s/http:\/\/[a-zA-Z0-9\-]*data\.hdx\.rwlabs\.org/http:\/\/$new_data_url/g" $last_blog_db_save
     #sed -i "s/https:\/\/[a-zA-Z0-9\-]*docs\.hdx\.rwlabs\.org/https:\/\/$new_url/g" $last_blog_db_save
     #sed -i "s/https:\/\/[a-zA-Z0-9\-]*data\.hdx\.rwlabs\.org/https:\/\/$new_data_url/g" $last_blog_db_save
-    cat $last_blog_db_save | mysql -h db -u $bloguser -p$blogpass
+    cat $last_blog_db_save | mysql -h $dbhost -P $dbport -u $bloguser -p$blogpass
     echo "Done."
 
     echo "Starting fpm"
@@ -130,7 +130,7 @@ function blog_restore() {
 
 function dump_db {
     #mysqldump --user=$user --password=$pass --extended-insert=FALSE --add-drop-database $db > $bkdir/$preffix.$db.$suffix.sql
-    mysqldump -h db --user=$bloguser --password=$blogpass --add-drop-database -B $blogdb > $backupdir/$preffix.$blogdb.$suffix.sql
+    mysqldump -h $dbhost -P $dbport --user=$bloguser --password=$blogpass --add-drop-database -B $blogdb > $backupdir/$preffix.$blogdb.$suffix.sql
     gzip $backupdir/*sql
 }
 
@@ -155,6 +155,8 @@ suffix=$(date +%Y%m%d-%H%M%S)
 today=$(date +%Y%m%d)
 basedir=/tmp/blog-restore
 blogdir=/srv/www/docs
+dbhost=${HDX_BLOGDB_ADDR}
+dbport=${HDX_BLOGDB_PORT}
 bloguser=${DB_ENV_MYSQL_PASS}
 blogpass=${DB_ENV_MYSQL_PASS}
 blogdb=${DB_ENV_MYSQL_DB}
