@@ -4,20 +4,19 @@ set -e
 dbhost=${HDX_GISDB_ADDR}
 dbport=${HDX_GISDB_PORT}
 
-# make sure postgis extension are enabled on psql
-[ "$(psql -h $dbhost -p $dbport gis gis -c '\dx' | grep -c  postgis\ )" -eq "1" ] || psql -h $dbhost -p $dbport gis gis -c 'CREATE EXTENSION postgis;'
-# make sure postgis_topology extension are enabled on psql
-[ "$(psql -h $dbhost -p $dbport gis gis -c '\dx' | grep -c  postgis_topology)" -eq "1" ] || psql -h $dbhost -p $dbport gis gis -c 'CREATE EXTENSION postgis_topology;'
-
 # make sure pgpass is up to date
-# create pgpass
 pf="/root/.pgpass"
-line="${HDX_GISDB_ADDR}:${HDX_GISDB_PORT}:*:gis:gis"
+line="$dbhost:$dbport:*:gis:gis"
 [ -f $pf ] || touch $pf
 if [ $(cat $pf | grep -cE $line) -ne 1 ]; then
     echo $line > $pf
     chmod 600 $pf
 fi
+
+# make sure postgis extension are enabled on psql
+[ "$(psql -h $dbhost -p $dbport gis gis -c '\dx' | grep -c  postgis\ )" -eq "1" ] || psql -h $dbhost -p $dbport gis gis -c 'CREATE EXTENSION postgis;'
+# make sure postgis_topology extension are enabled on psql
+[ "$(psql -h $dbhost -p $dbport gis gis -c '\dx' | grep -c  postgis_topology)" -eq "1" ] || psql -h $dbhost -p $dbport gis gis -c 'CREATE EXTENSION postgis_topology;'
 
 # regenerate app.conf
 envsubst < /srv/app.conf.tpl > /srv/app.conf
