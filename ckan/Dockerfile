@@ -12,7 +12,7 @@ RUN git clone https://github.com/OCHA-DAP/hdx-ckan.git /srv/ckan && \
     pip install -r requirements.txt
 
 # add required files
-ADD hdxckantool.py gunicorn_conf.py hdx-test-core.ini prod.ini.tpl /srv/
+ADD hdxckantool.py gunicorn_conf.py hdx-test-core.ini.tpl prod.ini.tpl /srv/
 RUN chmod +x /srv/hdxckantool.py && \
     ln -s /srv/hdxckantool.py /usr/sbin/hdxckantool
 
