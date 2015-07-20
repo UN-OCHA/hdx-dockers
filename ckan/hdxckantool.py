@@ -412,7 +412,7 @@ def db_restore(filename='', db=''):
     print('Restoring database', db, 'from', filename)
     print('Please wait. This may take a while...')
     cmd = ['pg_restore', '-vOx', '-h', SQL['HOST'], '-p', SQL['PORT'], '-U', SQL['USER'], '-d', db, filename]
-    print(cmd)
+    # print(cmd)
     with open(os.devnull, 'wb') as devnull:
         subprocess.call(cmd, stdout=devnull, stderr=subprocess.STDOUT)
 
