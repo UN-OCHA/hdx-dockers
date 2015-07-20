@@ -24,10 +24,10 @@ server {
         # let developers run some api ckan scripts
         # when the http basic auth is on
         # (can't have more than one auth header and that is for ckan api key)
-        error_page 418 = @hellodevelopers;
-        if (%http_user_agent = "HDX-Developer-2015") {
-            return 418;
-        }
+        #error_page 418 = @hellodevelopers;
+        #if (%http_user_agent = "HDX-Developer-2015") {
+        #    return 418;
+        #}
 
         #if (%http_user_agent = "Pingdom.com_bot_version_1.4_(http://www.pingdom.com/)") {
         #    return 404;
@@ -40,14 +40,14 @@ server {
 
         #limit_req zone=zh400 burst=4000;
 
-        auth_basic "HDX site";
-        auth_basic_user_file ${HDX_TYPE}-datapass;
+        #auth_basic "HDX site";
+        #auth_basic_user_file ${HDX_TYPE}-datapass;
 
-        allow 127.0.0.1;
-        allow 172.16.0.0/12;
-        deny all;
+        #allow 127.0.0.1;
+        #allow 172.16.0.0/12;
+        #deny all;
 
-        satisfy any;
+        #satisfy any;
     }
 
     location /data-ebola-public.xlsx {
@@ -142,9 +142,9 @@ server {
         try_files %uri @go_ahead;
     }
 
-    location @hellodevelopers {
-        try_files %uri @go_ahead;
-    }
+    #location @hellodevelopers {
+    #    try_files %uri @go_ahead;
+    #}
 
     location /dataset/rowca-ebola-cases/related {
         rewrite /dataset/rowca-ebola-cases/(.*) /dataset/rowca-ebola-cases/ permanent;
