@@ -26,7 +26,7 @@ BACKUP_AS = os.getenv('HDX_TYPE')
 TS = ''
 
 SQL = dict(
-    SUPERUSER  = "cps", HOST = "db", USER = "cps", PASSWORD = "cps", DB = "cps"
+    SUPERUSER  = "cps", HOST = os.getenv('HDX_CPSDB_ADDR'), PORT = os.getenv('HDX_CPSDB_PORT'), USER = "cps", PASSWORD = "cps", DB = "cps"
 )
 
 # to get the snapshot
@@ -359,9 +359,9 @@ def db_test_refresh():
         db_drop(dbname)
         db_create(dbname)
 
-def db_connect_to_postgres(host=SQL['HOST'], dbname='postgres', user=SQL['SUPERUSER']):
+def db_connect_to_postgres(host=SQL['HOST'], port=SQL['PORT'], dbname='postgres', user=SQL['SUPERUSER']):
     try:
-        con=psycopg2.connect(host=host, database=dbname, user=user)
+        con=psycopg2.connect(host=host, port=port, database=dbname, user=user)
     except:
         print("I am unable to connect to the database, exiting.")
         exit(2) 
