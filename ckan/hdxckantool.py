@@ -27,7 +27,7 @@ INI_FILE = "/srv/prod.ini"
 TS = ''
 
 SQL = dict(
-    SUPERUSER  = "ckan", HOST = str(os.getenv('HDX_CKANDB_ADDR'), PORT = str(os.getenv('HDX_CKANDB_ADDR'), USER = "ckan", PASSWORD = "ckan", DB = "ckan",
+    SUPERUSER  = "ckan", HOST = str(os.getenv('HDX_CKANDB_ADDR')), PORT = str(os.getenv('HDX_CKANDB_ADDR')), USER = "ckan", PASSWORD = "ckan", DB = "ckan",
     USER_DATASTORE = "datastore", DB_DATASTORE = "datastore",
     DB_TEST = "ckan_test", DB_DATASTORE_TEST = "datastore_test"
 )
