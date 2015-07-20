@@ -121,11 +121,13 @@ function blog_restore() {
     sv start fpm
     echo "Done."
 
+    echo "Restore completed!"
+}
+
+function cleanup {
     echo "Removing temporary restore directory..."
     rm -rf $basedir
     echo "Done."
-
-    echo "Restore completed!"
 }
 
 function dump_db {
@@ -157,9 +159,9 @@ basedir=/tmp/blog-restore
 blogdir=/srv/www/docs
 dbhost=${HDX_BLOGDB_ADDR}
 dbport=${HDX_BLOGDB_PORT}
-bloguser=${DB_ENV_MYSQL_PASS}
-blogpass=${DB_ENV_MYSQL_PASS}
-blogdb=${DB_ENV_MYSQL_DB}
+bloguser=${HDX_BLOGDB_USER}
+blogpass=${HDX_BLOGDB_PASS}
+blogdb=${HDX_BLOGDB_DB}
 blogconf=$blogdir/wp-config.php
 backupdir=/srv/backup
 preffix="prod"
@@ -170,12 +172,14 @@ elif [ "$1" == "backup" ]; then
     [ -d /srv/backup ] || mkdir -p /srv/backup
     dump_db;
     arch_files;
+elif [ "$1" == "cleanup" ]; then
+    cleanup;
 elif [ "$1" == "rw" ]; then
     make_read_write;
 elif [ "$1" == "ro" ]; then
     make_read_only;
 else
     me=$(basename $0)
-    echo -en "\nUsage: $me [restore|backup|rw|ro]\n\n"
+    echo -en "\nUsage: $me [restore|cleanup|backup|rw|ro]\n\n"
     exit 1
 fi

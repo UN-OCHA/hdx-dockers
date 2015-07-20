@@ -27,7 +27,7 @@ INI_FILE = "/srv/prod.ini"
 TS = ''
 
 SQL = dict(
-    SUPERUSER  = "ckan", HOST = str(os.getenv('HDX_CKANDB_ADDR')), PORT = str(os.getenv('HDX_CKANDB_ADDR')), USER = "ckan", PASSWORD = "ckan", DB = "ckan",
+    SUPERUSER = "ckan", HOST = str(os.getenv('HDX_CKANDB_ADDR')), PORT = str(os.getenv('HDX_CKANDB_PORT')), USER = "ckan", PASSWORD = "ckan", DB = "ckan",
     USER_DATASTORE = "datastore", DB_DATASTORE = "datastore",
     DB_TEST = "ckan_test", DB_DATASTORE_TEST = "datastore_test"
 )
@@ -411,7 +411,8 @@ def db_restore(filename='', db=''):
     db_create(db)
     print('Restoring database', db, 'from', filename)
     print('Please wait. This may take a while...')
-    cmd = ['pg_restore', '-vOx', '-h', SQL['HOST'], '-U', SQL['USER'], '-d', db, filename]
+    cmd = ['pg_restore', '-vOx', '-h', SQL['HOST'], '-p', SQL['PORT'], '-U', SQL['USER'], '-d', db, filename]
+    print(cmd)
     with open(os.devnull, 'wb') as devnull:
         subprocess.call(cmd, stdout=devnull, stderr=subprocess.STDOUT)
 
@@ -673,7 +674,7 @@ def db_test_refresh():
 
 def db_connect_to_postgres(host=SQL['HOST'], port=SQL['PORT'], dbname='postgres', user=SQL['SUPERUSER']):
     try:
-        con=psycopg2.connect(host=host, port=port, database=dbname, user=user)
+        con = psycopg2.connect(host=host, port=port, database=dbname, user=user)
     except:
         print("I am unable to connect to the database, exiting.")
         exit(2) 
@@ -719,7 +720,7 @@ def refresh_pgpass():
     pgpass = '/root/.pgpass'
     pgpass_line = ''
     write = False
-    correct_line = SQL['HOST'] + ':5432:*:' + SQL['SUPERUSER'] + ':' + SQL['PASSWORD']
+    correct_line = SQL['HOST'] + ':' + SQL['PORT'] + ':*:' + SQL['SUPERUSER'] + ':' + SQL['PASSWORD']
     # does it exists?
     if os.path.isfile(pgpass):
         with open(pgpass, 'r') as f:
@@ -730,6 +731,7 @@ def refresh_pgpass():
         if pgpass_line != correct_line:
             print("The pgpass file will be overwritten with:")
             print(correct_line)
+            write = True
         else:
             print("The pgpass file has the right content.")
     else:

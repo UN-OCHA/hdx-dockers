@@ -245,7 +245,7 @@ def db_restore(filename='',db=''):
     db_create(db)
     print('Restoring database', db, 'from', filename)
     print('This may take a while...')
-    cmd = [ 'pg_restore', '-vOx', '-h', SQL['HOST'], '-U', SQL['USER'], '-d', db, filename ]
+    cmd = [ 'pg_restore', '-vOx', '-h', SQL['HOST'], '-p', SQL['PORT'], '-U', SQL['USER'], '-d', db, filename ]
     with open(os.devnull, 'wb') as devnull:
         subprocess.call(cmd, stdout=devnull, stderr=subprocess.STDOUT)
 
@@ -404,7 +404,7 @@ def refresh_pgpass():
     pgpass = '/root/.pgpass'
     pgpass_line = ''
     write = False
-    correct_line = SQL['HOST'] + ':5432:*:' + SQL['SUPERUSER'] + ':' + SQL['PASSWORD']
+    correct_line = SQL['HOST'] + ':' + SQL['PORT'] + ':*:' + SQL['SUPERUSER'] + ':' + SQL['PASSWORD']
     # does it exists?
     if os.path.isfile(pgpass):
         with open(pgpass, 'r') as f:
@@ -415,6 +415,7 @@ def refresh_pgpass():
         if pgpass_line != correct_line:
             print("The pgpass file will be overwritten with:")
             print(correct_line)
+            write = True
         else:
             print("The pgpass file has the right content.")
     else:
