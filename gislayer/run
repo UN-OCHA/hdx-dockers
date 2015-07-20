@@ -10,8 +10,14 @@ dbport=${HDX_GISDB_PORT}
 [ "$(psql -h $dbhost -p $dbport gis gis -c '\dx' | grep -c  postgis_topology)" -eq "1" ] || psql -h $dbhost -p $dbport gis gis -c 'CREATE EXTENSION postgis_topology;'
 
 # make sure pgpass is up to date
-[ -f /root/.pgpass ] || envsubst < /root/.pgpass.tpl > /root/.pgpass
-[ $(cat /root/.pgpass | grep -c "${dbhost}:${dbport}:\*:gis:gis") -eq 1 ] || envsubst < /root/.pgpass.tpl > /root/.pgpass
+# create pgpass
+pf="/root/.pgpass"
+line="${HDX_GISDB_ADDR}:${HDX_GISDB_PORT}:*:gis:gis"
+[ -f $pf ] || touch $pf
+if [ $(cat $pf | grep -cE $line) -ne 1 ]; then
+    echo $line > $pf
+    chmod 600 $pf
+fi
 
 # regenerate app.conf
 envsubst < /srv/app.conf.tpl > /srv/app.conf

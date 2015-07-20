@@ -12,7 +12,6 @@ RUN mkdir -p /etc/service/gislayer
 COPY run /etc/service/gislayer/
 RUN chmod +x /etc/service/gislayer/run
 
-COPY pgpass /root/.pgpass.tpl
 COPY app.conf.tpl /srv/
 
 EXPOSE 5000
