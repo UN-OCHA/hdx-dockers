@@ -26,7 +26,7 @@ BACKUP_AS = os.getenv('HDX_TYPE')
 TS = ''
 
 SQL = dict(
-    SUPERUSER  = "cps", HOST = str(os.getenv('HDX_CPSDB_ADDR')), PORT = str(os.getenv('HDX_CPSDB_PORT')), USER = "cps", PASSWORD = "cps", DB = "cps"
+    SUPERUSER  = "cps", HOST = str(os.getenv('HDX_CPSDB_ADDR')), PORT = str(os.getenv('HDX_CPSDB_PORT')), USER = str(os.getenv('HDX_CPSDB_USER')), PASSWORD = str(os.getenv('HDX_CPSDB_PASS')), DB = str(os.getenv('HDX_CPSDB_DB'))
 )
 
 # to get the snapshot
