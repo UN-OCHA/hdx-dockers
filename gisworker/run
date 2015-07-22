@@ -3,6 +3,18 @@ set -e
 
 # need to know how to purge old, stucked workers!
 
+
+# make sure pgpass is up to date
+dbhost=${HDX_GISDB_ADDR}
+dbport=${HDX_GISDB_PORT}
+pf="/root/.pgpass"
+line="$dbhost:$dbport:*:gis:gis"
+[ -f $pf ] || touch $pf
+if [ $(cat $pf | grep -cE $line) -ne 1 ]; then
+    echo $line > $pf
+    chmod 600 $pf
+fi
+
 # exit if I can't get my own worker name
 #[ "$(env | grep -cE 'DB_NAME.*worker')" -eq "1" ] || exit 1
 # set my worker name
