@@ -21,7 +21,7 @@ RUN mv /usr/local/lib/python2.7/dist-packages/requests /usr/local/lib/python2.7/
 
 VOLUME ["/srv/filestore", "/srv/backup", "/var/log/ckan"]
 
-EXPOSE 9221
+EXPOSE 5000
 
 RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 

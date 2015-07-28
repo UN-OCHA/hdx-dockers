@@ -1,9 +1,10 @@
 user = 'www-data'
 group = 'www-data'
-bind = '0.0.0.0:9221'
-workers = 5
+bind = '0.0.0.0:5000'
+workers = 12
 accesslog = '/var/log/ckan/ckan.access.log'
 errorlog = '/var/log/ckan/ckan.error.log'
 loglevel = 'warning'
 timeout = 120
-grafeful_timeout = 90
+graceful_timeout = 90
+#worker_class = 'gevent'
