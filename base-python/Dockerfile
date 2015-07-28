@@ -15,6 +15,7 @@ RUN apt-get -qq -y install \
 
 RUN pip -q install --upgrade \
     gunicorn \
+    gevent \
     lxml
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
