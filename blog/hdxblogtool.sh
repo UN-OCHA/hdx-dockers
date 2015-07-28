@@ -80,7 +80,7 @@ function blog_restore() {
     for file in $(find $blogdir -type f); do
         if [ "$(file $file | grep -c ASCII\ text)" -eq "1" ]; then
             for name in docs data manage; do
-                for proto in https https; do
+                for proto in http https; do
                     sed -i "s/$proto:\/\/[a-zA-Z0-9\-]*$name.${HDX_DOMAIN}/$proto:\/\/${HDX_PREFIX}$name.${HDX_DOMAIN}/g" $file
                 done
             done
