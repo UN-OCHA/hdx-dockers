@@ -24,6 +24,6 @@ RUN mkdir -p /srv/dataproxy /var/log/dataproxy && \
     git submodule init /srv/dataproxy/dataproxy && \
     git submodule update /srv/dataproxy/dataproxy
 
-EXPOSE 9223
+EXPOSE 5000
 
 CMD ["/sbin/my_init"]
