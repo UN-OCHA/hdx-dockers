@@ -46,10 +46,15 @@ sub vcl_recv {
       # You have to set headers to do variables.
       set req.http.x-purge-host = regsub(req.url, "^/purge/([^/]+)/.*$", "\1");
       set req.http.x-purge-path = regsub(req.url, "^/purge/[^/]+(/.*)$", "\1");
-      ban("obj.http.x-host == " + req.http.x-purge-host + " && obj.http.x-url == " + req.http.x-purge-path);
-
-      # Throw a synthetic page so no beresp is created.
-      return(synth(200, "Purged path " + req.http.x-purge-path + " from hostname " + req.http.x-purge-host + "."));
+      if (req.http.x-purge-path ~ "\*") {
+        ban("obj.http.x-host == " + req.http.x-purge-host + " && obj.http.x-url ~ " + req.http.x-purge-path);
+        return(synth(200, "WILDCARD purged path " + req.http.x-purge-path + " from hostname " + req.http.x-purge-host + "."));
+      }
+      else {
+        ban("obj.http.x-host == " + req.http.x-purge-host + " && obj.http.x-url == " + req.http.x-purge-path);
+        # Throw a synthetic page so no beresp is created.
+        return(synth(200, "Purged path " + req.http.x-purge-path + " from hostname " + req.http.x-purge-host + "."));
+      }
     }
     else {
       # Throw a synthetic warning page.
@@ -57,14 +62,14 @@ sub vcl_recv {
     }
   }
 
-  # Allow devs through without caching. Also never redirect them HTTP -> HTTPS.
-  if (req.http.user-agent == "HDX-Developer-2015") {
-    return (pass);
-  }
-
   # Redirect non-HTTP to HTTPS. See vcl_synth.
   if ("${HDX_HTTPS_REDIRECT}" == "on" && req.http.x-forwarded-proto == "http") {
     return (synth(750, ""));
+  }
+
+  # Allow devs through without caching, but still redirect them.
+  if (req.http.user-agent == "HDX-Developer-2015") {
+    return (pass);
   }
 
   # Remove all cookies on static requests.
