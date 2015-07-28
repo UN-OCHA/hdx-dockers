@@ -81,7 +81,7 @@ function blog_restore() {
         if [ "$(file $file | grep -c ASCII\ text)" -eq "1" ]; then
             for name in docs data manage; do
                 for proto in http https; do
-                    sed -i "s/$proto:\/\/[a-zA-Z0-9\-]*$name.${HDX_DOMAIN}/$proto:\/\/${HDX_PREFIX}$name.${HDX_DOMAIN}/g" $file
+                    sed -i "s/$proto:\/\/[a-zA-Z0-9\-]*$name.${HDX_DOMAIN}/https:\/\/${HDX_PREFIX}$name.${HDX_DOMAIN}/g" $file
                 done
             done
         fi
@@ -99,7 +99,7 @@ function blog_restore() {
     for name in docs data manage; do
         new_url=${HDX_PREFIX}$name.${HDX_DOMAIN}
         for proto in http https; do
-            sed -i "s/$proto:\/\/[a-zA-Z0-9\-]*$name.${HDX_DOMAIN}/$proto:\/\/$new_url/g" $last_blog_db_save
+            sed -i "s/$proto:\/\/[a-zA-Z0-9\-]*$name.${HDX_DOMAIN}/https:\/\/$new_url/g" $last_blog_db_save
         done
     done
     echo "Done."
