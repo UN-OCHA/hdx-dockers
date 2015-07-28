@@ -72,8 +72,8 @@ sub vcl_recv {
     unset req.http.cookie;
   }
 
-  # Strip any cookie that starts with _ga (the main analytics cookies.)
-  set req.http.cookie = regsuball(req.http.cookie, "(^|(?<=; )) *_ga[^=]*=[^;]+;? *", "\1");
+  # Strip any cookie that starts with _ga (the main analytics cookies) or __bm (for BlackMesh's HAProxy cookies.)
+  set req.http.cookie = regsuball(req.http.cookie, "(^|(?<=; )) *(_ga|__bm)[^=]*=[^;]+;? *", "\1");
 
   if (req.http.cookie == "") {
     unset req.http.cookie;
@@ -135,7 +135,7 @@ sub vcl_backend_response {
   # response.
   #
   # Uncomment the following line to never hit-for-pass.
-  return (deliver);
+  # return (deliver);
 }
 
 sub vcl_deliver {
