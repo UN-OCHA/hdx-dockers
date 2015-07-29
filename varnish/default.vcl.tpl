@@ -63,8 +63,10 @@ sub vcl_recv {
   }
 
   # Redirect non-HTTP to HTTPS. See vcl_synth.
-  if ("${HDX_HTTPS_REDIRECT}" == "on" && req.http.x-forwarded-proto == "http") {
-    return (synth(750, ""));
+  if (!req.http.host ~ "docs\.") {
+    if ("${HDX_HTTPS_REDIRECT}" == "on" && req.http.x-forwarded-proto == "http") {
+      return (synth(750, ""));
+    }
   }
 
   # Allow devs through without caching, but still redirect them.
