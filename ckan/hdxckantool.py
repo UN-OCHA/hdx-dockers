@@ -62,52 +62,66 @@ CURRPATH = os.getcwd()
 
 
 def show_usage():
-    doc="""
+    doc = """
     Usage:
 
         hdxckantool CMD [SUBCMD] [OPTIONS]
 
     Ckan ini file, if not added as last option, defaults to /srv/prod.ini
 
-    Commands, subcommands and options: 
-        backup [quiet]- backup ckan db, datastore db and filestore
+    Commands, subcommands and options:
+        backup [quiet]- backup (optionally no output)
+            db        - backup ckan and datastore db
+            <wip> gis - backup gis db
+            fs        - backup ckan's filestore
+
         db
             clean     - empty the databases (ckan and datastore)
             set-perms - restore permissions on datastore side
             get       - get latest snapshot of the databases (ckan and datastore)
-            restore   - overwrite db content from the latest snapshot of the databases
-            WIP         restore   - overwrite db content from a snapshot
-                [db1 db2] - restore on what local db? (default: ckan and datastore)
-                [-u user] - restore using what user? (default: ckan)
+
         deploy        - just deploy
             test      - deploy then run tests
-        filestore
-           restore    - overwrite the filestore content from the latest filestore backup
-              clean   - remove filestore content first
+
         less compile  - compiles less resource defined in prod.ini
+
         log           - shows ALL ckan logs
            noaccess   - shows only error and pain log
            pain       - shows only pain log
            access     - shows only access log
            error      - shows only error log
+
         pgpass        - create the pgpass entry required to operate on postgres
-        plugins       - reinstall plugins (in develop mode for now)
+
+        plugins       - reinstall plugins
+
         reindex       - run solr reindex
             [fast]    - run a fast, multicore solr reindex
             [refresh] - only refresh index (do not remove index prior to reindexing)
+
         restart       - restart ckan service
+
         restore
+            db        - overwrite ckan and datastore db content from the latest snapshot
+            fs        - overwrite the filestore content from the latest snapshot
+            <wip> gis - overwrite gis db content from the latest snapshot
             cleanup   - remove temporary folder used for restore
+
         start         - start ckan service
+
         stop          - stop ckan service
+
         sysadmin
             enable    - make a user sysadmin
-            disable   - revoke a user's sysadmin privileges 
+            disable   - revoke a user's sysadmin privileges
+
         test          - run nose tests with WARNING loglevel
             DEBUG     - run nose tests with DEBUG loglevel
             INFO      - run nose tests with INFO loglevel
             CRITICAL  - run nose tests with CRITICAL loglevel
+
         tracking      - update tracking summary
+
         user
             add       - add user
             delete    - remove user
@@ -184,7 +198,7 @@ def db():
     if len(opts) == 0:
         exit(1)
     subcmd = opts.pop(0)
-    subcmds = ['clean', 'set-perms', 'get', 'restore']
+    subcmds = ['clean', 'set-perms', 'get']
     if subcmd not in subcmds:
         print(subcmd + ' not implemented yet. Exiting.')
         exit(1)
@@ -199,30 +213,30 @@ def db():
         db_set_perms()
     elif subcmd == 'get':
         db_get_last_backups()
-    elif subcmd == 'restore':
-        q = 'Are you sure you want to overwrite ckan databases? '
-        if not query_yes_no(q, default='no'):
-            print("Aborting restore operation.")
-            exit(0)
-        db_get_last_backups()
-        # unzip the files
-        control('stop')
-        for file in os.listdir(RESTORE['TMP_DIR']):
-            archive_full_path = os.path.join(RESTORE['TMP_DIR'], file)
-            file_full_path = archive_full_path.replace('.gz', '')
-            decompress_file(archive_full_path,file_full_path,True)
-            if file.startswith(RESTORE['DB_PREFIX'] + '.' + SQL['DB']):
-                # restore main db
-                db_restore(file_full_path,SQL['DB'])
-            elif file.startswith(RESTORE['DB_PREFIX'] + '.' + SQL['DB_DATASTORE']):
-                # restore datastore db
-                db_restore(file_full_path,SQL['DB_DATASTORE'])
-                # restore permissions on datastore db
-                db_set_perms()
-            else:
-                print("I don't know what to do with the file", file)
-                print('Skipping...')
-        control('start')
+    # elif subcmd == 'restore':
+    #     q = 'Are you sure you want to overwrite ckan databases? '
+    #     if not query_yes_no(q, default='no'):
+    #         print("Aborting restore operation.")
+    #         exit(0)
+    #     db_get_last_backups()
+    #     # unzip the files
+    #     control('stop')
+    #     for file in os.listdir(RESTORE['TMP_DIR']):
+    #         archive_full_path = os.path.join(RESTORE['TMP_DIR'], file)
+    #         file_full_path = archive_full_path.replace('.gz', '')
+    #         decompress_file(archive_full_path,file_full_path,True)
+    #         if file.startswith(RESTORE['DB_PREFIX'] + '.' + SQL['DB']):
+    #             # restore main db
+    #             db_restore(file_full_path,SQL['DB'])
+    #         elif file.startswith(RESTORE['DB_PREFIX'] + '.' + SQL['DB_DATASTORE']):
+    #             # restore datastore db
+    #             db_restore(file_full_path,SQL['DB_DATASTORE'])
+    #             # restore permissions on datastore db
+    #             db_set_perms()
+    #         else:
+    #             print("I don't know what to do with the file", file)
+    #             print('Skipping...')
+    #     control('start')
         # server = get_input('Backup server (hostname/IP)', False, RESTORE['SERVER'])
         # directory = get_input('Backup directory (no trailing slash)', False, RESTORE['DIR'])
         # user = get_input('Backup user', False, RESTORE['USER'])
@@ -402,6 +416,32 @@ def db_get_last_backups():
     # TS = ts
 
 
+def dbs_restore():
+    q = 'Are you sure you want to overwrite ckan databases? '
+    if not query_yes_no(q, default='no'):
+        print("Aborting restore operation.")
+        exit(0)
+    db_get_last_backups()
+    # unzip the files
+    control('stop')
+    for file in os.listdir(RESTORE['TMP_DIR']):
+        archive_full_path = os.path.join(RESTORE['TMP_DIR'], file)
+        file_full_path = archive_full_path.replace('.gz', '')
+        decompress_file(archive_full_path, file_full_path, True)
+        if file.startswith(RESTORE['DB_PREFIX'] + '.' + SQL['DB']):
+            # restore main db
+            db_restore(file_full_path, SQL['DB'])
+        elif file.startswith(RESTORE['DB_PREFIX'] + '.' + SQL['DB_DATASTORE']):
+            # restore datastore db
+            db_restore(file_full_path, SQL['DB_DATASTORE'])
+            # restore permissions on datastore db
+            db_set_perms()
+        else:
+            print("I don't know what to do with the file", file)
+            print('Skipping...')
+    control('start')
+
+
 def db_restore(filename='', db=''):
     if not filename or not db:
         print('No filename to restore from or no db found. Aborting...')
@@ -561,12 +601,6 @@ def tests():
             print("++++++++++++++++++++++++++++++++++++++++++++++++++++")
             print("Running tests for plugin", dirname)
             tests_nose(dirname)
-
-
-def backup(verbose=True):
-    backup_db(SQL['DB'], BACKUP['DB_PREFIX'],verbose)
-    backup_db(SQL['DB_DATASTORE'],BACKUP['DB_PREFIX'],verbose)
-    backup_filestore(verbose)
 
 
 def backup_db(db='', prefix='', verbose=True):
@@ -928,7 +962,7 @@ def tracking_update():
     subprocess.call(cmd)
 
 
-def tests_nose(dirname):  
+def tests_nose(dirname):
     plugin = dirname.replace('ckanext-', '')
     xunit_file = '--xunit-file=' + dirname + '/ckanext/' + plugin + '/tests/nose_results.xml'
     pylons = '--with-pylons=' + dirname + '/test.ini.sample'
@@ -1001,7 +1035,7 @@ def user_show(user):
     con = db_connect_to_postgres(dbname=SQL['DB'])
     con.set_isolation_level(0)
     cur = con.cursor()
-    query = "select name,fullname,email,state,sysadmin from public.user where name='" + user + "';"
+    query = "select name,fullname,email,state,sysadmin,apikey from public.user where name='" + user + "';"
     try:
         cur.execute(query)
         con.commit()
@@ -1110,25 +1144,47 @@ def main():
     elif cmd == 'pgpass':
         refresh_pgpass()
     elif cmd == 'backup':
-        if len(opts) and opts[0] == 'quiet':
-                backup(verbose=False)
+        if 'quiet' in opts:
+            opts.remove('quiet')
+            verbose = False
         else:
-            backup()
+            verbose = True
+        if len(opts):
+            if opts[0] == 'db':
+                backup_db(SQL['DB'], BACKUP['DB_PREFIX'], verbose)
+                backup_db(SQL['DB_DATASTORE'], BACKUP['DB_PREFIX'], verbose)
+            elif opts[0] == 'fs':
+                backup_filestore(verbose)
+            elif opts[0] == 'gis':
+                print('gis backup not yet implemented')
+            else:
+                exit(1)
+        else:
+            exit(1)
     elif cmd in no_subcommands_list:
         control(cmd)
     elif cmd == 'reindex':
         solr_reindex()
-    elif cmd == 'filestore':
-        if len(opts) and opts[0] == 'restore':
-            if len(opts) > 1 and opts[1] == 'clean':
-                filestore_restore(clean=True)
-            else:
-                filestore_restore()
+    # elif cmd == 'filestore':
+    #     if len(opts) and opts[0] == 'restore':
+    #         if len(opts) > 1 and opts[1] == 'clean':
+    #             filestore_restore(clean=True)
+    #         else:
+    #             filestore_restore()
     elif cmd == 'plugins':
         reinstall_plugins()
     elif cmd == 'restore':
-        if len(opts) == 1 and opts[0] == 'cleanup':
-            restore_cleanup()
+        if len(opts):
+            if opts[0] == 'db':
+                dbs_restore()
+            elif opts[0] == 'fs':
+                filestore_restore()
+            elif opts[0] == 'gis':
+                print('gis restore not yet implemented')
+            elif opts[0] == 'cleanup':
+                restore_cleanup()
+            else:
+                exit(1)
         else:
             exit(1)
     elif cmd == 'less':
