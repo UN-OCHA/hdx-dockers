@@ -18,3 +18,5 @@ GIS_API_PATTERN = 'http://${HDX_PREFIX}data.${HDX_DOMAIN}/gis/services/tables/{t
 RESOURCE_UPDATE_API = 'http://${HDX_PREFIX}data.${HDX_DOMAIN}/api/action/hdx_resource_update_metadata'
 # gispreviewbot's key
 CKAN_API_KEY = '${HDX_GIS_API_KEY}'
+# point to our ckan
+CKAN_SERVER_URL = 'data.hdx.rwlabs.org'
