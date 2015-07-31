@@ -137,7 +137,15 @@ function dump_db {
 }
 
 function arch_files {
-    tar czf $backupdir/$preffix.$blogdb.$suffix.tar.gz -C $blogdir .
+    # strangeness of this code addresses the tar error "file changed as we read it"
+    mkdir -p $backupdir/tmp-blog-backup
+    rm -rf $backupdir/tmp-blog-backup
+    rsync -aq $blogdir/* $backupdir/tmp-blog-backup/
+    rsync -aq $blogdir/* $backupdir/tmp-blog-backup/
+    rsync -aq $blogdir/* $backupdir/tmp-blog-backup/
+    rsync -aq $blogdir/* $backupdir/tmp-blog-backup/
+    tar czf $backupdir/$preffix.$blogdb.$suffix.tar.gz -C $backupdir/tmp-blog-backup .
+    rm -rf $backupdir/tmp-blog-backup
 }
 
 function make_read_write {
