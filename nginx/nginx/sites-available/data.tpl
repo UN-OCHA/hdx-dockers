@@ -315,6 +315,7 @@ server {
 
         # add_header                X-Proxy-Cache %upstream_cache_status;
         add_header	X-Nginx-Cache %upstream_cache_status;
+        add_header Access-Control-Allow-Origin *;
 
         # disabled to see if this is related with logout issue
         # expires                   5m;

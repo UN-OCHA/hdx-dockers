@@ -60,7 +60,6 @@ SUFFIX = datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
 TODAY = datetime.datetime.now().strftime('%Y%m%d')
 CURRPATH = os.getcwd()
 
-
 def show_usage():
     doc = """
     Usage:
@@ -106,6 +105,7 @@ def show_usage():
             fs        - overwrite the filestore content from the latest snapshot
             <wip> gis - overwrite gis db content from the latest snapshot
             cleanup   - remove temporary folder used for restore
+            [local]   - restore dbs from local archives
 
         start         - start ckan service
 
@@ -381,15 +381,15 @@ def db_get_last_backups():
         break
     if len(backup) != 2:
         print("Can't figure out a pair of main ckan db and datastore db having the same timestamps. Aborting...")
-        exit(0)        
+        exit(0)
     print('Trying to get for you the following backups:')
     print(backup[0])
     print(backup[1])
-    print('+++++++++++++++++++++++++++++++++++++++++++++++++++++')                                                                                                   
-    db_list_backups(False,ts)
-    print('+++++++++++++++++++++++++++++++++++++++++++++++++++++')                                                                                                   
+    print('+++++++++++++++++++++++++++++++++++++++++++++++++++++')
+    db_list_backups(False, ts)
+    print('+++++++++++++++++++++++++++++++++++++++++++++++++++++')
     print('Done. Backups are available in', RESTORE['TMP_DIR'])
-    print('+++++++++++++++++++++++++++++++++++++++++++++++++++++')                                                                                                   
+    print('+++++++++++++++++++++++++++++++++++++++++++++++++++++')
     global TS
     TS = ts
 
@@ -416,18 +416,20 @@ def db_get_last_backups():
     # TS = ts
 
 
-def dbs_restore():
+def dbs_restore(from_local):
     q = 'Are you sure you want to overwrite ckan databases? '
     if not query_yes_no(q, default='no'):
         print("Aborting restore operation.")
         exit(0)
-    db_get_last_backups()
+    print(from_local)
+    if not from_local:
+        db_get_last_backups()
     # unzip the files
     control('stop')
     for file in os.listdir(RESTORE['TMP_DIR']):
         archive_full_path = os.path.join(RESTORE['TMP_DIR'], file)
         file_full_path = archive_full_path.replace('.gz', '')
-        decompress_file(archive_full_path, file_full_path, True)
+        decompress_file(archive_full_path, file_full_path, False)
         if file.startswith(RESTORE['DB_PREFIX'] + '.' + SQL['DB']):
             # restore main db
             db_restore(file_full_path, SQL['DB'])
@@ -672,7 +674,7 @@ def decompress_file(f_in='', f_out='', remove=False):
     try:
         with gzip.open(f_in, 'rb') as file_in:
             with open(f_out, 'wb') as file_out:
-                file_out.writelines(file_in)        
+                file_out.writelines(file_in)
     except IOError:
         sys.stdout.write('Error compressing ' + f_in + ' ... Please try again.\n')
         sys.stdout.flush()
@@ -690,7 +692,7 @@ def compress_file(f_in='', f_out='', remove=False):
     try:
         with open(f_in, 'rb') as file_in:
             with gzip.open(f_out, 'wb') as file_out:
-                file_out.writelines(file_in)        
+                file_out.writelines(file_in)
     except IOError:
         sys.stdout.write('Error compressing ' + f_in + ' ... Please try again.\n')
         sys.stdout.flush()
@@ -1175,8 +1177,12 @@ def main():
         reinstall_plugins()
     elif cmd == 'restore':
         if len(opts):
+            from_local = False
+            if 'local' in opts:
+                opts.remove('local')
+                from_local = True
             if opts[0] == 'db':
-                dbs_restore()
+                dbs_restore(from_local)
             elif opts[0] == 'fs':
                 filestore_restore()
             elif opts[0] == 'gis':
