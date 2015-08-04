@@ -20,7 +20,7 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 EXPOSE 80
 EXPOSE 443
 
-VOLUME ['/srv/www', '/var/log/nginx']
+VOLUME ["/srv/www", "/var/log/nginx"]
 
 RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 
