@@ -39,7 +39,6 @@ ckan.auth.create_unowned_dataset=true
 ckan.cache_validation_enabled = True
 ckan.cache_enabled = False
 ckan.tests.functional.test_cache.expires = 1800                                                                                                   
-              [58/103]
 ckan.tests.functional.test_cache.TestCacheBasics.test_get_cache_expires.expires = 3600
 
 ckan.site_id = test.ckan.net
@@ -84,8 +83,6 @@ ckan.locales_filtered_out =
 ckan.datastore.enabled = 1
 
 ckanext.stats.cache_enabled = 0
-
-openid_enabled = True
 
 ckan.datasets_per_page = 20
 
