@@ -17,6 +17,3 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ADD msmtprc /etc/
 RUN if [ -e /usr/sbin/sendmail ]; then mv /usr/sbin/sendmail /usr/sbin/sendmail.orig; fi
 RUN cd /usr/lib && ln -sf ../bin/msmtp sendmail && cd /usr/sbin && ln -sf ../bin/msmtp sendmail
-
-RUN mkdir -p         /srv/ckan /var/log/ckan /srv/filestore
-RUN chown www-data:www-data -R /var/log/ckan /srv/filestore

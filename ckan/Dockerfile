@@ -6,7 +6,9 @@ RUN mkdir -p /etc/service/ckan
 ADD run /etc/service/ckan/run
 
 # get hdx-ckan dev branch and install it in develop mode
-RUN git clone https://github.com/OCHA-DAP/hdx-ckan.git /srv/ckan && \
+RUN mkdir -p /var/log/ckan /srv/filestore && \
+    chown www-data:www-data -R /var/log/ckan /srv/filestore && \
+    git clone https://github.com/OCHA-DAP/hdx-ckan.git /srv/ckan && \
     cd /srv/ckan && \
     python setup.py develop && \
     pip install -r requirements.txt && \
