@@ -75,9 +75,9 @@ sub vcl_recv {
   }
 
   # Remove all cookies on static requests.
-  if (req.url ~ "\.(aif|aiff|au|avi|bin|bmp|cab|carb|cct|cdf|class|css|dcr|doc|dtd|eot|exe|flv|gcf|gff|gif|grv|hdml|hqx|html|ico|ini|jpeg|jpg|js|mov|mp3|nc|pct|pdf|pdf|png|png|ppc|pws|svg|swa|swf|swf|ttf|txt|vbs|w32|wav|wbmp|wml|wmlc|wmls|wmlsc|woff|xml|xsd|xsl|zip)") {
-    unset req.http.cookie;
-  }
+  #if (req.url ~ "\.(aif|aiff|au|avi|bin|bmp|cab|carb|cct|cdf|class|css|dcr|doc|dtd|eot|exe|flv|gcf|gff|gif|grv|hdml|hqx|html|ico|ini|jpeg|jpg|js|mov|mp3|nc|pct|pdf|pdf|png|png|ppc|pws|svg|swa|swf|swf|ttf|txt|vbs|w32|wav|wbmp|wml|wmlc|wmls|wmlsc|woff|xml|xsd|xsl|zip)") {
+  #    unset req.http.cookie;
+  #}
 
   # Strip any cookie that starts with _ga (the main analytics cookies) or __bm (for BlackMesh's HAProxy cookies.)
   set req.http.cookie = regsuball(req.http.cookie, "(^|(?<=; )) *(_ga|__bm)[^=]*=[^;]+;? *", "\1");
