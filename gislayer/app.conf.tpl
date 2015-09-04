@@ -20,3 +20,5 @@ RESOURCE_UPDATE_API = 'http://${HDX_PREFIX}data.${HDX_DOMAIN}/api/action/hdx_res
 CKAN_API_KEY = '${HDX_GIS_API_KEY}'
 # point to our ckan
 CKAN_SERVER_URL = '${HDX_PREFIX}data.${HDX_DOMAIN}'
+
+RESOURCE_ID_LIST_API = 'http://${HDX_PREFIX}data.${HDX_DOMAIN}/api/action/hdx_resource_id_list'
