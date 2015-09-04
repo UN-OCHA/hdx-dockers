@@ -190,6 +190,9 @@ server {
 
     location ^~ /monitor {
         #rewrite  ^/gis(.*)  /monitor/$1 break;
+        if (%http_user_agent != "HDX-Developer-2015") {
+            return 404;
+        }
         proxy_pass          http://gislayer;
         access_log /var/log/nginx/data.gismonitor.access.log;
         error_log /var/log/nginx/data.gismonitor.error.log;
