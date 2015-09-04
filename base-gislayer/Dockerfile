@@ -8,6 +8,7 @@ RUN add-apt-repository ppa:mapnik/nightly-2.3 && \
     apt-get -qq -y install \
         gdal-bin \
         postgresql-client-9.3 \
+        libpq-dev \
         libmapnik \
         libmapnik-dev \
         mapnik-utils \
