@@ -38,7 +38,7 @@ ckan.auth.create_unowned_dataset=true
 
 ckan.cache_validation_enabled = True
 ckan.cache_enabled = False
-ckan.tests.functional.test_cache.expires = 1800                                                                                                   
+ckan.tests.functional.test_cache.expires = 1800
 ckan.tests.functional.test_cache.TestCacheBasics.test_get_cache_expires.expires = 3600
 
 ckan.site_id = test.ckan.net
@@ -101,6 +101,8 @@ who.log_file = %(cache_dir)s/who_log.ini
 
 hdx.orgrequest.email = hdx.feedback@gmail.com
 hdx.cache.onstartup = false
+
+ckan.storage_path = /srv/filestore
 
 # Logging configuration
 [loggers]
