@@ -224,7 +224,7 @@ server {
         proxy_redirect off;
         proxy_intercept_errors on;
         proxy_cache crisis_tiles_cache;
-        add_header X-Nginx-Cache $upstream_cache_status;
+        add_header X-Nginx-Cache %upstream_cache_status;
         #proxy_temp_path /tmp/nginx_tiles_proxy 1 2;
         access_log /var/log/nginx/data.tiles.access.log;
         error_log /var/log/nginx/data.tiles.error.log;
@@ -238,7 +238,7 @@ server {
         proxy_redirect off;
         proxy_intercept_errors on;
         proxy_cache crisis_tiles_cache;
-        add_header X-Nginx-Cache $upstream_cache_status;
+        add_header X-Nginx-Cache %upstream_cache_status;
         access_log /var/log/nginx/data.tiles.access.log;
         error_log /var/log/nginx/data.tiles.error.log;
     }
