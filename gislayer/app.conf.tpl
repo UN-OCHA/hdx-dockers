@@ -13,6 +13,8 @@ DB_PORT = '${HDX_GISDB_PORT}'
 REDIS_HOST = '${HDX_GISREDIS_ADDR}'
 REDIS_PORT = ${HDX_GISREDIS_PORT}
 
+VERIFY_CKAN_SSL=False
+
 # gisapi url
 GIS_API_PATTERN = 'http://${HDX_PREFIX}data.${HDX_DOMAIN}/gis/services/tables/{table_name}'
 # ckan url to push back the reply
