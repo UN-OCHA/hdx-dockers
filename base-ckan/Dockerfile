@@ -9,6 +9,7 @@ RUN add-apt-repository ppa:tanguy-patte/phantomjs && \
     apt-get install -qq -y \
         postgresql-client-9.3 \
         libpq-dev \
+        libyaml-dev \
         python3-psycopg2 \
         nodejs \
         npm \
