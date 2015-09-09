@@ -249,7 +249,8 @@ server {
         # http://b.tile.openstreetmap.fr/hot/
         rewrite ^(/mapbox-base-tiles/)(.*)$ /v3/reliefweb.l43d4f5j/$2 break;
         #default_type image/png;
-        proxy_pass http://www.mapbox.com;
+        # proxy_pass http://www.mapbox.com;
+        proxy_pass http://b.tiles.mapbox.com;
         proxy_redirect off;
         proxy_intercept_errors on;
         access_log /var/log/nginx/data.tiles.access.log;
@@ -262,7 +263,8 @@ server {
         # http://b.tile.openstreetmap.fr/hot/
         rewrite ^(/mapbox-layer-tiles/)(.*)$ /v3/reliefweb.l43djggg/$2 break;
         #default_type image/png;
-        proxy_pass http://www.mapbox.com;
+        # proxy_pass http://www.mapbox.com;
+        proxy_pass http://b.tiles.mapbox.com;
         proxy_redirect off;
         proxy_intercept_errors on;
         access_log /var/log/nginx/data.tiles.access.log;
