@@ -93,6 +93,10 @@ server {
         rewrite .* /dataset?tags=ruby&_show_filters=false last;
     }
 
+    location /cod {
+        rewrite .* /dataset?tags=cod&sort=title_case_insensitive+asc&_show_filters=false last;
+    }
+
     location = /nepal-earthquake {
         rewrite .* /group/nepal-earthquake last;
     }
