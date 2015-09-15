@@ -15,6 +15,8 @@ REDIS_PORT = ${HDX_GISREDIS_PORT}
 
 VERIFY_CKAN_SSL=False
 
+TMP_DOWNLOAD_DIRECTORY = '${HDX_GIS_TMP}'
+
 # gisapi url
 GIS_API_PATTERN = 'http://${HDX_PREFIX}data.${HDX_DOMAIN}/gis/services/tables/{table_name}'
 # ckan url to push back the reply
