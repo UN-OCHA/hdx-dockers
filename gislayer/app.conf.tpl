@@ -27,3 +27,5 @@ CKAN_API_KEY = '${HDX_GIS_API_KEY}'
 CKAN_SERVER_URL = '${HDX_PREFIX}data.${HDX_DOMAIN}'
 
 RESOURCE_ID_LIST_API = 'http://${HDX_PREFIX}data.${HDX_DOMAIN}/api/action/hdx_resource_id_list'
+
+CHECKS_CONFIG_PATH = '/srv/gislayer/config/config.json'
