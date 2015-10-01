@@ -24,39 +24,39 @@
 
   <!-- ======== Hibernate -->
   <logger name="org.hibernate">
-    <level value="info" />
+    <level value="warn" />
   </logger>
   <logger name="org.postgresql">
-    <level value="info" />
+    <level value="warn" />
   </logger>
   <!-- Hibernate generated SQL -->
   <logger name="org.hibernate.SQL" additivity="false">
-    <level value="debug" />
+    <level value="warn" />
     <appender-ref ref="hdx-console" />
   </logger>
   <!-- Hibernate abstract syntax trees for parsing predefined JPQL queries -->
   <logger name="org.hibernate.hql.ast">
-    <level value="info" />
+    <level value="warn" />
   </logger>
 
   <logger name="org.apache.http">
-    <level value="info" />
+    <level value="warn" />
   </logger>
 
   <!-- ======== c3p0 -->
   <logger name="com.mchange">
-    <level value="info" />
+    <level value="warn" />
   </logger>
 
   <!-- ======== Spring -->
   <logger name="org.springframework">
-    <level value="info" />
+    <level value="warn" />
   </logger>
 
   <!-- ======== HDX -->
 
   <logger name="org.ocha" additivity="false">
-    <level value="debug" />
+    <level value="warn" />
     <appender-ref ref="hdx-file-core" />
     <appender-ref ref="hdx-console" />
   </logger>
@@ -81,7 +81,7 @@
   
   <!--  #logger -->
   <logger name="ckan-updater-logger" additivity="false">
-    <level value="debug" />
+    <level value="warn" />
     <appender-ref ref="hdx-ckan-updater-job" />
     <appender-ref ref="hdx-console" />
   </logger>
