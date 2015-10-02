@@ -12,7 +12,6 @@ RUN apt-get -qq update && \
         mc \
         nodejs \
         npm \
-        postgresql-client-9.3 \
         python-pip \
         python-psycopg2 \
         python-dev \
