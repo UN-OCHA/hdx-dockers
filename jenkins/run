@@ -1,5 +1,0 @@
-#!/bin/bash
-set -e
-
-cd /srv/solr/example
-exec java -jar start.jar
