@@ -7,6 +7,7 @@ USER root
 RUN add-apt-repository ppa:tanguy-patte/phantomjs && \
     apt-get -qq update && \
     apt-get install -qq -y \
+        git \
         libpq-dev \
         libyaml-dev \
         mc \
@@ -19,7 +20,8 @@ RUN add-apt-repository ppa:tanguy-patte/phantomjs && \
         python-dev \
         python-nose \
         python-coverage \
-        python-nosexcover && \
+        python-nosexcover \
+        software-properties-common && \
     npm install -g less && \
     npm install -g capturejs && \
     ln -s /usr/bin/nodejs /usr/bin/node && \
