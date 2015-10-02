@@ -1,0 +1,25 @@
+
+solr:
+  image: teodorescuserban/hdx-solr:latest
+
+db:
+  image: teodorescuserban/hdx-psql-ckan:latest
+
+jenkins:
+  image: teodorescuserban/hdx-jenkins:latest
+  hostname: jenkins
+  links:
+    - solr
+    - db
+  ports:
+    - "0.0.0.0:8080:8080"
+  volumes:
+    - "./jenkins_home:/var/jenkins_home"
+
+#  restart: always
+#  extra_hosts:
+#    - "${HDX_PREFIX}docs.${HDX_DOMAIN}: ${HDX_WB_ADDR}"
+#    - "${HDX_PREFIX}data.${HDX_DOMAIN}: ${HDX_WB_ADDR}"
+#    - "${HDX_PREFIX}manage.${HDX_DOMAIN}: ${HDX_WB_ADDR}"
+#  environment:
+#    - HDX_CKAN_ADDR=${HDX_CKAN_ADDR}
