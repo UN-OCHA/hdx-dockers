@@ -4,8 +4,7 @@ MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
 USER root
 
-RUN add-apt-repository ppa:tanguy-patte/phantomjs && \
-    apt-get -qq update && \
+RUN apt-get -qq update && \
     apt-get install -qq -y \
         git \
         libpq-dev \
@@ -13,7 +12,6 @@ RUN add-apt-repository ppa:tanguy-patte/phantomjs && \
         mc \
         nodejs \
         npm \
-        phantomjs \
         postgresql-client-9.3 \
         python-pip \
         python-psycopg2 \
@@ -22,6 +20,9 @@ RUN add-apt-repository ppa:tanguy-patte/phantomjs && \
         python-coverage \
         python-nosexcover \
         software-properties-common && \
+    add-apt-repository ppa:tanguy-patte/phantomjs && \
+    apt-get install -qq -y \
+        phantomjs && \
     npm install -g less && \
     npm install -g capturejs && \
     ln -s /usr/bin/nodejs /usr/bin/node && \
