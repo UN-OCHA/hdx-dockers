@@ -20,6 +20,7 @@ RUN apt-get -qq update && \
         python-nosexcover \
         software-properties-common && \
     add-apt-repository ppa:tanguy-patte/phantomjs && \
+    apt-get -qq update && \
     apt-get install -qq -y \
         phantomjs && \
     npm install -g less && \
