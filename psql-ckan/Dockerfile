@@ -11,6 +11,9 @@ ENV POSTGRESQL_DATASTORE_USER datastore
 ENV POSTGRESQL_DATASTORE_PASS datastore
 ENV POSTGRESQL_DATASTORE_DB datastore
 
+ENV POSTGRESQL_TEST_DB ckan_test
+ENV POSTGRESQL_TEST_DB_DATASTORE datastore_test
+
 RUN cp -R /etc/postgresql/9.3/main/pg_hba.conf /etc/postgresql/9.3/main/pg_hba.conf.bak
 ADD pg_hba.conf /etc/postgresql/9.3/main/pg_hba.conf
 
