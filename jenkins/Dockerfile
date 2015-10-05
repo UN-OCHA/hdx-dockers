@@ -51,7 +51,7 @@ RUN add-apt-repository ppa:tanguy-patte/phantomjs && \
     apt-get -qq update && \
     apt-get install -qq -y \
         phantomjs && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN useradd -d "$JENKINS_HOME" -u 1000 -m -s /bin/bash jenkins
 RUN mkdir -p /usr/share/jenkins/ref/init.groovy.d
