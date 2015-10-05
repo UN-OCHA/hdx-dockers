@@ -34,7 +34,7 @@ RUN apt-get -qq -y update && \
         python-nose \
         python-nosexcover \
         python3-psycopg2 \
-        software-properties-common && \
+        software-properties-common \
         wget \
         zip \
         zlib1g-dev && \
