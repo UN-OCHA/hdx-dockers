@@ -32,7 +32,7 @@ RUN apt-get -qq -y update && \
         python-pip \
         python-psycopg2 \
         python-nose \
-        python-nosexcover
+        python-nosexcover \
         python3-psycopg2 \
         software-properties-common && \
         wget \
