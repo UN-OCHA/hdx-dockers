@@ -19,15 +19,16 @@ RUN apt-get -qq update && \
         python-coverage \
         python-nosexcover \
         software-properties-common && \
-    add-apt-repository ppa:tanguy-patte/phantomjs && \
-    apt-get -qq update && \
-    apt-get install -qq -y \
-        phantomjs && \
     npm install -g less && \
     npm install -g capturejs && \
     ln -s /usr/bin/nodejs /usr/bin/node && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     mkdir -p /var/jenkins_home/jobs/HDX/workspace && \
     curl -s -o /var/jenkins_home/jobs/HDX/workspace/hdxckantool.py https://bitbucket.org/teodorescuserban/hdx-tools/raw/master/hdxckantool.py
+
+RUN add-apt-repository ppa:tanguy-patte/phantomjs && \
+    apt-get -qq update && \
+    apt-get install -qq -y \
+        phantomjs && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
 
 COPY hdx-test-core.ini /var/jenkins_home/jobs/HDX/workspace/
