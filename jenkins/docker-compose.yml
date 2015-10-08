@@ -6,8 +6,9 @@ db:
   image: teodorescuserban/hdx-psql-ckan:latest
 
 jenkins:
-  image: teodorescuserban/hdx-jenkins:latest
+  #image: teodorescuserban/hdx-jenkins:latest
   hostname: jenkins
+  build: .
   links:
     - solr
     - db

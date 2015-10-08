@@ -55,12 +55,9 @@ RUN add-apt-repository ppa:tanguy-patte/phantomjs && \
 
 RUN useradd -d "$JENKINS_HOME" -u 1000 -m -s /bin/bash jenkins
 RUN mkdir -p /usr/share/jenkins/ref/init.groovy.d
-COPY init.groovy /usr/share/jenkins/ref/init.groovy.d/tcp-slave-agent-port.groovy
+#COPY init.groovy /usr/share/jenkins/ref/init.groovy.d/tcp-slave-agent-port.groovy
 
 #RUN mv /usr/local/lib/python2.7/dist-packages/requests /usr/local/lib/python2.7/dist-packages/requests.bak
-
-VOLUME /var/jenkins_home
-
 
 #ENV TINI_SHA 066ad710107dc7ee05d3aa6e4974f01dc98f3888
 
@@ -77,12 +74,6 @@ RUN curl -fL http://mirrors.jenkins-ci.org/war-stable/$JENKINS_VERSION/jenkins.w
 ENV JENKINS_UC https://updates.jenkins-ci.org
 RUN chown -R jenkins "$JENKINS_HOME" /usr/share/jenkins/ref
 
-# for main web interface:
-EXPOSE 8080
-
-# will be used by attached slave agents:
-EXPOSE 50000
-
 ENV COPY_REFERENCE_FILE_LOG $JENKINS_HOME/copy_reference_file.log
 
 USER jenkins
@@ -90,5 +81,9 @@ USER jenkins
 #COPY jenkins.sh /usr/local/bin/jenkins.sh
 #ENTRYPOINT ["/bin/tini", "--", "/usr/local/bin/jenkins.sh"]
 
+VOLUME /var/jenkins_home
+
+EXPOSE 8080
+EXPOSE 50000
 
 CMD ["/sbin/my_init"]
