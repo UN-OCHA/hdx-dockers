@@ -12,6 +12,7 @@ RUN mkdir -p /var/log/ckan /srv/filestore && \
     cd /srv/ckan && \
     python setup.py develop && \
     pip install -r requirements.txt && \
+    pip install -r dev-requirements.txt && \
     curl -s -o /srv/hdxckantool.py https://bitbucket.org/teodorescuserban/hdx-tools/raw/master/hdxckantool.py && \
     chmod +x /srv/hdxckantool.py && \
     ln -s /srv/hdxckantool.py /usr/sbin/hdxckantool
