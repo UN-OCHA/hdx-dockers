@@ -43,6 +43,9 @@ server {
         # comment out on production
         include /etc/nginx/includes/http-basic-auth.conf
 
+        # comment out on production
+        include /etc/nginx/includes/no-indexing-bots.conf
+
     }
 
     location /data-ebola-public.xlsx {
