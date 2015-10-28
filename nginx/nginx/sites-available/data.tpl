@@ -40,14 +40,9 @@ server {
 
         #limit_req zone=zh400 burst=4000;
 
-        #auth_basic "HDX site";
-        #auth_basic_user_file ${HDX_TYPE}-datapass;
+        # comment out on production
+        include /etc/nginx/includes/http-basic-auth.conf
 
-        #allow 127.0.0.1;
-        #allow 172.16.0.0/12;
-        #deny all;
-
-        #satisfy any;
     }
 
     location /data-ebola-public.xlsx {
