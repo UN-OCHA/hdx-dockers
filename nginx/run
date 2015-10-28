@@ -44,9 +44,9 @@ fi
 # add datapass file
 passfile=${HDX_TYPE}'-datapass'
 if [ ! -f /etc/nginx/$passfile ]; then
-    echo pass > /etc/nginx/$passfile
+    echo $pass > /etc/nginx/$passfile
 elif [ "$(cat /etc/nginx/$passfile | grep -c dataproject) " -ne "1" ]; then
-    echo pass > /etc/nginx/$passfile
+    echo $pass > /etc/nginx/$passfile
 fi
 
 cd /etc/nginx;
