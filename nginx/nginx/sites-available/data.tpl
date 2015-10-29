@@ -21,17 +21,19 @@ server {
     #real_ip_header     X-Forwarded-For;
 
     location / {
-        # let developers run some api ckan scripts
-        # when the http basic auth is on
-        # (can't have more than one auth header and that is for ckan api key)
-        #error_page 418 = @hellodevelopers;
-        #if (%http_user_agent = "HDX-Developer-2015") {
-        #    return 418;
-        #}
 
+        include /etc/nginx/includes/err_418.conf
+
+        # simulate pingdom failure :)
         #if (%http_user_agent = "Pingdom.com_bot_version_1.4_(http://www.pingdom.com/)") {
         #    return 404;
         #}
+
+        # comment out on production
+        include /etc/nginx/includes/http-basic-auth.conf;
+
+        # comment out on production
+        include /etc/nginx/includes/no-indexing-bots.conf;
 
         try_files %uri @go_ahead;
 
@@ -39,12 +41,6 @@ server {
         #rewrite /search.*q=ebolaaa /ebola redirect;
 
         #limit_req zone=zh400 burst=4000;
-
-        # comment out on production
-        include /etc/nginx/includes/http-basic-auth.conf
-
-        # comment out on production
-        include /etc/nginx/includes/no-indexing-bots.conf
 
     }
 
@@ -61,28 +57,27 @@ server {
     }
 
     location /search {
-        error_page 418 = @go_ahead;
-        error_page 419 = @ebola_page;
-        #error_page 420 = @go_ahead;
-        error_page 420 = @colombia_page;
+        error_page 419 = @go_ahead;
+        error_page 420 = @ebola_page;
+        error_page 421 = @colombia_page;
         recursive_error_pages on;
         if (%args ~* "(^|&)ext_indicator=(0|1)(&|&(.*)|(.*)&)q=ebola(%|&)") {
             return 418;
         }
         if (%args ~* "(^|&)q=ebola(&|&(.*)|(.*)&)ext_indicator=(0|1)(%|&)") {
-            return 418;
-        }
-        if (%args ~* "(^|(.*)&)q=ebola(%|&)") {
             return 419;
         }
+        if (%args ~* "(^|(.*)&)q=ebola(%|&)") {
+            return 420;
+        }
         if (%args ~* "(^|&)ext_indicator=(0|1)(&|&(.*)|(.*)&)q=colombia(%|&)") {
-            return 418;
+            return 419;
         }
         if (%args ~* "(^|&)q=colombia(&|&(.*)|(.*)&)ext_indicator=(0|1)(%|&)") {
-            return 418;
+            return 419;
         }
         if (%args ~* "(^|(.*)&)q=colombia(%|&)") {
-            return 420;
+            return 421;
         }
         try_files %uri @go_ahead;
     }
