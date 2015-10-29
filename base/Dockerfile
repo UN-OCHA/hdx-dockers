@@ -14,6 +14,7 @@ RUN apt-get -qq update && \
 apt-get -qq -y dist-upgrade && \
 apt-get -qq -y install \
     gettext-base \
+    mc \
     msmtp \
     nano \
     telnet \
