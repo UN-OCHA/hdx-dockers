@@ -62,6 +62,8 @@ hdx.css.basepath = /srv/ckan/ckanext-hdx_theme/ckanext/hdx_theme/public/css/gene
 hdx.less.basepath = /srv/ckan/ckanext-hdx_theme/ckanext/hdx_theme/less
 hdx.less_compile.onstartup = False
 
+hdx.google.dev_key = ${HDX_GOOGLE_DEV_KEY}
+
 # GIS
 # ip and address and port of gislayer - uncomment it when it goes to prod
 hdx.gis.layer_import_url = http://${HDX_GISLAYER_ADDR}:${HDX_GISLAYER_PORT}/api/add-layer/dataset/{dataset_id}/resource/{resource_id}?resource_download_url={resource_download_url}

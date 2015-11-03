@@ -20,11 +20,11 @@ server {
     #set_real_ip_from   10.66.32.65;
     #real_ip_header     X-Forwarded-For;
 
-    include /etc/nginx/includes/err_418.conf
+    include /etc/nginx/includes/on_418.conf;
 
     location / {
 
-        include /etc/nginx/includes/err_418.conf
+        include /etc/nginx/includes/err_418.conf;
 
         # simulate pingdom failure :)
         #if (%http_user_agent = "Pingdom.com_bot_version_1.4_(http://www.pingdom.com/)") {
