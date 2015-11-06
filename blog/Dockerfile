@@ -20,7 +20,7 @@ RUN sed -i 's/.*date.timezone =.*/date\.timezone = UTC/'                    /etc
     sed -i 's/.*cgi.fix_pathinfo=.*/cgi.fix_pathinfo=0/'                    /etc/php5/fpm/php.ini && \
     sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 100M/g" /etc/php5/fpm/php.ini && \
     sed -i -e "s/post_max_size\s*=\s*8M/post_max_size = 100M/g"             /etc/php5/fpm/php.ini && \
-    curl -s -o /srv/hdxblogtool.py https://bitbucket.org/teodorescuserban/hdx-tools/raw/master/hdxblogtool.py && \
+    curl -s -o /srv/hdxblogtool.py https://bitbucket.org/teodorescuserban/hdx-tools/raw/master/hdxblogtool.sh && \
     chmod +x /srv/hdxblogtool.sh && \
     ln -s /srv/hdxblogtool.sh /usr/local/sbin/hdxblogtool
 
