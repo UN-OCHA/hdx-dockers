@@ -1,4 +1,4 @@
-FROM teodorescuserban/hdx-base-ckan:latest
+FROM teodorescuserban/hdx-base:latest
 
 RUN apt-get -qq -y update && \
     apt-get -qq -y install mc && \
