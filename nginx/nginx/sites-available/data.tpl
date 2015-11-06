@@ -22,6 +22,10 @@ server {
 
     include /etc/nginx/includes/on_418.conf;
 
+    location @after_418 {
+        try_files %uri @go_ahead;
+    }
+
     location / {
 
         include /etc/nginx/includes/err_418.conf;
@@ -296,7 +300,6 @@ server {
     #}
 
     include /etc/nginx/includes/ckan-cache-adjust.conf;
-
 
     location @go_ahead {
 
