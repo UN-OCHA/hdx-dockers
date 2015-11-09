@@ -20,6 +20,9 @@ server {
     #set_real_ip_from   10.66.32.65;
     #real_ip_header     X-Forwarded-For;
 
+    # make sure the page specified in here does exist at your root!
+    include /etc/nginx/includes/maintenance_if.conf;
+
     include /etc/nginx/includes/on_418.conf;
 
     location @after_418 {

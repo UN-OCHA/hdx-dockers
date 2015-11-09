@@ -5,6 +5,9 @@ server {
     root /srv/www/main;
     #index index.html;
 
+    # make sure the page specified in here does exist at your root!
+    include /etc/nginx/includes/maintenance_if.conf;
+
     location /ping.html {
         auth_basic off;
         allow all;

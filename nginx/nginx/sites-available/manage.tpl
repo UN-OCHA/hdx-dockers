@@ -14,6 +14,9 @@ server {
         rewrite  .*  /404.jpg permanent;
     }
 
+    # make sure the page specified in here does exist at your root!
+    include /etc/nginx/includes/maintenance_if.conf;
+
     location / {
 #        rewrite .* /hdx/login/ permanent;
 #    }

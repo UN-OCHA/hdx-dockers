@@ -15,6 +15,9 @@ server {
     ssl_certificate     /etc/ssl/certs/hdx.rwlabs.org.crt;
     ssl_certificate_key /etc/ssl/private/hdx.rwlabs.org.key;
 
+    # make sure the page specified in here does exist at your root!
+    include /etc/nginx/includes/maintenance_if.conf;
+
     location ~ /(.*)% {
         #access_log off;
         # test proxy timing
