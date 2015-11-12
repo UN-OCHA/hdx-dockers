@@ -10,8 +10,7 @@ ADD hdx.rwlabs.org.crt /etc/ssl/certs/
 ADD run /etc/service/nginx/run
 RUN chmod +x /etc/service/nginx/run
 
-EXPOSE 80
-EXPOSE 443
+EXPOSE 80 443
 
 VOLUME ["/srv/www", "/var/log/nginx", "/etc/nginx", "/tmp"]
 
