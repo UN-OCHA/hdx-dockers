@@ -36,6 +36,7 @@ error_email_from = ckan.${HDX_TYPE}@${HDX_DOMAIN}
 smtp_server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
 smtp.server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
 smtp.starttls = False
+smtp.mail_from = noreply@${HDX_DOMAIN}
 
 hdx.cache.onstartup = true
 
@@ -54,8 +55,6 @@ hdx.mapbox.labelslayer.url = /mapbox-layer-tiles/{z}/{x}/{y}.png
 hdx.rest.indicator.endpoint = http://${HDX_PREFIX}manage.${HDX_DOMAIN}/public/api2/values
 hdx.rest.indicator.endpoint.facets = http://${HDX_PREFIX}manage.${HDX_DOMAIN}/public/api2
 
-#ofs.impl = pairtree
-#ofs.storage_dir = ${HDX_FILESTORE}
 ckan.storage_path = ${HDX_FILESTORE}
 
 hdx.css.basepath = /srv/ckan/ckanext-hdx_theme/ckanext/hdx_theme/public/css/generated
