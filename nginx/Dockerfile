@@ -1,4 +1,4 @@
-FROM teodorescuserban/hdx-base-nginx:latest
+FROM teodorescuserban/hdx-base-nginx:1.8
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
