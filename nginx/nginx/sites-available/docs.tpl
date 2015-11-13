@@ -50,18 +50,30 @@ server {
     # Add trailing slash to */wp-admin requests.
     rewrite /wp-admin% %scheme://%host%uri/ permanent;
 
+#    # Pass all .php files to the php-fpm server.
+#    location ~ ^.+\.php% {
+#        limit_req   zone=z100  burst=10;
+#        limit_req_log_level info;
+#
+#        fastcgi_split_path_info ^(.+\.php)(/.+)%;
+#        include fastcgi_params;
+#        fastcgi_index index.php;
+#        fastcgi_param SCRIPT_FILENAME %document_root%fastcgi_script_name;
+#        fastcgi_param HTTPS %fastcgi_https;
+#        # fastcgi_intercept_errors on;
+#        fastcgi_pass blog;
+#    }
+
     # Pass all .php files to the php-fpm server.
     location ~ ^.+\.php% {
         limit_req   zone=z100  burst=10;
         limit_req_log_level info;
 
-        fastcgi_split_path_info ^(.+\.php)(/.+)%;
-        include fastcgi_params;
-        fastcgi_index index.php;
-        fastcgi_param SCRIPT_FILENAME %document_root%fastcgi_script_name;
-        fastcgi_param HTTPS %fastcgi_https;
+        include snippets/fastcgi-php.conf;
+        # fastcgi_param HTTPS %fastcgi_https;
         # fastcgi_intercept_errors on;
         fastcgi_pass blog;
     }
+
 
 }
