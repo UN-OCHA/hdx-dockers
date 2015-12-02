@@ -10,16 +10,16 @@ upstream dataproxy {
     server ${HDX_DATAPROXY_ADDR}:${HDX_DATAPROXY_PORT};
 }
 
-#upstream ogre {
-#    server ${HDX_OGRE_ADDR}:${HDX_OGRE_PORT};
-#}
-
 upstream gis {
     server ${HDX_GISAPI_ADDR}:${HDX_GISAPI_PORT};
 }
 
 upstream gislayer {
     server ${HDX_GISLAYER_ADDR}:${HDX_GISLAYER_PORT};
+}
+
+upstream solr {
+    server ${HDX_SOLR_ADDR}:${HDX_SOLR_PORT};
 }
 
 upstream crisismap {
