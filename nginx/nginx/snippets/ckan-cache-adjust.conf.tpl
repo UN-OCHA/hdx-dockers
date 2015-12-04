@@ -1,13 +1,13 @@
 location ~* ^/fanstatic {
-    include /etc/nginx/includes/ckan-cache-include.conf;
+    include /etc/nginx/snippets/ckan-cache-include.conf;
     add_header Pragma public;
     add_header Cache-Control "public, must-revalidate, proxy-revalidate";
     expires 7m;
     proxy_cache_valid 10m;
 }
 
-location ~* ^.+\.(css|js|jpg|png|svg|otf)$ {
-    include /etc/nginx/includes/ckan-cache-include.conf;
+location ~* ^.+\.(css|js|jpg|png|svg|otf)% {
+    include /etc/nginx/snippets/ckan-cache-include.conf;
     add_header Pragma public;
     add_header Cache-Control "public, must-revalidate, proxy-revalidate";
     expires 1m;
@@ -15,7 +15,7 @@ location ~* ^.+\.(css|js|jpg|png|svg|otf)$ {
 }
 
 location ^~ /dataset/json-repository/resource_download {
-    include /etc/nginx/includes/ckan-cache-include.conf;
+    include /etc/nginx/snippets/ckan-cache-include.conf;
     add_header Pragma public;
     add_header Cache-Control "public, must-revalidate, proxy-revalidate";
     expires 1m;
@@ -23,7 +23,7 @@ location ^~ /dataset/json-repository/resource_download {
 }
 
 location ^~ /api/action/datastore_search {
-    include /etc/nginx/includes/ckan-cache-include.conf;
+    include /etc/nginx/snippets/ckan-cache-include.conf;
     add_header Pragma public;
     add_header Cache-Control "public, must-revalidate, proxy-revalidate";
     expires 1m;
@@ -32,14 +32,14 @@ location ^~ /api/action/datastore_search {
 
 
 location ^~ /api/action/datastore_search_sql {
-    include /etc/nginx/includes/ckan-cache-include.conf;
+    include /etc/nginx/snippets/ckan-cache-include.conf;
     add_header Pragma public;
     add_header Cache-Control "public, must-revalidate, proxy-revalidate";
     expires 1m;
     proxy_cache_valid 1m;
 }
 
-#location ~* ^.+\.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|rss|atom|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf)$ {
+#location ~* ^.+\.(ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|rss|atom|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf)% {
 #    expires 4w;
 #    access_log off;
 #    log_not_found off;
@@ -49,7 +49,7 @@ location ^~ /api/action/datastore_search_sql {
 #}
 
 location ^~ /organization/wfp {
-    include /etc/nginx/includes/ckan-cache-include.conf;
+    include /etc/nginx/snippets/ckan-cache-include.conf;
     add_header Pragma public;
     add_header Cache-Control "public, must-revalidate, proxy-revalidate";
     expires 1m;
@@ -57,7 +57,7 @@ location ^~ /organization/wfp {
 }
 
 location ^~ /group/nepal-earthquake {
-    include /etc/nginx/includes/ckan-cache-include.conf;
+    include /etc/nginx/snippets/ckan-cache-include.conf;
     add_header Pragma public;
     add_header Cache-Control "public, must-revalidate, proxy-revalidate";
     expires 1m;

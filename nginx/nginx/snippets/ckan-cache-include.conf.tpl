@@ -7,11 +7,9 @@ proxy_pass                http://ckan;
 proxy_cache               cache_ckan;
 
 include                   /etc/nginx/proxy_params;
-proxy_set_header          X-Forwarded-For $remote_addr;
+proxy_set_header          X-Forwarded-For %remote_addr;
 
-proxy_cache               cache_ckan;
-
-add_header                X-Nginx-Cache $upstream_cache_status;
+add_header                X-Nginx-Cache %upstream_cache_status;
 add_header                Access-Control-Allow-Origin *;
 
 # those headers need to be added in location blocks that include this file
@@ -21,7 +19,7 @@ proxy_ignore_headers      Expires Cache-Control Set-Cookie;
 add_header Pragma public;
 add_header Cache-Control "public, must-revalidate, proxy-revalidate";
 
-proxy_cache_key           "$request_method@$scheme://$server_name:$server_port$uri$args";
+proxy_cache_key           "%request_method@%scheme://%server_name:%server_port%uri%args";
 proxy_http_version        1.1;
 proxy_buffers             100 1m;
 proxy_max_temp_file_size  10m;
