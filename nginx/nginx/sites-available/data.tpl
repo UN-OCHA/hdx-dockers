@@ -65,6 +65,12 @@ server {
         try_files %uri =404;
     }
 
+    location ^~ /visualization {
+        alias /srv/www/visualization/;
+        try_files $uri $uri/ =404;
+        index index.html;
+    }
+
     location /search {
         error_page 419 = @go_ahead;
         error_page 420 = @ebola_page;
@@ -76,18 +82,18 @@ server {
         if (%args ~* "(^|&)q=ebola(&|&(.*)|(.*)&)ext_indicator=(0|1)(%|&)") {
             return 419;
         }
-        if (%args ~* "(^|(.*)&)q=ebola(%|&)") {
-            return 420;
-        }
+        #if (%args ~* "(^|(.*)&)q=ebola(%|&)") {
+        #    return 420;
+        #}
         if (%args ~* "(^|&)ext_indicator=(0|1)(&|&(.*)|(.*)&)q=colombia(%|&)") {
             return 419;
         }
         if (%args ~* "(^|&)q=colombia(&|&(.*)|(.*)&)ext_indicator=(0|1)(%|&)") {
             return 419;
         }
-        if (%args ~* "(^|(.*)&)q=colombia(%|&)") {
-            return 421;
-        }
+        #if (%args ~* "(^|(.*)&)q=colombia(%|&)") {
+        #    return 421;
+        #}
         try_files %uri @go_ahead;
     }
 
@@ -97,6 +103,14 @@ server {
 
     location /cod {
         rewrite .* /dataset?tags=cod&sort=title_case_insensitive+asc&_show_filters=false last;
+    }
+
+    location /elnino-2015 {
+            rewrite .* /search?q=el+nino permanent;
+    }
+
+    location /group/elnino-2015 {
+            rewrite .* /search?q=el+nino permanent;
     }
 
     location = /nepal-earthquake {
@@ -184,6 +198,17 @@ server {
         proxy_pass          http://dataproxy;
         access_log /var/log/nginx/data.proxy.access.log;
         error_log /var/log/nginx/data.proxy.error.log;
+    }
+
+    location ^~ /solr {
+        # rewrite  ^/solr/(.*)  /$1 break;
+        # rewrite  ^/solr(.*)  /$1 break;
+        if ($http_user_agent != "HDX-Developer-2015") {
+            return 404;
+        }
+        proxy_pass          http://solr;
+        access_log /var/log/nginx/data.solr.access.log;
+        error_log /var/log/nginx/data.solr.error.log;
     }
 
     location /gis {
