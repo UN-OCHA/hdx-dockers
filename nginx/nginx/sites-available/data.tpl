@@ -53,9 +53,16 @@ server {
 
     }
 
+    include /etc/nginx/snippets/ckan-static-stuffs.conf;
+
     include /etc/nginx/snippets/ckan-redirects.conf;
 
+    include /etc/nginx/snippets/ckan-internal-services.conf;
+
+    include /etc/nginx/snippets/ckan-external-upstreams.conf;
+
     include /etc/nginx/snippets/ckan-cache-adjust.conf;
+
 
     location @go_ahead {
 
@@ -79,9 +86,8 @@ server {
         proxy_set_header    X-Forwarded-For %proxy_add_x_forwarded_for;
         proxy_set_header    X-Real-IP %remote_addr;
 
-        # add_header                X-Proxy-Cache %upstream_cache_status;
-        add_header	X-Nginx-Cache %upstream_cache_status;
-        add_header Access-Control-Allow-Origin *;
+        add_header          X-Nginx-Cache %upstream_cache_status;
+        add_header          Access-Control-Allow-Origin *;
 
         # disabled to see if this is related with logout issue
         # expires                   5m;
@@ -116,3 +122,5 @@ server {
     }
 
 }
+
+include /etc/nginx/snippets/ckan-proxy.conf;
