@@ -35,19 +35,9 @@ location = /ping {
 #    try_files %uri @go_ahead;
 #}
 
-location /_tracking {
-    add_header Access-Control-Allow-Origin "${HDX_PREFIX}data.${HDX_DOMAIN}";
-    try_files %uri @go_ahead;
-}
-
 #location @hellodevelopers {
 #    try_files %uri @go_ahead;
 #}
-
-location /dataset/rowca-ebola-cases/related {
-    rewrite /dataset/rowca-ebola-cases/(.*) /dataset/rowca-ebola-cases/ permanent;
-    try_files %uri @go_ahead;
-}
 
 location ~ /err/(.*)\.(html|png)% {
     alias /srv/www/static/err/;

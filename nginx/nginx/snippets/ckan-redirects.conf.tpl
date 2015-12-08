@@ -66,11 +66,6 @@ location ~* /topic/.* {
     rewrite /topic/(.*) /dataset?tags=%1&_show_filters=false permanent;
 }
 
-location /(503.html|hdx-logo-alpha.png) {
-    try_files %uri = 404;
-    #limit_req zone=zh400 burst=4000;
-}
-
 # setting the cors header
 #location /api/i18n/en_AU {
 #    add_header Access-Control-Allow-Origin ".hdx.rwlabs.org";
