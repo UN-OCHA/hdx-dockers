@@ -14,6 +14,14 @@ location ~* ^/images/.+\.(css|js|jpg|png|svg|otf)$ {
     proxy_cache_valid 10m;
 }
 
+location ~* ^/api/i18n/en_AU$ {
+    include /etc/nginx/snippets/ckan-cache-include.conf;
+    add_header Pragma public;
+    # add_header Cache-Control "public, must-revalidate, proxy-revalidate";
+    expires 7m;
+    proxy_cache_valid 10m;
+}
+
 location ^~ ^/fonts {
     include /etc/nginx/snippets/ckan-cache-include.conf;
     add_header Pragma public;
