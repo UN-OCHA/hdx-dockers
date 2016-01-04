@@ -10,6 +10,8 @@ server {
     index index.html;
     error_page 404 @foobar;
 
+    include /etc/nginx/snippets/redirect-to-https.conf;
+
     location @foobar {
         rewrite  .*  /404.jpg permanent;
     }

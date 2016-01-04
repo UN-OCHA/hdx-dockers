@@ -11,6 +11,8 @@ server {
 
     gzip on;
 
+    include /etc/nginx/snippets/redirect-to-https.conf;
+
     access_log /var/log/nginx/data.entry.access.log hitec_timed_combined;
     error_log /var/log/nginx/data.entry.error.log;
 
