@@ -16,10 +16,6 @@ server {
 
     error_page 503 = /503.html;
 
-    set_real_ip_from   172.17.42.1;
-    #set_real_ip_from   10.66.32.65;
-    #real_ip_header     X-Forwarded-For;
-
     # make sure the page specified in here does exist at your root!
     include /etc/nginx/includes/maintenance_if.conf;
 

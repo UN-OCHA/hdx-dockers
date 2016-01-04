@@ -63,9 +63,6 @@ server {
         auth_basic_user_file datapass;
     }
 
-    set_real_ip_from   127.0.0.1;
-    real_ip_header      X-Forwarded-For;
-
     access_log /var/log/nginx/haha.access.log squid_log;
     error_log /var/log/nginx/haha.error.log;
 
