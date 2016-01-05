@@ -36,7 +36,7 @@ server {
 
     listen 127.0.0.1:9211;
     root /srv/www/docs;
-    access_log /var/log/nginx/docs.access.log;
+    access_log /var/log/nginx/docs.access.log main;
     error_log /var/log/nginx/docs.error.log;
 
     include includes/restrictions.conf;

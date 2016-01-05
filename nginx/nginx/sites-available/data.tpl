@@ -13,7 +13,8 @@ server {
 
     include /etc/nginx/snippets/redirect-to-https.conf;
 
-    access_log /var/log/nginx/data.entry.access.log hitec_timed_combined;
+    access_log /var/log/nginx/data.entry.access.log main;
+    #hitec_timed_combined;
     error_log /var/log/nginx/data.entry.error.log;
 
     error_page 503 = /503.html;
@@ -73,9 +74,6 @@ server {
         proxy_intercept_errors on;
         set_real_ip_from   127.0.0.1;
 
-        # rewrite ^ %scheme://test.docs.hdx.rwlabs.org%request_uri redirect;
-        # test proxy timing
-        #access_log /var/log/nginx/proxy.docs.access.log upstreamlog;
         proxy_redirect off;
         proxy_pass http://127.0.0.1:9220;
         proxy_set_header Host %host;

@@ -41,7 +41,7 @@ server {
 ###
 #        auth_basic "HDX Launch site";
 #        auth_basic_user_file datapass;
-        access_log /var/log/nginx/launch.access.log;
+        access_log /var/log/nginx/launch.access.log main;
         error_log /var/log/nginx/launch.error.log;
 
     }
@@ -63,7 +63,8 @@ server {
         auth_basic_user_file datapass;
     }
 
-    access_log /var/log/nginx/haha.access.log squid_log;
+    # access_log /var/log/nginx/haha.access.log squid_log;
+    access_log /var/log/nginx/haha.access.log main;
     error_log /var/log/nginx/haha.error.log;
 
 }
@@ -74,7 +75,7 @@ server {
     server_name localhost;
     location /nginx_status {
         stub_status on;
-        access_log   off;
+        access_log off;
         allow 127.0.0.1;
         deny all;
     }

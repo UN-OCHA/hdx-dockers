@@ -9,7 +9,7 @@ location ^~ /tiles/ {
     proxy_intercept_errors on;
     #proxy_cache tiles_cache;
     #proxy_temp_path /tmp/nginx_tiles_proxy 1 2;
-    access_log /var/log/nginx/data.tiles.access.log;
+    access_log /var/log/nginx/data.tiles.access.log upstreamlog;
     error_log /var/log/nginx/data.tiles.error.log;
     #access_log off;
     #log_not_found_off;
@@ -26,7 +26,7 @@ location ^~ /crisis-tiles/6/ {
     proxy_cache crisis_tiles_cache;
     add_header X-Nginx-Cache %upstream_cache_status;
     #proxy_temp_path /tmp/nginx_tiles_proxy 1 2;
-    access_log /var/log/nginx/data.tiles.access.log;
+    access_log /var/log/nginx/data.tiles.access.log upstreamlog;
     error_log /var/log/nginx/data.tiles.error.log;
 }
 
@@ -39,7 +39,7 @@ location ^~ /crisis-tiles/ {
     proxy_intercept_errors on;
     proxy_cache crisis_tiles_cache;
     add_header X-Nginx-Cache %upstream_cache_status;
-    access_log /var/log/nginx/data.tiles.access.log;
+    access_log /var/log/nginx/data.tiles.access.log upstreamlog;
     error_log /var/log/nginx/data.tiles.error.log;
 }
 
@@ -53,7 +53,7 @@ location ^~ /mapbox-base-tiles/ {
     proxy_pass http://b.tiles.mapbox.com;
     proxy_redirect off;
     proxy_intercept_errors on;
-    access_log /var/log/nginx/data.tiles.access.log;
+    access_log /var/log/nginx/data.tiles.access.log upstreamlog;
     error_log /var/log/nginx/data.tiles.error.log;
 }
 
@@ -67,6 +67,6 @@ location ^~ /mapbox-layer-tiles/ {
     proxy_pass http://b.tiles.mapbox.com;
     proxy_redirect off;
     proxy_intercept_errors on;
-    access_log /var/log/nginx/data.tiles.access.log;
+    access_log /var/log/nginx/data.tiles.access.log upstreamlog;
     error_log /var/log/nginx/data.tiles.error.log;
 }

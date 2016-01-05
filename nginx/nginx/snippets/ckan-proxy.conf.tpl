@@ -9,7 +9,7 @@ server {
     root /srv/www/fake/;
     index index.html;
 
-    access_log /var/log/nginx/data.access.log;
+    access_log /var/log/nginx/data.access.log main;
     error_log /var/log/nginx/data.error.log;
 
     #gzip on;
@@ -37,7 +37,7 @@ server {
 
         limit_req zone=zh400 burst=100; # nodelay;
 
-        access_log /var/log/nginx/data.pass.access.log;
+        access_log /var/log/nginx/data.pass.access.log main;
         error_log /var/log/nginx/data.pass.error.log;
     }
 

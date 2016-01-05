@@ -45,7 +45,7 @@ server {
         try_files %uri %uri/ @cps_really;
         #access_log off;
         #error_log off;
-        access_log /var/log/nginx/manage.static.access.log;
+        access_log /var/log/nginx/manage.static.access.log main;
         error_log /var/log/nginx/manage.static.error.log;
     }
 
@@ -74,7 +74,7 @@ server {
 #    }
 
 
-    access_log /var/log/nginx/manage.access.log;
+    access_log /var/log/nginx/manage.access.log main;
     error_log /var/log/nginx/manage.error.log;
 
 }
