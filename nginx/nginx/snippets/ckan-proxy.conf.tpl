@@ -33,7 +33,7 @@ server {
 
         proxy_pass          http://ckan;
         proxy_redirect      off;
-        proxy_set_header    Host %host;
+        # proxy_set_header    Host %host;
 
         limit_req zone=zh400 burst=100; # nodelay;
 

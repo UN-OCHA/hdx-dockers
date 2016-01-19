@@ -28,7 +28,7 @@ server {
         proxy_pass          http://cps;
 
         proxy_redirect      off;
-        proxy_set_header    Host %host;
+        # proxy_set_header    Host %host;
         #proxy_intercept_errors on;
     }
 
@@ -53,7 +53,7 @@ server {
         proxy_pass          http://cps;
         proxy_cache	    cache_cps;
         proxy_redirect      off;
-        proxy_set_header    Host %host;
+        # proxy_set_header    Host %host;
         # the location that sent you here needs to set this or not.
         #proxy_intercept_errors on;
         proxy_intercept_errors on;

@@ -6,7 +6,7 @@ proxy_redirect            off;
 proxy_pass                http://ckan;
 proxy_cache               cache_ckan;
 
-include                   /etc/nginx/proxy_params;
+# include                   /etc/nginx/proxy_params;
 proxy_set_header          X-Forwarded-For %remote_addr;
 
 add_header                X-Nginx-Cache %upstream_cache_status;
