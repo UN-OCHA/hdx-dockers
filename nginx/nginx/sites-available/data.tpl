@@ -37,11 +37,11 @@ server {
         #    return 404;
         #}
 
-        # comment out on production
-        include /etc/nginx/includes/http-basic-auth.conf;
+        # uncomment on staging / dev
+        #include /etc/nginx/includes/http-basic-auth.conf;
 
-        # comment out on production
-        include /etc/nginx/includes/no-indexing-bots.conf;
+        # uncomment on staging / dev
+        #include /etc/nginx/includes/no-indexing-bots.conf;
 
         try_files %uri @go_ahead;
 
@@ -61,7 +61,6 @@ server {
     include /etc/nginx/snippets/ckan-external-upstreams.conf;
 
     include /etc/nginx/snippets/ckan-cache-adjust.conf;
-
 
     location @go_ahead {
 
