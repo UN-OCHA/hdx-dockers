@@ -4,6 +4,7 @@ location ^~ /tiles/ {
     #error_page 404 = /errors/404.html;
     rewrite ^(/tiles/)(.*)% /tiles/1.0.0/osm/%2 break;
     #default_type image/png;
+    proxy_set_header Host "otile3.mqcdn.com";
     proxy_pass http://otile3.mqcdn.com;
     proxy_redirect off;
     proxy_intercept_errors on;
@@ -20,6 +21,7 @@ location ^~ /crisis-tiles/6/ {
     rewrite ^(/crisis-tiles/)(.*)% /hot/%2 break;
     #default_type image/png;
     #proxy_pass http://crisismap;
+    proxy_set_header Host "b.tile.openstreetmap.fr";
     proxy_pass http://b.tile.openstreetmap.fr;
     proxy_redirect off;
     proxy_intercept_errors on;
@@ -34,6 +36,7 @@ location ^~ /crisis-tiles/ {
     # http://b.tile.openstreetmap.fr/hot/
     rewrite ^(/crisis-tiles/)(.*)% /hot/%2 break;
     #default_type image/png;
+    proxy_set_header Host "b.tile.openstreetmap.fr";
     proxy_pass http://b.tile.openstreetmap.fr;
     proxy_redirect off;
     proxy_intercept_errors on;
@@ -50,6 +53,7 @@ location ^~ /mapbox-base-tiles/ {
     rewrite ^(/mapbox-base-tiles/)(.*)$ /v3/reliefweb.l43d4f5j/$2 break;
     #default_type image/png;
     # proxy_pass http://www.mapbox.com;
+    proxy_set_header Host "b.tiles.mapbox.com";
     proxy_pass http://b.tiles.mapbox.com;
     proxy_redirect off;
     proxy_intercept_errors on;
@@ -63,6 +67,7 @@ location ^~ /mapbox-layer-tiles/ {
     # http://b.tile.openstreetmap.fr/hot/
     rewrite ^(/mapbox-layer-tiles/)(.*)$ /v3/reliefweb.l43djggg/$2 break;
     #default_type image/png;
+    proxy_set_header Host "b.tiles.mapbox.com";
     # proxy_pass http://www.mapbox.com;
     proxy_pass http://b.tiles.mapbox.com;
     proxy_redirect off;
