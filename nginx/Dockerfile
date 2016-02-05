@@ -3,11 +3,11 @@ FROM teodorescuserban/hdx-base-nginx:1.8
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
 RUN mv /etc/nginx /etc/nginx.original
-ADD nginx /etc/nginx
+COPY nginx /etc/nginx
 
-ADD hdx.rwlabs.org.crt /etc/ssl/certs/
+COPY hdx.rwlabs.org.crt /etc/ssl/certs/
 
-ADD run /etc/service/nginx/run
+COPY run_nginx /etc/service/nginx/run
 RUN chmod +x /etc/service/nginx/run
 
 EXPOSE 80 443
