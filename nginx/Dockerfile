@@ -2,13 +2,13 @@ FROM teodorescuserban/hdx-base-nginx:1.8
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
-RUN mv /etc/nginx /etc/nginx.original
-COPY nginx /etc/nginx
+COPY nginx hdx.rwlabs.org.crt run_nginx /srv/
 
-COPY hdx.rwlabs.org.crt /etc/ssl/certs/
-
-COPY run_nginx /etc/service/nginx/run
-RUN chmod +x /etc/service/nginx/run
+RUN rm -rf /etc/nginx.original && \
+    mv /srv/nginx /etc/ && \
+    mv /srv/hdx.rwlabs.org.crt /etc/ssl/certs/ && \
+    mv /srv/run_nginx /etc/service/nginx/run && \
+    chmod +x /etc/service/nginx/run
 
 EXPOSE 80 443
 
