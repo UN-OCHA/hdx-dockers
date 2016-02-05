@@ -4,7 +4,7 @@
 import subprocess
 import sys
 
-# UPSTREAMS = {'blue': '10.0.0.1', 'green': '10.0.0.2'}
+# change according to your needs
 UPSTREAMS = {'blue': '10.5.101.24', 'green': '10.5.102.24'}
 
 
