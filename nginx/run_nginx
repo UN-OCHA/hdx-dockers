@@ -1,53 +1,7 @@
 #!/bin/sh
 set -e
 
-prefix=$HDX_PREFIX
-domain=$HDX_DOMAIN
-ssl_key=$HDX_SSL_KEY
-key_file="/etc/ssl/private/hdx.rwlabs.org.key"
-pass=$HDX_NGINX_PASS
-
-# construct the key
-if [ ! -f $key_file ]; then
-    echo "File not found. Creating..."
-    echo "-----BEGIN RSA PRIVATE KEY-----" > $key_file
-    for i in $ssl_key; do
-        echo "$i" | sed -e 's/\"//' >> $key_file
-    done
-    echo "-----END RSA PRIVATE KEY-----" >> $key_file
-else
-    echo "File already there. Skipping..."
-fi
-
-for template in $(find /etc/nginx -iname '*tpl'); do
-    file=$(echo $template | sed -e 's/\.tpl$//');
-    # dont just mindless overwrite the files...
-    [ ! -f $file ] || continue
-    envsubst < $template > $file;
-    sed -i 's/%/$/g' $file
-done
-
-# fix perms of the ssl key
-status=$(stat $key_file | grep Uid)
-perms=$(echo $status | awk '{ print $2 }' | sed -e 's/^(//; s/\/.*//')
-owner=$(echo $status | awk '{ print $5 }' | sed -e 's/\/.*//')
-if [ "$owner" -ne "0" ]; then
-    echo "Changing owner to root."
-    chown root:root $key_file
-fi
-
-if [ "$perms" -ne "0600" ]; then
-    echo "Changing perms to 0600."
-    chmod 0600 $key_file
-fi
-
-# add datapass file
-passfile=${HDX_TYPE}'-datapass'
-if [ ! -f /etc/nginx/$passfile ]; then
-    echo $pass > /etc/nginx/$passfile
-elif [ "$(cat /etc/nginx/$passfile | grep -c dataproject) " -ne "1" ]; then
-    echo $pass > /etc/nginx/$passfile
-fi
+python /srv/helper.py
 
 cd /etc/nginx;
 exec /usr/sbin/nginx

@@ -12,8 +12,8 @@ server {
     listen 80;
     listen 443 ssl;
     server_name ${HDX_PREFIX}docs.${HDX_DOMAIN};
-    ssl_certificate     /etc/ssl/certs/hdx.rwlabs.org.crt;
-    ssl_certificate_key /etc/ssl/private/hdx.rwlabs.org.key;
+    ssl_certificate     /etc/nginx/ssl.crt;
+    ssl_certificate_key /etc/nginx/ssl.key;
 
     # make sure the page specified in here does exist at your root!
     include /etc/nginx/includes/maintenance_if.conf;

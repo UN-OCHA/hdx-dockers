@@ -11,8 +11,8 @@ server {
 server {
 
     listen 443 ssl;
-    ssl_certificate     /etc/ssl/certs/hdx.rwlabs.org.crt;
-    ssl_certificate_key /etc/ssl/private/hdx.rwlabs.org.key;
+    ssl_certificate     /etc/nginx/ssl.crt;
+    ssl_certificate_key /etc/nginx/ssl.key;
 
     include /etc/nginx/includes/__data-include.conf;
 

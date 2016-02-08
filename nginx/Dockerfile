@@ -2,11 +2,10 @@ FROM teodorescuserban/hdx-base-nginx:1.8
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
-COPY hdx.rwlabs.org.crt run_nginx swup.py /srv/
+COPY run_nginx swup.py /srv/
 COPY nginx /srv/nginx
 
 RUN rm -rf /etc/nginx && \
-    mv /srv/hdx.rwlabs.org.crt /etc/ssl/certs/ && \
     mv /srv/run_nginx /etc/service/nginx/run && \
     mv /srv/nginx /etc/ && \
     chmod +x /etc/service/nginx/run && \
