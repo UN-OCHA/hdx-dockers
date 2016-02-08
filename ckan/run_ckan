@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# configure prod.ini
+envsubst < /srv/prod.ini.tpl > /srv/prod.ini
+#configure test ini
+envsubst < /srv/hdx-test-core.ini.tpl > /srv/ckan/hdx-test-core.ini
+
+# fix permissions on filestore
+mkdir -p /srv/filestore /srv/backup /var/log/ckan
+chown www-data:www-data -R /srv/filestore/
+chown www-data:www-data -R /var/log/ckan
+chown root:root -R /srv/backup
+
+# add in ssh keys for restore
+#ssh_base_dir="/root/.ssh"
+#[ -d $ssh_base_dir ] || mkdir -p $ssh_base_dir
+#
+#key_file=$ssh_base_dir"/id_rsa"
+#ssh_key=${HDX_SSH_KEY}
+#pub_file=$ssh_base_dir"/id_rsa.pub"
+#ssh_pub=${HDX_SSH_PUB}
+#if [ ! -f $key_file ]; then
+#    echo "SSH Key file not found. Creating..."
+#    ssh_key=$(echo $ssh_key | sed -e 's/-----BEGIN RSA PRIVATE KEY----- //')
+#    ssh_key=$(echo $ssh_key | sed -e 's/ -----END RSA PRIVATE KEY-----//')
+#    touch $key_file
+#    echo "-----BEGIN RSA PRIVATE KEY-----" >> $key_file
+#    for i in $ssh_key; do
+#        echo "$i" | sed -e 's/\"//' >> $key_file
+#    done
+#    echo "-----END RSA PRIVATE KEY-----" >> $key_file
+#fi
+
+## fix perms of the ssh key
+#status=$(stat $key_file | grep Uid)
+#perms=$(echo $status | awk '{ print $2 }' | sed -e 's/^(//; s/\/.*//')
+#owner=$(echo $status | awk '{ print $5 }' | sed -e 's/\/.*//')
+#if [ "$owner" -ne "0" ]; then
+#    echo "Changing owner to root."
+#    chown root:root $key_file
+#fi
+#
+#if [ "$perms" -ne "0600" ]; then
+#    echo "Changing perms to 0600."
+#    chmod 0600 $key_file
+#fi
+#
+#if [ ! -f $pub_file ]; then
+#    echo "SSH Pub file not found. Creating..."
+#    echo "$ssh_pub" | sed -e 's/\"//' > $pub_file
+#fi
+
+python /srv/helper.py
+
+# set pgpass if it's not there
+hdxckantool pgpass > /dev/null
+# set proper permissions on datastore
+hdxckantool db set-perms > /dev/null
+
+#hdxckantool less compile
+
+#echo "HDX-Ckan starting in 2 seconds..."
+#sleep 2
+cd /srv/ckan
+exec gunicorn --paste /srv/prod.ini -c /srv/gunicorn_conf.py
