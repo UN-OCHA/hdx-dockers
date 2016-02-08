@@ -10,6 +10,7 @@ RUN rm -rf /etc/nginx && \
     mv /srv/nginx /etc/ && \
     mv /srv/helper_nginx.py /srv/helper.py && \
     chmod +x /etc/service/nginx/run && \
+    chmod +x /srv/swup.py && \
     ln -sf /srv/swup.py /usr/sbin/swup
 
 EXPOSE 80 443
