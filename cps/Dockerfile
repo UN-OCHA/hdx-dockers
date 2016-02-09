@@ -2,7 +2,7 @@ from teodorescuserban/hdx-base-cps:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
-COPY cps_schema_0_5_16.plsql cps-initial-user.sql initdb.sh hdx-secret hdx-config.tpl log4j.xml.tpl run_cps helper_cps.py/srv/
+COPY cps_schema_0_5_16.plsql cps-initial-user.sql initdb.sh hdx-secret hdx-config.tpl log4j.xml.tpl run_cps helper_cps.py /srv/
 
 RUN mkdir -p /srv/deploy /srv/backup /etc/service/cps \
              /srv/hdx/logs /srv/hdx/config /srv/hdx/staging \
