@@ -22,6 +22,9 @@ location ^~ /solr {
 location /gis {
     rewrite  ^/gis/(.*)  /%1 break;
     rewrite  ^/gis(.*)  /%1 break;
+    sub_filter ' href="/'  ' href="/gis/';
+    #sub_filter '<img src="/' '<img src="/gis/';
+    sub_filter_once off;
     include /etc/nginx/proxy_params;
     proxy_pass          http://gis;
     access_log /var/log/nginx/data.gis.access.log main;
