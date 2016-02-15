@@ -12,7 +12,8 @@ ENV SOLR solr-$SOLR_VERSION
 # Add CKAN Solr core
 RUN cp -R $SOLR_HOME/collection1/ $SOLR_HOME/ckan/
 RUN echo name=ckan > $SOLR_HOME/ckan/core.properties
-ADD schema.xml $SOLR_HOME/ckan/conf/schema.xml
+#ADD schema.xml $SOLR_HOME/ckan/conf/schema.xml
+ADD https://raw.githubusercontent.com/OCHA-DAP/hdx-ckan/97d56f2338eec7ee31126a058fcc0dcb2c92ed74/ckanext-hdx_search/ckanext/hdx_search/hdx-solr/schema.xml $SOLR_HOME/ckan/conf/schema.xml
 RUN mv $SOLR_HOME/solr.xml $SOLR_HOME/solr.xml.bak
 ADD solr.xml $SOLR_HOME/solr.xml
 
