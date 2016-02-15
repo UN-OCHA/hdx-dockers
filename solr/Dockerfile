@@ -9,17 +9,30 @@ ENV SOLR_HOME /srv/solr/example/solr
 ENV SOLR_VERSION 4.8.1
 ENV SOLR solr-$SOLR_VERSION
 
-# Add CKAN Solr core
-RUN cp -R $SOLR_HOME/collection1/ $SOLR_HOME/ckan/
-RUN echo name=ckan > $SOLR_HOME/ckan/core.properties
-#ADD schema.xml $SOLR_HOME/ckan/conf/schema.xml
-ADD https://raw.githubusercontent.com/OCHA-DAP/hdx-ckan/97d56f2338eec7ee31126a058fcc0dcb2c92ed74/ckanext-hdx_search/ckanext/hdx_search/hdx-solr/schema.xml $SOLR_HOME/ckan/conf/schema.xml
-RUN mv $SOLR_HOME/solr.xml $SOLR_HOME/solr.xml.bak
-ADD solr.xml $SOLR_HOME/solr.xml
+COPY solr.xml run_solr /tmp/
+ADD https://raw.githubusercontent.com/OCHA-DAP/hdx-ckan/97d56f2338eec7ee31126a058fcc0dcb2c92ed74/ckanext-hdx_search/ckanext/hdx_search/hdx-solr/schema.xml /tmp/schema.xml
 
-RUN mkdir -p /etc/service/solr
-ADD run /etc/service/solr/run
-RUN chmod +x /etc/service/solr/run
+RUN cp -R $SOLR_HOME/collection1/ $SOLR_HOME/ckan/ && \
+    echo name=ckan > $SOLR_HOME/ckan/core.properties && \
+    mv /tmp/schema.xml $SOLR_HOME/ckan/conf/schema.xml && \
+    chmod 644 $SOLR_HOME/ckan/conf/schema.xml && \
+    mv $SOLR_HOME/solr.xml $SOLR_HOME/solr.xml.bak && \
+    mv /tmp/solr.xml $SOLR_HOME/solr.xml && \
+    mkdir -p /etc/service/solr && \
+    mv /tmp/run_solr /etc/service/solr/run && \
+    chmod +x /etc/service/solr/run
+
+# Add CKAN Solr core
+#RUN cp -R $SOLR_HOME/collection1/ $SOLR_HOME/ckan/
+#RUN echo name=ckan > $SOLR_HOME/ckan/core.properties
+#ADD schema.xml $SOLR_HOME/ckan/conf/schema.xml
+#RUN chmod 644 $SOLR_HOME/ckan/conf/schema.xml
+#RUN mv $SOLR_HOME/solr.xml $SOLR_HOME/solr.xml.bak
+#ADD solr.xml $SOLR_HOME/solr.xml
+
+#RUN mkdir -p /etc/service/solr
+#ADD run /etc/service/solr/run
+#RUN chmod +x /etc/service/solr/run
 
 EXPOSE 8983
 
