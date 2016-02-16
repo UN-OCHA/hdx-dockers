@@ -30,6 +30,8 @@ RUN /etc/init.d/postfix start
 RUN /etc/init.d/postfix stop
 RUN chmod go-w -R /etc/postfix/
 
+COPY helper_email.py /srv/
+
 EXPOSE 25
 
 RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
