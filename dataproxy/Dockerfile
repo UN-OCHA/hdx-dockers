@@ -22,7 +22,9 @@ RUN mkdir -p /srv/dataproxy /var/log/dataproxy && \
     git checkout master && \
     git pull origin master && \
     git submodule init /srv/dataproxy/dataproxy && \
-    git submodule update /srv/dataproxy/dataproxy
+    git submodule update /srv/dataproxy/dataproxy && \
+    apt-get -qq update && apt-get -qq -y install libc-bin && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 
 EXPOSE 5000
 

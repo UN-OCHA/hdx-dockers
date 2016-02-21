@@ -12,6 +12,8 @@ RUN mkdir -p /etc/service/gislayer
 COPY run /etc/service/gislayer/
 RUN chmod +x /etc/service/gislayer/run
 
+RUN apt-get -qq update && apt-get -qq -y install libc-bin && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 COPY app.conf.tpl /srv/
 
 EXPOSE 5000

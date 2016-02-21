@@ -30,6 +30,8 @@ RUN /etc/init.d/postfix start
 RUN /etc/init.d/postfix stop
 RUN chmod go-w -R /etc/postfix/
 
+RUN apt-get -qq update && apt-get -qq -y install libc-bin && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 COPY helper_email.py /srv/
 
 EXPOSE 25

@@ -11,7 +11,8 @@ RUN rm -rf /etc/nginx && \
     mv /srv/helper_nginx.py /srv/helper.py && \
     chmod +x /etc/service/nginx/run && \
     chmod +x /srv/swup.py && \
-    ln -sf /srv/swup.py /usr/sbin/swup
+    ln -sf /srv/swup.py /usr/sbin/swup && \
+    apt-get -qq update && apt-get -qq -y install libc-bin && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 80 443
 

@@ -16,7 +16,9 @@ RUN mkdir -p /srv && \
     cd /srv && \
     git clone https://bitbucket.org/agartner/hdx-pgrestapi.git gisapi && \
     cd /srv/gisapi && \
-    npm install
+    npm install && \
+    apt-get -qq update && apt-get -qq -y install libc-bin && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 
 COPY settings.js.tpl /srv/gisapi/settings/
 

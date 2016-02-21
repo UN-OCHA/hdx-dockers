@@ -18,7 +18,9 @@ RUN mkdir -p /srv/deploy /srv/backup /etc/service/cps \
     curl -s -o /srv/hdxcpstool.py \
         https://bitbucket.org/teodorescuserban/hdx-tools/raw/master/hdxcpstool.py && \
     chmod +x /srv/hdxcpstool.py && \
-    ln -s /srv/hdxcpstool.py /usr/sbin/hdxcpstool
+    ln -s /srv/hdxcpstool.py /usr/sbin/hdxcpstool && \
+    apt-get -qq update && apt-get -qq -y install libc-bin && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 
 VOLUME ["/srv/backup"]
 

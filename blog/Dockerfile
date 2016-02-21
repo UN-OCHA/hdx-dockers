@@ -22,7 +22,8 @@ RUN sed -i 's/.*date.timezone =.*/date\.timezone = UTC/'                    /etc
     sed -i -e "s/post_max_size\s*=\s*8M/post_max_size = 100M/g"             /etc/php5/fpm/php.ini && \
     curl -s -o /srv/hdxblogtool.sh https://bitbucket.org/teodorescuserban/hdx-tools/raw/master/hdxblogtool.sh && \
     chmod +x /srv/hdxblogtool.sh && \
-    ln -s /srv/hdxblogtool.sh /usr/local/sbin/hdxblogtool
+    ln -s /srv/hdxblogtool.sh /usr/local/sbin/hdxblogtool && \
+    apt-get -qq update && apt-get -qq -y install libc-bin && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 EXPOSE 9000
 

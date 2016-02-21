@@ -18,7 +18,9 @@ RUN mkdir -p /var/log/ckan /srv/filestore /etc/service/ckan && \
     curl -s -o /srv/hdxckantool.py https://bitbucket.org/teodorescuserban/hdx-tools/raw/master/hdxckantool.py && \
     chmod +x /srv/hdxckantool.py && \
     ln -s /srv/hdxckantool.py /usr/sbin/hdxckantool && \
-    mv /usr/local/lib/python2.7/dist-packages/requests /usr/local/lib/python2.7/dist-packages/requests.bak
+    mv /usr/local/lib/python2.7/dist-packages/requests /usr/local/lib/python2.7/dist-packages/requests.bak && \
+    apt-get -qq update && apt-get -qq -y install libc-bin && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 
 # add required files
 #COPY gunicorn_conf.py hdx-test-core.ini.tpl prod.ini.tpl /srv/
