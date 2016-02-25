@@ -5,16 +5,15 @@ MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 COPY helper_ckan.py run_ckan gunicorn_conf.py hdx-test-core.ini.tpl prod.ini.tpl run_pgb pgb.ini.tpl pgb.users.tpl /srv/
 
 # get hdx-ckan dev branch and install it in develop mode
-RUN mkdir -p /var/log/ckan /srv/filestore /etc/service/ckan /srv/pgb /etc/service/pgb && \
+RUN     apt-get -qq update && \
+    apt-get -qq -y install pgbouncer \
+        libc-bin && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+    mkdir -p /var/log/ckan /srv/filestore /etc/service/ckan /srv/pgb /etc/service/pgb && \
     mv /srv/helper_ckan.py /srv/helper.py && \
     mv /srv/run_ckan /etc/service/ckan/run && \
     chmod +x /etc/service/ckan/run && \
-    mv /srv/run_pgb /etc/service/pgb/run && \
-    chmod +x /etc/service/pgb/run && \
-    touch /srv/pgb/pgb.log && \
-    touch /srv/pgb/pgb.pid && \
-    chown -R postgres:postgres /srv/pgb && \
-    mv /srv/pgb*.tpl /srv/pgb/ && \
     chown www-data:www-data -R /var/log/ckan /srv/filestore && \
     git clone https://github.com/OCHA-DAP/hdx-ckan.git /srv/ckan && \
     cd /srv/ckan && \
@@ -25,11 +24,12 @@ RUN mkdir -p /var/log/ckan /srv/filestore /etc/service/ckan /srv/pgb /etc/servic
     chmod +x /srv/hdxckantool.py && \
     ln -s /srv/hdxckantool.py /usr/sbin/hdxckantool && \
     mv /usr/local/lib/python2.7/dist-packages/requests /usr/local/lib/python2.7/dist-packages/requests.bak && \
-    apt-get -qq update && \
-    apt-get -qq -y install pgbouncer \
-        libc-bin && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    mv /srv/run_pgb /etc/service/pgb/run && \
+    chmod +x /etc/service/pgb/run && \
+    touch /srv/pgb/pgb.log && \
+    touch /srv/pgb/pgb.pid && \
+    chown -R postgres:postgres /srv/pgb && \
+    mv /srv/pgb*.tpl /srv/pgb/
 
 
 # add required files
