@@ -10,11 +10,6 @@ upstream gis       { server ${HDX_GISAPI_ADDR}:${HDX_GISAPI_PORT}; }
 
 upstream gislayer  { server ${HDX_GISLAYER_ADDR}:${HDX_GISLAYER_PORT}; }
 
-upstream solr      { server ${HDX_SOLR_ADDR}:${HDX_SOLR_PORT}; }
-
-#upstream crisismap {
-#    server a.tile.openstreetmap.fr;
-#    server b.tile.openstreetmap.fr;
-#    server c.tile.openstreetmap.fr;
-#}
-
+upstream solr1     { server ${HDX_SOLR_ADDR}:${HDX_SOLR_PORT}; }
+# to do: make sure you pass the other db ip/port pair
+upstream solr2     { server ${HDX_SOLR_ADDR}:${HDX_SOLR_PORT}; }

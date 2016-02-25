@@ -7,17 +7,44 @@ location /dataproxy {
     error_log /var/log/nginx/data.proxy.error.log;
 }
 
-location ^~ /solr {
-    # rewrite  ^/solr/(.*)  /$1 break;
-    # rewrite  ^/solr(.*)  /$1 break;
-    if (%http_user_agent != "HDX-Developer-2015") {
+#location ^~ /solr {
+#    # rewrite  ^/solr/(.*)  /$1 break;
+#    # rewrite  ^/solr(.*)  /$1 break;
+#    if (%http_user_agent != "HDX-Developer-2015") {
+#        return 404;
+#    }
+#    include /etc/nginx/proxy_params;
+#    proxy_pass          http://solr;
+#    access_log /var/log/nginx/data.solr.access.log main;
+#    error_log /var/log/nginx/data.solr.error.log;
+#}
+
+location ^~ /solr1 {
+    if ($http_user_agent != "HDX-Developer-2015") {
         return 404;
     }
-    include /etc/nginx/proxy_params;
-    proxy_pass          http://solr;
-    access_log /var/log/nginx/data.solr.access.log main;
-    error_log /var/log/nginx/data.solr.error.log;
+    rewrite         ^/solr1(.*)  /solr$1 break;
+    sub_filter      '/solr'  '/solr1';
+    sub_filter_once off;
+    include         /etc/nginx/proxy_params;
+    proxy_pass      http://solr1;
+    access_log      /var/log/nginx/data.solr.access.log main;
+    error_log       /var/log/nginx/data.solr.error.log;
 }
+
+location ^~ /solr2 {
+    if ($http_user_agent != "HDX-Developer-2015") {
+        return 404;
+    }
+    rewrite         ^/solr2(.*)  /solr$1 break;
+    sub_filter      '/solr'  '/solr2';
+    sub_filter_once off;
+    include         /etc/nginx/proxy_params;
+    proxy_pass      http://solr2;
+    access_log      /var/log/nginx/data.solr.access.log main;
+    error_log       /var/log/nginx/data.solr.error.log;
+}
+
 
 location /gis {
     rewrite  ^/gis/(.*)  /%1 break;
