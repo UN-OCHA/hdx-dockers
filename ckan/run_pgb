@@ -1,0 +1,4 @@
+#!/bin/bash
+set -e
+cd /srv/pgbouncer
+exec pgbouncer -u postgres -q /srv/pgb/pgb.ini
