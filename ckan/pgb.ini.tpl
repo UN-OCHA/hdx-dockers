@@ -1,4 +1,3 @@
-root@ckan:/# cat /srv/pgbouncer/pgbouncer.ini
 [databases]
 ${HDX_CKANDB_DB} = host=${HDX_CKANDB_ADDR} port=${HDX_CKANDB_PORT} dbname=${HDX_CKANDB_DB}
 ${HDX_CKANDB_DB_DATASTORE} = host=${HDX_CKANDB_ADDR} port=${HDX_CKANDB_PORT} dbname=${HDX_CKANDB_DB_DATASTORE}
