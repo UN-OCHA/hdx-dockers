@@ -9,7 +9,7 @@ ENV SOLR_HOME /srv/solr/example/solr
 ENV SOLR_VERSION 4.8.1
 ENV SOLR solr-$SOLR_VERSION
 
-COPY solr.xml run_solr /tmp/
+COPY repl.xml run_solr solr.xml solrcore.properties /tmp/
 ADD https://raw.githubusercontent.com/OCHA-DAP/hdx-ckan/97d56f2338eec7ee31126a058fcc0dcb2c92ed74/ckanext-hdx_search/ckanext/hdx_search/hdx-solr/schema.xml /tmp/schema.xml
 
 RUN cp -R $SOLR_HOME/collection1/ $SOLR_HOME/ckan/ && \
@@ -20,7 +20,10 @@ RUN cp -R $SOLR_HOME/collection1/ $SOLR_HOME/ckan/ && \
     mv /tmp/solr.xml $SOLR_HOME/solr.xml && \
     mkdir -p /etc/service/solr && \
     mv /tmp/run_solr /etc/service/solr/run && \
-    chmod +x /etc/service/solr/run
+    chmod +x /etc/service/solr/run && \
+    mv /tmp/solrcore.properties /srv/solr/example/solr/ckan/conf/ && \
+    sed -i 's/<\/config>//' /srv/solr/example/solr/ckan/conf/solrconfig.xml && \
+    cat /tmp/repl.xml >> /srv/solr/example/solr/ckan/conf/solrconfig.xml
 
 # Add CKAN Solr core
 #RUN cp -R $SOLR_HOME/collection1/ $SOLR_HOME/ckan/
