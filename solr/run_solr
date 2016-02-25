@@ -1,5 +1,11 @@
 #!/bin/bash
 set -e
 
-cd /srv/solr/example
+BASEDIR=/srv/solr/example
+CONFDIR=solr/ckan/conf/
+
+cd $BASEDIR
+
+envsubst < $CONFDIR/solrcore.properties.tpl > $CONFDIR/solrcore.properties
+
 exec java -jar start.jar

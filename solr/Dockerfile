@@ -8,6 +8,8 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV SOLR_HOME /srv/solr/example/solr
 ENV SOLR_VERSION 4.8.1
 ENV SOLR solr-$SOLR_VERSION
+ENV IS_MASTER true
+ENV IS_SLAVE false
 
 COPY repl.xml run_solr solr.xml solrcore.properties /tmp/
 ADD https://raw.githubusercontent.com/OCHA-DAP/hdx-ckan/97d56f2338eec7ee31126a058fcc0dcb2c92ed74/ckanext-hdx_search/ckanext/hdx_search/hdx-solr/schema.xml /tmp/schema.xml
