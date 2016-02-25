@@ -2,7 +2,7 @@ from teodorescuserban/hdx-base-ckan:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
-COPY helper_ckan.py run_ckan gunicorn_conf.py hdx-test-core.ini.tpl prod.ini.tpl run_prb pgb.ini.tpl pgb.users.tpl /srv/
+COPY helper_ckan.py run_ckan gunicorn_conf.py hdx-test-core.ini.tpl prod.ini.tpl run_pgb pgb.ini.tpl pgb.users.tpl /srv/
 
 # get hdx-ckan dev branch and install it in develop mode
 RUN mkdir -p /var/log/ckan /srv/filestore /etc/service/ckan /srv/pgb /etc/service/pgb && \
