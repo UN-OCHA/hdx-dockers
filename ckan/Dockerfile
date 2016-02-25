@@ -5,7 +5,7 @@ MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 COPY helper_ckan.py run_ckan gunicorn_conf.py hdx-test-core.ini.tpl prod.ini.tpl run_pgb pgb.ini.tpl pgb.users.tpl /srv/
 
 # get hdx-ckan dev branch and install it in develop mode
-RUN     apt-get -qq update && \
+RUN apt-get -qq update && \
     apt-get -qq -y install pgbouncer \
         libc-bin && \
     apt-get clean && \
@@ -15,6 +15,12 @@ RUN     apt-get -qq update && \
     mv /srv/run_ckan /etc/service/ckan/run && \
     chmod +x /etc/service/ckan/run && \
     chown www-data:www-data -R /var/log/ckan /srv/filestore && \
+    mv /srv/run_pgb /etc/service/pgb/run && \
+    chmod +x /etc/service/pgb/run && \
+    touch /srv/pgb/pgb.log && \
+    touch /srv/pgb/pgb.pid && \
+    chown -R postgres:postgres /srv/pgb && \
+    mv /srv/pgb*.tpl /srv/pgb/ && \
     git clone https://github.com/OCHA-DAP/hdx-ckan.git /srv/ckan && \
     cd /srv/ckan && \
     python setup.py develop && \
@@ -23,13 +29,7 @@ RUN     apt-get -qq update && \
     curl -s -o /srv/hdxckantool.py https://bitbucket.org/teodorescuserban/hdx-tools/raw/master/hdxckantool.py && \
     chmod +x /srv/hdxckantool.py && \
     ln -s /srv/hdxckantool.py /usr/sbin/hdxckantool && \
-    mv /usr/local/lib/python2.7/dist-packages/requests /usr/local/lib/python2.7/dist-packages/requests.bak && \
-    mv /srv/run_pgb /etc/service/pgb/run && \
-    chmod +x /etc/service/pgb/run && \
-    touch /srv/pgb/pgb.log && \
-    touch /srv/pgb/pgb.pid && \
-    chown -R postgres:postgres /srv/pgb && \
-    mv /srv/pgb*.tpl /srv/pgb/
+    mv /usr/local/lib/python2.7/dist-packages/requests /usr/local/lib/python2.7/dist-packages/requests.bak
 
 
 # add required files
