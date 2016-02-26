@@ -1,4 +1,5 @@
 #!/bin/bash
 set -e
+envsubst < /srv/pgb/pgb.ini.tpl > /srv/pgb/pgb.ini
 cd /srv/pgb
 exec pgbouncer -u postgres -q /srv/pgb/pgb.ini
