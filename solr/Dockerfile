@@ -26,7 +26,8 @@ RUN cp -R $SOLR_HOME/collection1/ $SOLR_HOME/ckan/ && \
     chmod +x /etc/service/solr/run && \
     mv /tmp/solrcore.properties.tpl $SOLR_HOME/ckan/conf/ && \
     sed -i 's/<\/config>//' $SOLR_HOME/ckan/conf/solrconfig.xml && \
-    cat /tmp/repl.xml >> $SOLR_HOME/ckan/conf/solrconfig.xml
+    cat /tmp/repl.xml >> $SOLR_HOME/ckan/conf/solrconfig.xml && \
+    sed -i 's/INFO/WARN/g' /srv/solr/example/resources/log4j.properties
 
 EXPOSE 8983
 
