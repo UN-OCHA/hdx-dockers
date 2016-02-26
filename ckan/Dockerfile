@@ -5,7 +5,9 @@ MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 COPY helper_ckan.py run_ckan gunicorn_conf.py hdx-test-core.ini.tpl prod.ini.tpl run_pgb pgb.ini.tpl pgb.users.tpl /srv/
 
 # get hdx-ckan dev branch and install it in develop mode
-RUN apt-get -qq update && \
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
+    curl -s https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - && \
+    apt-get -qq update && \
     apt-get -qq -y install pgbouncer \
         libc-bin && \
     apt-get clean && \
