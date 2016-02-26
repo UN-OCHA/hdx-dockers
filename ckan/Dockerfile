@@ -17,9 +17,8 @@ RUN apt-get -qq update && \
     chown www-data:www-data -R /var/log/ckan /srv/filestore && \
     mv /srv/run_pgb /etc/service/pgb/run && \
     chmod +x /etc/service/pgb/run && \
-    touch /srv/pgb/pgb.log && \
-    touch /srv/pgb/pgb.pid && \
     chown -R postgres:postgres /srv/pgb && \
+    echo "127.0.0.1:5432:pgbouncer:pgb:pgb" >> /root/.pgpass && \
     mv /srv/pgb*.tpl /srv/pgb/ && \
     git clone https://github.com/OCHA-DAP/hdx-ckan.git /srv/ckan && \
     cd /srv/ckan && \
@@ -31,9 +30,8 @@ RUN apt-get -qq update && \
     ln -s /srv/hdxckantool.py /usr/sbin/hdxckantool && \
     mv /usr/local/lib/python2.7/dist-packages/requests /usr/local/lib/python2.7/dist-packages/requests.bak
 
-
-# add required files
-#COPY gunicorn_conf.py hdx-test-core.ini.tpl prod.ini.tpl /srv/
+#    touch /srv/pgb/pgb.log && \
+#    touch /srv/pgb/pgb.pid && \
 
 VOLUME ["/srv/filestore", "/srv/backup", "/var/log/ckan"]
 
