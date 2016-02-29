@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
 envsubst < /srv/pgb/pgb.ini.tpl > /srv/pgb/pgb.ini
+envsubst < /srv/pgb/pgb.users.tpl > /srv/pgb/pgb.users
 cd /srv/pgb
 exec pgbouncer -u postgres -q /srv/pgb/pgb.ini
