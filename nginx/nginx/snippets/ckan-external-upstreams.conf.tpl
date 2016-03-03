@@ -75,3 +75,25 @@ location ^~ /mapbox-layer-tiles/ {
     access_log /var/log/nginx/data.tiles.access.log upstreamlog;
     error_log /var/log/nginx/data.tiles.error.log;
 }
+
+# https://data.waterpointdata.org/resource/amwk-dedf.json
+location = /data.waterpointdata.org/resource/amwk-dedf.json {
+    rewrite ^(/data.waterpointdata.org/)(.*)$ /$2 break;
+    proxy_set_header Host "data.waterpointdata.org";
+    proxy_pass https://data.waterpointdata.org;
+    proxy_redirect off;
+    proxy_intercept_errors on;
+    access_log /var/log/nginx/data.tiles.access.log upstreamlog;
+    error_log /var/log/nginx/data.tiles.error.log;
+}
+
+# https://data.cityofchicago.org/resource/ydr8-5enu.json
+location = /data.cityofchicago.org/resource/ydr8-5enu.json {
+    rewrite ^(/data.cityofchicago.org/)(.*)$ /$2 break;
+    proxy_set_header Host "data.cityofchicago.org";
+    proxy_pass https://data.cityofchicago.org;
+    proxy_redirect off;
+    proxy_intercept_errors on;
+    access_log /var/log/nginx/data.tiles.access.log upstreamlog;
+    error_log /var/log/nginx/data.tiles.error.log;
+}
