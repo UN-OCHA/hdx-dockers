@@ -230,7 +230,9 @@ def main():
     s.create_special_file('/etc/nginx/ssl.key', 'HDX_SSL_KEY', private=True)
     PASSWORD_FILE = ''.join(['/etc', '/nginx/',
                              os.getenv('HDX_TYPE'), '-datapass'])
-    s.create_special_file(PASSWORD_FILE, 'HDX_NGINX_PASS', private=True)
+    s.create_special_file(PASSWORD_FILE, 'HDX_NGINX_PASS',
+                          private=False,
+                          overwrite=True)
 
     s.create_config_files()
 
