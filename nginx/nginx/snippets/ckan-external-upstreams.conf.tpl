@@ -97,3 +97,15 @@ location = /data.cityofchicago.org/resource/ydr8-5enu.json {
     access_log /var/log/nginx/data.tiles.access.log upstreamlog;
     error_log /var/log/nginx/data.tiles.error.log;
 }
+
+#http://media.transparency.org/maps/cpi2015-470.html
+location = /maps/cpi2015-470.html {
+    sub_filter_once off;
+    sub_filter "href=\"http://" "href=\"https://";
+    proxy_set_header Host "media.transparency.org";
+    proxy_pass http://media.transparency.org;
+    proxy_redirect off;
+    proxy_intercept_errors on;
+    access_log /var/log/nginx/data.tiles.access.log upstreamlog;
+    error_log /var/log/nginx/data.tiles.error.log;
+}
