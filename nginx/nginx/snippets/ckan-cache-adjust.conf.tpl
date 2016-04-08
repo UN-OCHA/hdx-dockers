@@ -1,66 +1,59 @@
 location ~* ^/fanstatic {
     include /etc/nginx/snippets/ckan-cache-include.conf;
-    add_header Pragma public;
-    # add_header Cache-Control "public, must-revalidate, proxy-revalidate";
     expires 7m;
     proxy_cache_valid 10m;
 }
 
 location ~* ^/images/.+\.(css|js|jpg|png|svg|otf)$ {
     include /etc/nginx/snippets/ckan-cache-include.conf;
-    add_header Pragma public;
-    # add_header Cache-Control "public, must-revalidate, proxy-revalidate";
     expires 7m;
     proxy_cache_valid 10m;
 }
 
 location ~* ^/api/i18n/en_AU$ {
     include /etc/nginx/snippets/ckan-cache-include.conf;
-    add_header Pragma public;
-    # add_header Cache-Control "public, must-revalidate, proxy-revalidate";
     expires 7m;
     proxy_cache_valid 10m;
 }
 
 location ^~ ^/fonts {
     include /etc/nginx/snippets/ckan-cache-include.conf;
-    add_header Pragma public;
-    # add_header Cache-Control "public, must-revalidate, proxy-revalidate";
     expires 7m;
     proxy_cache_valid 10m;
 }
 
-
 location ~* ^.+\.(css|js|jpg|png|svg|otf)% {
     include /etc/nginx/snippets/ckan-cache-include.conf;
-    add_header Pragma public;
-    add_header Cache-Control "public, must-revalidate, proxy-revalidate";
     expires 1m;
     proxy_cache_valid 10m;
 }
 
 location ^~ /dataset/json-repository/resource_download {
     include /etc/nginx/snippets/ckan-cache-include.conf;
-    add_header Pragma public;
-    add_header Cache-Control "public, must-revalidate, proxy-revalidate";
     expires 1m;
     proxy_cache_valid 1m;
 }
 
 location ^~ /api/action/datastore_search {
     include /etc/nginx/snippets/ckan-cache-include.conf;
-    add_header Pragma public;
-    add_header Cache-Control "public, must-revalidate, proxy-revalidate";
     expires 1m;
     proxy_cache_valid 1m;
 }
 
-
 location ^~ /api/action/datastore_search_sql {
     include /etc/nginx/snippets/ckan-cache-include.conf;
-    add_header Pragma public;
-    add_header Cache-Control "public, must-revalidate, proxy-revalidate";
+    error_page 418 = @22748b40dd-7bd3-40a3-941b-e76f0bfbe0eb;
+    recursive_error_pages on;
+    if ($args ~ "22748b40dd-7bd3-40a3-941b-e76f0bfbe0eb") { 
+        return 418;
+    }
     expires 1m;
+    proxy_cache_valid 1m;
+}
+
+location @22748b40dd-7bd3-40a3-941b-e76f0bfbe0eb {
+    include /etc/nginx/snippets/ckan-cache-include.conf;
+    expires 60m;
     proxy_cache_valid 1m;
 }
 
@@ -75,16 +68,12 @@ location ^~ /api/action/datastore_search_sql {
 
 location ^~ /organization/wfp {
     include /etc/nginx/snippets/ckan-cache-include.conf;
-    add_header Pragma public;
-    add_header Cache-Control "public, must-revalidate, proxy-revalidate";
     expires 1m;
     proxy_cache_valid 1m;
 }
 
 location ^~ /group/nepal-earthquake {
     include /etc/nginx/snippets/ckan-cache-include.conf;
-    add_header Pragma public;
-    add_header Cache-Control "public, must-revalidate, proxy-revalidate";
     expires 1m;
     proxy_cache_valid 1m;
 }
