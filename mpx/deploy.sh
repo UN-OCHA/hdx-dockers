@@ -13,6 +13,7 @@ cd $SRC_DIR
 #    git checkout $BRANCH
 #fi
 
+rm -rf $SRC_DIR/*
 git clone https://github.com/OCHA-DAP/liverpool16.git .
 git checkout master
 #$BRANCH
