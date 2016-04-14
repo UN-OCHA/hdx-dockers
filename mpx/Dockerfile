@@ -10,7 +10,7 @@ RUN apk update && \
     apk add rsync && \
     rm -rf /var/lib/apk/* && \
     adduser -h /src -s /bin/sh www-data -g www-data -D && \
-    chmod +x deploy.sh
+    chmod +x /deploy.sh
 
 ENTRYPOINT ["/init"]
 
