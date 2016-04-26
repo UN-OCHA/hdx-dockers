@@ -1,4 +1,5 @@
 ckan.host = ${HDX_PREFIX}data.${HDX_DOMAIN}
+ckan.host.ishttps = true
 ckan.technical.api.key = ${HDX_CKAN_API_KEY}
 
 db.url=jdbc:postgresql://${HDX_CPSDB_ADDR}:${HDX_CPSDB_PORT}/${HDX_CPSDB_DB}
