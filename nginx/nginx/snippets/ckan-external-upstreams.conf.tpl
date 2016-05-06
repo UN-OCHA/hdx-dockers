@@ -109,3 +109,17 @@ location = /maps/cpi2015-470.html {
     access_log /var/log/nginx/data.tiles.access.log upstreamlog;
     error_log /var/log/nginx/data.tiles.error.log;
 }
+
+location = /visualization/wfp-indicators {
+    rewrite ^(/visualization/wfp-indicators)$ /visualization/wfp-indicators/ permanent;
+}
+
+location ^~ /visualization/wfp-indicators {
+    rewrite ^(/visualization/wfp-indicators)(.*)$ /hdx-wfp-indicators$2 break;
+    proxy_set_header Host "ocha-dap.github.io";
+    proxy_pass https://ocha-dap.github.io;
+    proxy_redirect off;
+    proxy_intercept_errors on;
+    access_log /var/log/nginx/data.tiles.access.log upstreamlog;
+    error_log /var/log/nginx/data.tiles.error.log;
+}
