@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-[ -n "${MPX_BRANCH}" ] || MPX_BRANCH==master
+[ -n "${MPX_BRANCH}" ] || MPX_BRANCH=master
 
 mkdir -p $SRC_DIR
 cd $SRC_DIR
