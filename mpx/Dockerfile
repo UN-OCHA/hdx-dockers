@@ -2,7 +2,7 @@ FROM teodorescuserban/hdx-alpine-base-nodejs:latest
 
 MAINTAINER "Serban Teodorescu <teodorescu.serban@gmail.com>"
 
-ENV SRC_DIR=/src DST_DIR=/dst
+ENV SRC_DIR=/src DST_DIR=/dst MPX_BRANCH=master
 
 COPY deploy.sh /
 
