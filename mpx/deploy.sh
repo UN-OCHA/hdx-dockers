@@ -1,22 +1,19 @@
 #!/bin/sh
 set -e
 
+[ -n "${MPX_BRANCH}" ] || MPX_BRANCH=master
+
 mkdir -p $SRC_DIR
 cd $SRC_DIR
-#git status > /dev/null 2>&1
-#if [ $? -eq 0 ]; then
-#    git checkout $BRANCH
-#    git pull
-#else
-#    rm -rf $SRC_DIR/*
-#    git clone https://github.com/OCHA-DAP/liverpool16.git .
-#    git checkout $BRANCH
-#fi
 
 rm -rf $SRC_DIR/*
 git clone https://github.com/OCHA-DAP/liverpool16.git .
-git checkout master
-#$BRANCH
+git fetch origin $MPX_BRANCH
+[ -z "$?" ] || exit 1
+git checkout $MPX_BRANCH
+[ -z "$?" ] || exit 1
+git pull
+[ -z "$?" ] || exit 1
 
 chown -R www-data $SRC_DIR
 su - www-data -c "npm install"
