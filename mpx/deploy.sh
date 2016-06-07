@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e
+#set -e
 
 [ -n "${MPX_BRANCH}" ] || MPX_BRANCH=master
 
