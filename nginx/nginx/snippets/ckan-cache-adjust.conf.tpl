@@ -66,14 +66,16 @@ location @22748b40dd-7bd3-40a3-941b-e76f0bfbe0eb {
 #    # add_header Cache-Control "public, must-revalidate, proxy-revalidate";
 #}
 
-location ^~ /organization/wfp {
-    include /etc/nginx/snippets/ckan-cache-include.conf;
-    expires 1m;
-    proxy_cache_valid 1m;
-}
+# see https://github.com/OCHA-DAP/hdx-ckan/issues/4190
+#location ^~ /organization/wfp {
+#    include /etc/nginx/snippets/ckan-cache-include.conf;
+#    expires 1m;
+#    proxy_cache_valid 1m;
+#}
 
-location ^~ /group/nepal-earthquake {
-    include /etc/nginx/snippets/ckan-cache-include.conf;
-    expires 1m;
-    proxy_cache_valid 1m;
-}
+# see https://github.com/OCHA-DAP/hdx-ckan/issues/4190
+#location ^~ /group/nepal-earthquake {
+#    include /etc/nginx/snippets/ckan-cache-include.conf;
+#    expires 1m;
+#    proxy_cache_valid 1m;
+#}
