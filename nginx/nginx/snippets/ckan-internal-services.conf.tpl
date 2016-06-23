@@ -7,6 +7,17 @@ location /dataproxy {
     error_log /var/log/nginx/data.proxy.error.log;
 }
 
+location ^~ /hxlproxy {
+    #rewrite  ^/hxlproxy/(.*)  /$1 break;
+    #rewrite  ^/hxlproxy(.*)  /$1 break;
+    include /etc/nginx/proxy_params;
+    proxy_pass          http://hxlproxy;
+    proxy_set_header X-Script-Name /hxlproxy;
+    access_log /var/log/nginx/data.proxy.access.log main;
+    error_log /var/log/nginx/data.proxy.error.log;
+}
+
+
 #location ^~ /solr {
 #    # rewrite  ^/solr/(.*)  /$1 break;
 #    # rewrite  ^/solr(.*)  /$1 break;
