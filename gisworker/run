@@ -30,4 +30,4 @@ envsubst < /srv/app.conf.tpl > /srv/app.conf
 export GIS_REST_LAYER_CONF=/srv/app.conf
 
 cd /srv/gislayer
-exec rqworker --url redis://${HDX_GISREDIS_ADDR}:${HDX_GISREDIS_PORT}/1 $name --worker-ttl 600 geo_q
+exec rqworker --url redis://${HDX_GISREDIS_ADDR}:${HDX_GISREDIS_PORT}/1 $name --worker-ttl 600 geo_q analytics_q
