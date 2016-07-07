@@ -9,7 +9,8 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/
     curl -s https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - && \
     apt-get -qq update && \
     apt-get -qq -y install pgbouncer \
-        libc-bin && \
+        libc-bin \
+        imagemagick && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
     mkdir -p /var/log/ckan /srv/filestore /etc/service/ckan /srv/pgb /etc/service/pgb && \

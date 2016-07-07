@@ -71,6 +71,9 @@ hdx.gis.layer_import_url = http://${HDX_GISLAYER_ADDR}:${HDX_GISLAYER_PORT}/api/
 # at Alex suggestion, i made this proto unaware
 hdx.gis.resource_pbf_url = //${HDX_PREFIX}data.${HDX_DOMAIN}/gis/services/postgis/{resource_id}/wkb_geometry/vector-tiles/{z}/{x}/{y}.pbf
 
+hdx.analytics.mixpanel.token = 
+hdx.analytics.enqueue_url = http://${HDX_GISLAYER_ADDR}:${HDX_GISLAYER_PORT}/api/send-analytics
+
 ## Logging configuration
 [loggers]
 keys = root, ckan, ckanext
