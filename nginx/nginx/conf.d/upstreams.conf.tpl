@@ -6,6 +6,8 @@ upstream cps       { server ${HDX_CPS_ADDR}:${HDX_CPS_PORT}; }
 
 upstream dataproxy { server ${HDX_DATAPROXY_ADDR}:${HDX_DATAPROXY_PORT}; }
 
+upstream hxlproxy  { server ${HDX_HXLPROXY_ADDR}:${HDX_HXLPROXY_PORT}; }
+
 upstream gis       { server ${HDX_GISAPI_ADDR}:${HDX_GISAPI_PORT}; }
 
 upstream gislayer  { server ${HDX_GISLAYER_ADDR}:${HDX_GISLAYER_PORT}; }
