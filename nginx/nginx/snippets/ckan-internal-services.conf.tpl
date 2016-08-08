@@ -8,8 +8,8 @@ location /dataproxy {
 }
 
 location ^~ /hxlproxy {
-    #rewrite  ^/hxlproxy/(.*)  /$1 break;
-    #rewrite  ^/hxlproxy(.*)  /$1 break;
+    rewrite  ^/hxlproxy/(.*)  /$1 break;
+    rewrite  ^/hxlproxy(.*)  /$1 break;
     include /etc/nginx/proxy_params;
     proxy_pass          http://hxlproxy;
     proxy_set_header X-Script-Name /hxlproxy;
