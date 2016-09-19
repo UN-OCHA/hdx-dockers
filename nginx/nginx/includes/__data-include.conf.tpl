@@ -19,6 +19,9 @@
         try_files %uri @go_ahead;
     }
 
+    # uncomment on staging to avoid bots indexeing
+    #include /etc/nginx/includes/no-indexing-bots.conf;
+
     location / {
 
         include /etc/nginx/includes/err_418.conf;
@@ -31,8 +34,6 @@
         # uncomment on staging / dev
         #include /etc/nginx/includes/http-basic-auth.conf;
 
-        # uncomment on staging / dev
-        #include /etc/nginx/includes/no-indexing-bots.conf;
 
         try_files %uri @go_ahead;
 
