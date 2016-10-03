@@ -32,8 +32,10 @@ cd /srv/ckan
 [ -z $NEW_RELIC_LICENSE ] && export NEW_RELIC_LICENSE="LICENSE"
 
 if [ "$NEW_RELIC_ENABLED" == "true" ]; then
+    echo "new relic is enabled."
     newrelic-admin generate-config $NEW_RELIC_LICENSE $NEW_RELIC_CONFIG
     exec newrelic-admin run-program gunicorn --paste /srv/prod.ini -c /srv/gunicorn_conf.py
 else
+    echo "new relic is disabled."
     exec gunicorn --paste /srv/prod.ini -c /srv/gunicorn_conf.py
 fi
