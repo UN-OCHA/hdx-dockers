@@ -27,14 +27,13 @@ sv start pgb || exit 1
 #sleep 2
 cd /srv/ckan
 
+[ -z $NEW_RELIC_CONFIG  ] && export NEW_RELIC_CONFIG=/srv/newrelic.ini
+[ -z $NEW_RELIC_ENABLED ] && NEW_RELIC_ENABLED=false
+[ -z $NEW_RELIC_LICENSE ] && NEW_RELIC_LICENSE="LICENSE"
 
-# 
-[ -z $NEW_RELIC_DEBUG ] && NEW_RELIC_DEBUG=false
-
-if [ $NEW_RELIC_DEBUG ]; then
-    exec gunicorn --paste /srv/prod.ini -c /srv/gunicorn_conf.py
+if [ "$NEW_RELIC_ENABLED" == "true" ]; then
+    newrelic-admin generate-config $NEW_RELIC_LICENSE $NEW_RELIC_CONFIG
+    exec newrelic-admin run-program gunicorn --paste ${NEW_RELIC_CONFIG} -c /srv/gunicorn_conf.py
 else
-    NEW_RELIC_CONFIG_FILE=/srv/newrelic.ini
-    export NEW_RELIC_CONFIG_FILE
-    exec newrelic-admin run-program gunicorn --paste /srv/prod.ini -c /srv/gunicorn_conf.py
+    exec gunicorn --paste /srv/prod.ini -c /srv/gunicorn_conf.py
 fi
