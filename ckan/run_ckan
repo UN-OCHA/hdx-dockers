@@ -26,4 +26,15 @@ sv start pgb || exit 1
 #echo "HDX-Ckan starting in 2 seconds..."
 #sleep 2
 cd /srv/ckan
-exec gunicorn --paste /srv/prod.ini -c /srv/gunicorn_conf.py
+
+
+# 
+[ -z $NEW_RELIC_DEBUG ] && NEW_RELIC_DEBUG=false
+
+if [ $NEW_RELIC_DEBUG ]; then
+    exec gunicorn --paste /srv/prod.ini -c /srv/gunicorn_conf.py
+else
+    NEW_RELIC_CONFIG_FILE=/srv/newrelic.ini
+    export NEW_RELIC_CONFIG_FILE
+    exec newrelic-admin run-program gunicorn --paste /srv/prod.ini -c /srv/gunicorn_conf.py
+fi
