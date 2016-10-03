@@ -32,7 +32,9 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/
     chmod +x /srv/hdxckantool.py && \
     ln -s /srv/hdxckantool.py /usr/sbin/hdxckantool && \
     mv /usr/local/lib/python2.7/dist-packages/requests /usr/local/lib/python2.7/dist-packages/requests.bak && \
-    echo "application/vnd.geo+json                        geojson" >> /etc/mime.types # HDX-4872
+    echo "application/vnd.geo+json                        geojson" >> /etc/mime.types # HDX-4872  && \
+    pip install newrelic && \
+    newrelic-admin generate-config LICENSE_KEY /srv/newrelic.ini
 
 #    touch /srv/pgb/pgb.log && \
 #    touch /srv/pgb/pgb.pid && \
