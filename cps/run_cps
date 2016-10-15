@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+export HDX_CKANDB_ADDR=dbcps
+export HDX_CKANDB_PORT=5432
 hdxcpstool pgpass
 python /srv/helper_cps.py
 
