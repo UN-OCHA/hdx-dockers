@@ -16,7 +16,7 @@ RUN mkdir -p /srv/deploy /srv/backup /etc/service/cps \
     git clone https://github.com/OCHA-DAP/DAP-System.git \
         /srv/deploy/cps && \
     curl -s -o /srv/hdxcpstool.py \
-        https://bitbucket.org/teodorescuserban/hdx-tools/raw/master/hdxcpstool.py && \
+        https://raw.githubusercontent.com/OCHA-DAP/hdx-tools/master/hdxcpstool.py && \
     chmod +x /srv/hdxcpstool.py && \
     ln -s /srv/hdxcpstool.py /usr/sbin/hdxcpstool && \
     apt-get -qq update && apt-get -qq -y install libc-bin && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
