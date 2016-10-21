@@ -1,7 +1,7 @@
 user = 'www-data'
 group = 'www-data'
 bind = '0.0.0.0:5000'
-workers = 12
+workers = 4
 access_log_format = '"%({x-forwarded-for}i)s" %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
 accesslog = '/var/log/ckan/ckan.access.log'
 errorlog = '/var/log/ckan/ckan.error.log'
