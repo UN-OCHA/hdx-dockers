@@ -1,6 +1,6 @@
-from teodorescuserban/hdx-ckan:latest
+FROM teodorescuserban/hdx-ckan:latest
 
-MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
+MAINTAINER "Serban Teodorescu <teodorescu.serban@gmail.com>"
 
 # you need to inject the HDX_CKAN_BRANCH value in the build
 
