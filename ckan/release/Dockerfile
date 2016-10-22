@@ -1,4 +1,4 @@
-FROM teodorescuserban/hdx-ckan:latest
+FROM teodorescuserban/hdx-ckan:v3
 
 MAINTAINER "Serban Teodorescu <teodorescu.serban@gmail.com>"
 
@@ -17,12 +17,15 @@ COPY build.ini.tpl /srv
 
 # get hdx-ckan dev branch and install it in develop mode
 RUN envsubst < /srv/build.ini.tpl > /srv/build.ini && \
+    rm -rf /srv/ckan && \
+    git clone --depth 1 --branch ${HDX_CKAN_BRANCH} https://github.com/OCHA-DAP/hdx-ckan.git /srv/ckan && \
     cd /srv/ckan && \
     python setup.py develop && \
     pip install --upgrade -r requirements.txt && \
     pip install --upgrade -r dev-requirements.txt && \
     hdxckantool update && \
-    hdxckantool deploy && \
     hdxckantool plugins dev && \
     hdxckantool feature && \
     hdxckantool less compile
+
+#    hdxckantool deploy && \

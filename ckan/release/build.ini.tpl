@@ -41,7 +41,7 @@ smtp.mail_from = noreply@${HDX_DOMAIN}
 hdx.cache.onstartup = true
 
 hdx.orgrequest.email = hdx.feedback@gmail.com
-hdx.orgrequest.sendmails = true 
+hdx.orgrequest.sendmails = true
 
 hdx.datapreview.url = /dataproxy
 hdx.ogre.url = /ogre
