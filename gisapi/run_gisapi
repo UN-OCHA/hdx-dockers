@@ -1,0 +1,5 @@
+#!/bin/bash
+
+envsubst < /srv/settings.js.tpl > /srv/gisapi/settings/settings.js
+cd /srv/gisapi/
+exec nodejs app.js

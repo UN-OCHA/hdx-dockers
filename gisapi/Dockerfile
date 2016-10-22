@@ -2,24 +2,15 @@ FROM teodorescuserban/hdx-base-gisapi:latest
 
 MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
-#RUN echo "alias psql='psql -h db'" >> ~/.bashrc
+COPY run_gisapi settings.js.tpl /tmp/
 
-COPY pgpass /root/.pgpass
-RUN chmod 600 /root/.pgpass
-
-RUN mkdir -p /etc/service/gisapi
-COPY gisapi.run /etc/service/gisapi/run
-RUN chmod +x /etc/service/gisapi/run
-
-#install spatial
-RUN mkdir -p /srv && \
-    cd /srv && \
-    git clone https://bitbucket.org/agartner/hdx-pgrestapi.git gisapi && \
+RUN mkdir -p /etc/service/gisapi /srv && \
+    mv /tmp/settings.js.tpl /srv/ && \
+    mv /tmp/run_gisapi /etc/service/gisapi/run && \
+    chmod +x /etc/service/gisapi/run
+    git clone --depth 1 https://bitbucket.org/agartner/hdx-pgrestapi.git /srv/gisapi && \
     cd /srv/gisapi && \
     npm install && \
     apt-get -qq update && apt-get -qq -y install libc-bin && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-
-COPY settings.js.tpl /srv/gisapi/settings/
 
 EXPOSE 80 5858
