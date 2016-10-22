@@ -10,10 +10,9 @@ port = 9221
 use = egg:ckan
 use = config:/srv/ckan/common-config-ini.txt
 ## Database Settings
-sqlalchemy.url = postgresql://ckan:ckan@127.0.0.1:5432/ckan
-#sqlalchemy.url = postgresql://ckan:ckan@${HDX_127.0.0.1_ADDR}:${HDX_CKANDB_PORT}/ckan
+sqlalchemy.url           = postgresql://ckan:ckan@127.0.0.1:5432/ckan
 ckan.datastore.write_url = postgresql://ckan:ckan@127.0.0.1:5432/datastore
-ckan.datastore.read_url = postgresql://datastore:datastore@127.0.0.1:5432/datastore
+ckan.datastore.read_url  = postgresql://datastore:datastore@127.0.0.1:5432/datastore
 
 ## Site Settings
 ckan.site_url = http://${HDX_PREFIX}data.${HDX_DOMAIN}
