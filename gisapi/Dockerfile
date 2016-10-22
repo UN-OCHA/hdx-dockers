@@ -7,7 +7,7 @@ COPY run_gisapi settings.js.tpl /tmp/
 RUN mkdir -p /etc/service/gisapi /srv && \
     mv /tmp/settings.js.tpl /srv/ && \
     mv /tmp/run_gisapi /etc/service/gisapi/run && \
-    chmod +x /etc/service/gisapi/run
+    chmod +x /etc/service/gisapi/run && \
     git clone --depth 1 https://bitbucket.org/agartner/hdx-pgrestapi.git /srv/gisapi && \
     cd /srv/gisapi && \
     npm install && \
