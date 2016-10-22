@@ -19,6 +19,7 @@ RUN envsubst < /srv/build.ini.tpl > /srv/build.ini && \
     pip install --upgrade -r requirements.txt && \
     pip install --upgrade -r dev-requirements.txt && \
     hdxckantool update && \
+    export $HDX_CKAN_BRANCH && \
     hdxckantool deploy && \
     hdxckantool plugins dev && \
     hdxckantool feature && \
