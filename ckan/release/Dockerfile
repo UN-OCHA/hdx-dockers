@@ -4,7 +4,10 @@ MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
 # you need to inject the HDX_CKAN_BRANCH value in the build
 
-ENV HDX_TYPE=build \
+ARG HDX_CKAN_BRANCH
+
+ENV HDX_CKAN_BRANCH=${HDX_CKAN_BRANCH:-dev} \
+    HDX_TYPE=build \
     HDX_PREFIX=build \
     HDX_DOMAIN=humdata.org \
     HDX_FILESTORE=/srv/filestore \
