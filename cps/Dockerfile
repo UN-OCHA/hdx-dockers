@@ -37,7 +37,7 @@ RUN mkdir -p /srv/deploy /srv/backup /etc/service/cps \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-VOLUME ["/srv/backup" "/srv/tomcat/logs" "/srv/hdx/logs"]
+VOLUME ["/srv/backup", "/srv/tomcat/logs", "/srv/hdx/logs"]
 
 EXPOSE 8080
 
