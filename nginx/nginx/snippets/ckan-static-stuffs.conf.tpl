@@ -22,6 +22,12 @@ location ^~ /mpx {
     index index.html;
 }
 
+location ^~ /hxlpreview {
+    alias /srv/www/visualization/hxlpreview/;
+    try_files $uri $uri/ =404;
+    index index.html;
+}
+
 location /(503.html|hdx-logo-alpha.png) {
     try_files %uri = 404;
     #limit_req zone=zh400 burst=4000;

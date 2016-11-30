@@ -8,4 +8,4 @@ export HDX_CPSDB_PORT=5432
 envsubst < $HDX_FOLDER/config/log4j.xml.tpl > $HDX_FOLDER/config/log4j.xml
 envsubst < $HDX_FOLDER/config/hdx-config.tpl > $HDX_FOLDER/config/hdx-config
 
-exec . $CATALINA_HOME/bin/catalina.sh start
+exec $CATALINA_HOME/bin/catalina.sh run

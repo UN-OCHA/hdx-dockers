@@ -44,7 +44,7 @@ hdx.orgrequest.email = hdx.feedback@gmail.com
 hdx.orgrequest.sendmails = true
 
 hdx.datapreview.url = /dataproxy
-hdx.ogre.url = /ogre
+#hdx.ogre.url = /ogre
 #hdx.previewmap.url = /tiles/{z}/{x}/{y}.png
 hdx.previewmap.url = /crisis-tiles/{z}/{x}/{y}.png
 hdx.crisismap.url  = /crisis-tiles/{z}/{x}/{y}.png
@@ -72,6 +72,13 @@ hdx.gis.resource_pbf_url = //${HDX_PREFIX}data.${HDX_DOMAIN}/gis/services/postgi
 
 hdx.analytics.mixpanel.token = ${HDX_MIXPANEL_TOKEN}
 hdx.analytics.enqueue_url    = http://gislayer:5000/api/send-analytics
+
+# HXL Proxy
+# This should be overriden in your own prod.ini
+hdx.hxlproxy.url = https://${HDX_PREFIX}data.${HDX_DOMAIN}/hxlproxy
+
+# HXL Preview
+hdx.hxl_preview_app.url = https://${HDX_PREFIX}data.${HDX_DOMAIN}//hxlpreview
 
 ## Logging configuration
 [loggers]

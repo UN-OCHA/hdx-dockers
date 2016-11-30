@@ -15,7 +15,7 @@ ENV JAVA_HOME=/usr/lib/jvm/default-jvm/jre \
 
 COPY files/* /srv/
 
-RUN apk add --update-cache openssl tar && \
+RUN apk add --update-cache openssl tar ttf-dejavu && \
     # install tomcat \
     mkdir -p /srv/tomcat && \
     curl -fsSL https://archive.apache.org/dist/tomcat/tomcat-${TOMCAT_MAJOR_VERSION}/v${TOMCAT_MINOR_VERSION}/bin/apache-tomcat-${TOMCAT_MINOR_VERSION}.tar.gz \
