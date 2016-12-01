@@ -226,7 +226,7 @@ def main():
     #
     s = DockerHelper.fromcontainer(templates_root_path='/etc/postfix')
 
-    s.create_special_file('/etc/postfix/dkim.hdx.rwlabs.org.private', 
+    s.create_special_file('/etc/postfix/dkim.humdata.org.private', 
                           'HDX_DKIM_KEY', private=True)
 
     s.create_config_files()

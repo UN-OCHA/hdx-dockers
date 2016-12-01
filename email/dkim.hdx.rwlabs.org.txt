@@ -1,3 +1,0 @@
-mail._domainkey.hdx.rwlabs.org. IN      TXT     ( "v=DKIM1; k=rsa; "
-          "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCU0xs/Co9clhScZp7ymepi2/2Jzxb3QRaeTv7VYmPZqZg1kxLd6aM1ZB+FYE3HiNrGRcGT6gVCT/hxbpXZbkR7B6p7emOVI9TmS4uqYK7o0hFtTxLamCoxwsVF5Cweu6TBNhRMzhMQNbWX7AYqsp18IWAvlwMfd7wYRPVTvNplrQIDAQAB" )  ; ----- DKIM key dkim.hdx.rwlabs.org for hdx.rwlabs.org
-

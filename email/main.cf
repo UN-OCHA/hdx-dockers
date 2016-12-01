@@ -20,17 +20,17 @@ readme_directory = no
 # information on enabling SSL in the smtp client.
 
 smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
-myhostname = hdx.rwlabs.org
-mydomain = hdx.rwlabs.org
-#dap-prod.service.emergency.lu
+myhostname = humdata.org
+mydomain = humdata.org
 alias_maps = hash:/etc/postfix/aliases
 alias_database = hash:/etc/postfix/aliases
-myorigin = hdx.rwlabs.org
+myorigin = humdata.org
 mydestination = localhost,
-	hdx.rwlabs.org, docs.hdx.rwlabs.org, data.hdx.rwlabs.org, manage.hdx.rwlabs.org,
-	test-hdx.rwlabs.org, test-docs.hdx.rwlabs.org, test-data.hdx.rwlabs.org, test-manage.hdx.rwlabs.org,
-	test2-data.hdx.rwlabs.org
-relayhost = 
+	humdata.org, docs.humdata.org, data.humdata.org, manage.humdata.org,
+	demo-humdata.org, demo-docs.humdata.org, demo-data.humdata.org, demo-manage.humdata.org,
+	feature-humdata.org, feature-docs.humdata.org, feature-data.humdata.org, feature-manage.humdata.org,
+	test-humdata.org, test-docs.humdata.org, test-data.humdata.org, test-manage.humdata.org
+relayhost =
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128 10.0.0.0/8 172.17.0.0/16
 mailbox_size_limit = 0
 recipient_delimiter = +
@@ -43,5 +43,4 @@ milter_protocol = 2
 smtpd_milters = inet:127.0.0.1:8891
 non_smtpd_milters = $smtpd_milters
 inet_protocols = ipv4
-masquerade_domains = hdx.rwlabs.org
-
+masquerade_domains = humdata.org
