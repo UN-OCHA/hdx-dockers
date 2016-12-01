@@ -23,7 +23,7 @@ RUN mv /etc/opendkim.conf /etc/opendkim.conf.orig
 ADD opendkim.conf /etc/opendkim.conf
 ADD smtp_reply_filter /etc/postfix/
 ADD trustedhosts /etc/postfix/
-ADD dkim.hdx.rwlabs.org.txt /etc/postfix/
+ADD dkim.humdata.org.txt /etc/postfix/
 
 RUN postalias /etc/postfix/aliases
 RUN /etc/init.d/postfix start
