@@ -78,7 +78,7 @@ hdx.analytics.enqueue_url    = http://gislayer:5000/api/send-analytics
 hdx.hxlproxy.url = https://${HDX_PREFIX}data.${HDX_DOMAIN}/hxlproxy
 
 # HXL Preview
-hdx.hxl_preview_app.url = https://${HDX_PREFIX}data.${HDX_DOMAIN}//hxlpreview
+hdx.hxl_preview_app.url = https://${HDX_PREFIX}data.${HDX_DOMAIN}//hxlpreview/#
 
 ## Logging configuration
 [loggers]
