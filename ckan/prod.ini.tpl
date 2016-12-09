@@ -10,12 +10,12 @@ port = 9221
 use = egg:ckan
 use = config:/srv/ckan/common-config-ini.txt
 ## Database Settings
-sqlalchemy.url           = postgresql://ckan:ckan@dbckan:5432/ckan
-ckan.datastore.write_url = postgresql://ckan:ckan@dbckan:5432/datastore
-ckan.datastore.read_url  = postgresql://datastore:datastore@dbckan:5432/datastore
-#sqlalchemy.url = postgresql://ckan:ckan@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/ckan
-#ckan.datastore.write_url = postgresql://ckan:ckan@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/datastore
-#ckan.datastore.read_url = postgresql://datastore:datastore@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/datastore
+#sqlalchemy.url           = postgresql://ckan:ckan@dbckan:5432/ckan
+#ckan.datastore.write_url = postgresql://ckan:ckan@dbckan:5432/datastore
+#ckan.datastore.read_url  = postgresql://datastore:datastore@dbckan:5432/datastore
+sqlalchemy.url = postgresql://ckan:ckan@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/ckan
+ckan.datastore.write_url = postgresql://ckan:ckan@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/datastore
+ckan.datastore.read_url = postgresql://datastore:datastore@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/datastore
 
 ## Site Settings
 ckan.site_url = http://${HDX_PREFIX}data.${HDX_DOMAIN}
@@ -37,8 +37,10 @@ ckan.tracking_enabled = true
 
 email_to         = ckan.${HDX_TYPE}@${HDX_DOMAIN}
 error_email_from = ckan.${HDX_TYPE}@${HDX_DOMAIN}
-smtp_server      = email:25
-smtp.server      = email:25
+#smtp_server      = email:25
+#smtp.server      = email:25
+smtp_server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
+smtp.server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
 smtp.starttls    = False
 smtp.mail_from   = noreply@${HDX_DOMAIN}
 
