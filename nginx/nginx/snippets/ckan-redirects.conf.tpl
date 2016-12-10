@@ -87,6 +87,7 @@ location /dataset/rowca-ebola-cases/related {
 }
 
 # deflect ckan vulnerability - suggested by ALex @ 14.02.2015
-location /api/action/current_package_list_with_resources {
-    return 418;
-}
+# commented out according to HDX-5039 on 10.12.2016
+#location /api/action/current_package_list_with_resources {
+#    return 418;
+#}
