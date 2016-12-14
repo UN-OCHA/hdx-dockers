@@ -10,12 +10,12 @@ port = 9221
 use = egg:ckan
 use = config:/srv/ckan/common-config-ini.txt
 ## Database Settings
-#sqlalchemy.url           = postgresql://ckan:ckan@dbckan:5432/ckan
-#ckan.datastore.write_url = postgresql://ckan:ckan@dbckan:5432/datastore
-#ckan.datastore.read_url  = postgresql://datastore:datastore@dbckan:5432/datastore
-sqlalchemy.url = postgresql://ckan:ckan@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/ckan
-ckan.datastore.write_url = postgresql://ckan:ckan@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/datastore
-ckan.datastore.read_url = postgresql://datastore:datastore@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/datastore
+sqlalchemy.url           = postgresql://ckan:ckan@dbckan:5432/ckan
+ckan.datastore.write_url = postgresql://ckan:ckan@dbckan:5432/datastore
+ckan.datastore.read_url  = postgresql://datastore:datastore@dbckan:5432/datastore
+#sqlalchemy.url = postgresql://ckan:ckan@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/ckan
+#ckan.datastore.write_url = postgresql://ckan:ckan@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/datastore
+#ckan.datastore.read_url = postgresql://datastore:datastore@${HDX_CKANDB_ADDR}:${HDX_CKANDB_PORT}/datastore
 
 ## Site Settings
 ckan.site_url = http://${HDX_PREFIX}data.${HDX_DOMAIN}
@@ -24,8 +24,8 @@ app_instance_uuid = {0bcda427-a808-470f-a141-37eb1ac46ba1}
 
 ## Search Settings
 ckan.site_id = default
-#solr_url = http://solr:8983/solr/ckan
-solr_url = http://${HDX_SOLR_ADDR}:${HDX_SOLR_PORT}/solr/ckan
+solr_url = http://solr:8983/solr/ckan
+#solr_url = http://${HDX_SOLR_ADDR}:${HDX_SOLR_PORT}/solr/ckan
 #ckan.simple_search = 1
 
 ckan.recaptcha.publickey  = 6LfoIfMSAAAAADKSmGKOsRggVKv4CAOm2yqJoeto
@@ -37,10 +37,10 @@ ckan.tracking_enabled = true
 
 email_to         = ckan.${HDX_TYPE}@${HDX_DOMAIN}
 error_email_from = ckan.${HDX_TYPE}@${HDX_DOMAIN}
-#smtp_server      = email:25
-#smtp.server      = email:25
-smtp_server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
-smtp.server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
+smtp_server      = email:25
+smtp.server      = email:25
+#smtp_server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
+#smtp.server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
 smtp.starttls    = False
 smtp.mail_from   = noreply@${HDX_DOMAIN}
 
@@ -69,15 +69,15 @@ hdx.less.basepath          = /srv/ckan/ckanext-hdx_theme/ckanext/hdx_theme/less
 hdx.less_compile.onstartup = False
 
 # GIS
-#hdx.gis.layer_import_url = http://gislayer:5000/api/add-layer/dataset/{dataset_id}/resource/{resource_id}?resource_download_url={resource_download_url}&url_type={url_type}
-hdx.gis.layer_import_url = http://${HDX_GISLAYER_ADDR}:${HDX_GISLAYER_PORT}/api/add-layer/dataset/{dataset_id}/resource/{resource_id}?resource_download_url={resource_download_url}&url_type={url_type}
+hdx.gis.layer_import_url = http://gislayer:5000/api/add-layer/dataset/{dataset_id}/resource/{resource_id}?resource_download_url={resource_download_url}&url_type={url_type}
+#hdx.gis.layer_import_url = http://${HDX_GISLAYER_ADDR}:${HDX_GISLAYER_PORT}/api/add-layer/dataset/{dataset_id}/resource/{resource_id}?resource_download_url={resource_download_url}&url_type={url_type}
 # this is only needed for the clients to get the pbf
 # at Alex suggestion, i made this proto unaware
 hdx.gis.resource_pbf_url = //${HDX_PREFIX}data.${HDX_DOMAIN}/gis/services/postgis/{resource_id}/wkb_geometry/vector-tiles/{z}/{x}/{y}.pbf
 
 hdx.analytics.mixpanel.token = ${HDX_MIXPANEL_TOKEN}
-#hdx.analytics.enqueue_url    = http://gislayer:5000/api/send-analytics
-hdx.analytics.enqueue_url    = http://${HDX_GISLAYER_ADDR}:${HDX_GISLAYER_PORT}/api/send-analytics
+hdx.analytics.enqueue_url    = http://gislayer:5000/api/send-analytics
+#hdx.analytics.enqueue_url    = http://${HDX_GISLAYER_ADDR}:${HDX_GISLAYER_PORT}/api/send-analytics
 
 # HXL Proxy
 # This should be overriden in your own prod.ini
