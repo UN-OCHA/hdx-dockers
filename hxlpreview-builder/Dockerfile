@@ -8,7 +8,7 @@ ENV SRC_DIR=/src \
 
 COPY deploy.sh /srv/
 
-RUN apk --update \
+RUN apk add --update \
         rsync \
         python \
         build-base && \
