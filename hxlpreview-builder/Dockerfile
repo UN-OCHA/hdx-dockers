@@ -23,7 +23,8 @@ RUN apk add --update \
         angular-cli \
         angular && \
     rm -rf /var/lib/apk/* && \
-    chmod +x /srv/deploy.sh && \
+    chmod +x /srv/deploy.sh
+
 #    # fix https://github.com/npm/npm/issues/13306 \
 #    cd /usr/lib/node_modules/npm && \
 #    npm install fs-extra && \
