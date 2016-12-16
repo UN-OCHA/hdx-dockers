@@ -14,6 +14,8 @@ RUN apk add --update \
         build-base && \
     npm install -g \
         npm@3.10.3 && \
+    npm install -g --unsafe-perm \
+        node-zopfli && \
     npm install -g \
         node-sass@^3.4.2 \
         angular-cli \
