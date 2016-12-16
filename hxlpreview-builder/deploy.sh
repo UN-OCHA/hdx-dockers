@@ -15,16 +15,18 @@ echo "cloning..."
 git clone --branch ${HXLP_BRANCH} https://github.com/OCHA-DAP/hdx-hxl-preview.git ${SRC_DIR}/${REPO_DIR}
 [ "$?" -eq "0" ] || exit 1
 
-cd code
-echo "linking some heavier global packages locally to save time and power..."
-npm link node-gyp
-npm link node-sass
-npm link node-zopfli
-npm link angular
-npm link angular-cli
-echo "gathering deps..."
+cd ${REPO_DIR}
+echo "bind-mounting some heavier global packages locally to save time and power..."
+mkdir -p node_modules
+mount -o bind /usr/lib/node_modules node_modules
+echo "gathering and installing other dependencies..."
 npm install
 echo "building..."
 ng build  --prod --bh ${HXLP_PREFIX}
+echo "umounting ..."
+umount ${SRC_DIR}/${REPO_DIR}/node_modules
 echo "syncing over to ${DST}..."
 rsync -avh --delete-after ${SRC_DIR}/${REPO_DIR}/dist/* ${DST_DIR}/
+echo "cleaning..."
+rm -rf ${SRC_DIR}/*
+echo "done."

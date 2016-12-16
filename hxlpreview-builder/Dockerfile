@@ -4,7 +4,9 @@ MAINTAINER "Serban Teodorescu <teodorescu.serban@gmail.com>"
 
 ENV SRC_DIR=/src \
     DST_DIR=/dst \
-    NODE_PATH=/usr/lib/node_modules
+    NODE_PATH=/usr/lib/node_modules \
+    NPM_CONFIG_PROGRESS=false \
+    NPM_CONFIG_SPIN=false
 
 COPY deploy.sh /srv/
 
@@ -21,10 +23,14 @@ RUN apk add --update \
         angular-cli \
         angular && \
     rm -rf /var/lib/apk/* && \
-    chmod +x /srv/deploy.sh
+    chmod +x /srv/deploy.sh && \
+#    # fix https://github.com/npm/npm/issues/13306 \
+#    cd /usr/lib/node_modules/npm && \
+#    npm install fs-extra && \
+#    sed -i -e s/graceful-fs/fs-extra/ -e s/fs.rename/fs.move/ ./lib/utils/rename.js
 
 ENTRYPOINT ["/srv/deploy.sh"]
 
-VOLUME ["$SRC_DIR", "$DST_DIR"]
+VOLUME ["$SRC_DIR" "$DST_DIR"]
 
 CMD []
