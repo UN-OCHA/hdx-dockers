@@ -1,4 +1,4 @@
-FROM unocha/hdx-nodejs-builder
+FROM teodorescuserban/hdx-nodejs-builder:latest
 
 MAINTAINER "Serban Teodorescu <teodorescu.serban@gmail.com>"
 
