@@ -14,7 +14,6 @@ git clone --branch ${MPX_BRANCH} https://github.com/OCHA-DAP/hdx-map-explorer.gi
 
 echo "building..."
 cd ${SRC_DIR}/${REPO_DIR}
-npm install ng2-bootstrap@1.1.15
 npm install
 bower --allow-root install
 grunt default-no-tests

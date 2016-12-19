@@ -20,6 +20,7 @@ echo "bind-mounting some heavier global packages locally to save time and power.
 mkdir -p node_modules
 mount -o bind /usr/lib/node_modules node_modules
 echo "gathering and installing other dependencies..."
+npm install ng2-bootstrap@1.1.15
 npm install
 echo "building..."
 ng build  --prod --bh ${HXLP_PREFIX}
