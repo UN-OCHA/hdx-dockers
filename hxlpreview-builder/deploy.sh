@@ -6,13 +6,13 @@
 [ -n "${HXLP_BRANCH}" ] || HXLP_BRANCH=master
 [ -n "${HXLP_PREFIX}" ] || HXLP_PREFIX=/hxlpreview/
 
-REPO_DIR=code
+REPO_DIR=${SRC_DIR}/code
 echo "cleaning ${SRC_DIR}..."
 rm -rf ${SRC_DIR}/*
 cd ${SRC_DIR}
 
 echo "cloning..."
-git clone --branch ${HXLP_BRANCH} https://github.com/OCHA-DAP/hdx-hxl-preview.git ${SRC_DIR}/${REPO_DIR}
+git clone --branch ${HXLP_BRANCH} https://github.com/OCHA-DAP/hdx-hxl-preview.git ${REPO_DIR}
 [ "$?" -eq "0" ] || exit 1
 
 cd ${REPO_DIR}
@@ -24,9 +24,9 @@ npm install
 echo "building..."
 ng build  --prod --bh ${HXLP_PREFIX}
 echo "umounting ..."
-umount ${SRC_DIR}/${REPO_DIR}/node_modules
+umount ${REPO_DIR}/node_modules
 echo "syncing over to ${DST}..."
-rsync -avh --delete-after ${SRC_DIR}/${REPO_DIR}/dist/* ${DST_DIR}/
+rsync -avh --delete-after ${REPO_DIR}/dist/* ${DST_DIR}/
 echo "cleaning..."
 rm -rf ${SRC_DIR}/*
 echo "done."
