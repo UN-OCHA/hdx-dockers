@@ -37,10 +37,10 @@ ckan.tracking_enabled = true
 
 email_to         = ckan.${HDX_TYPE}@${HDX_DOMAIN}
 error_email_from = ckan.${HDX_TYPE}@${HDX_DOMAIN}
-#smtp_server      = email:25
-#smtp.server      = email:25
-smtp_server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
-smtp.server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
+smtp_server      = email:25
+smtp.server      = email:25
+#smtp_server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
+#smtp.server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
 smtp.starttls    = False
 smtp.mail_from   = noreply@${HDX_DOMAIN}
 
@@ -84,14 +84,15 @@ hdx.analytics.enqueue_url    = http://gislayer:5000/api/send-analytics
 hdx.hxlproxy.url = https://${HDX_PREFIX}data.${HDX_DOMAIN}/hxlproxy
 
 # HXL Preview
-hdx.hxl_preview_app.url = https://${HDX_PREFIX}data.${HDX_DOMAIN}//hxlpreview/#
+hdx.hxl_preview_app.url = https://${HDX_PREFIX}data.${HDX_DOMAIN}/hxlpreview
 
 # GOOGLE DEV
 hdx.google.dev_key = ${HDX_GOOGLE_DEV_KEY}
 
 # MAILCHIMP
 hdx.mailchimp.api.key = ${HDX_MAILCHIMP_API_KEY}
-hdx.mailchimp.list.id = ${HDX_MAILCHIMP_LIST_ID}
+hdx.mailchimp.list.newsletter = ${HDX_MAILCHIMP_LIST_NEWSLETTER}
+hdx.mailchimp.list.newuser = ${HDX_MAILCHIMP_LIST_NEW_USER}
 
 ## Logging configuration
 [loggers]
