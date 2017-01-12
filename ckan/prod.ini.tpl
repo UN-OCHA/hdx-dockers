@@ -91,7 +91,8 @@ hdx.google.dev_key = ${HDX_GOOGLE_DEV_KEY}
 
 # MAILCHIMP
 hdx.mailchimp.api.key = ${HDX_MAILCHIMP_API_KEY}
-hdx.mailchimp.list.id = ${HDX_MAILCHIMP_LIST_ID}
+hdx.mailchimp.list.newsletter = ${HDX_MAILCHIMP_LIST_NEWSLETTER}
+hdx.mailchimp.list.newuser = ${HDX_MAILCHIMP_LIST_NEW_USER}
 
 ## Logging configuration
 [loggers]
