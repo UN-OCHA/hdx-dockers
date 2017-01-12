@@ -37,10 +37,10 @@ ckan.tracking_enabled = true
 
 email_to         = ckan.${HDX_TYPE}@${HDX_DOMAIN}
 error_email_from = ckan.${HDX_TYPE}@${HDX_DOMAIN}
-#smtp_server      = email:25
-#smtp.server      = email:25
-smtp_server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
-smtp.server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
+smtp_server      = email:25
+smtp.server      = email:25
+#smtp_server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
+#smtp.server = ${HDX_SMTP_ADDR}:${HDX_SMTP_PORT}
 smtp.starttls    = False
 smtp.mail_from   = noreply@${HDX_DOMAIN}
 
