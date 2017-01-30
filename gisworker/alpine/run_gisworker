@@ -1,0 +1,31 @@
+#!/usr/bin/with-contenv sh
+
+# make sure pgpass is up to date
+dbhost=gisdb
+#${HDX_GISDB_ADDR}
+dbport=5432
+#${HDX_GISDB_PORT}
+#pf="/root/.pgpass"
+#line="$dbhost:$dbport:*:gis:gis"
+#[ -f $pf ] || touch $pf
+#if [ $(cat $pf | grep -cE $line) -ne 1 ]; then
+#    echo $line > $pf
+#    chmod 600 $pf
+#fi
+
+# exit if I can't get my own worker name
+#[ "$(env | grep -cE 'DB_NAME.*worker')" -eq "1" ] || exit 1
+# set my worker name
+#myname=$(env | grep DB_NAME | sed -e 's/.*_gis/gis/; s/\/.*//')
+#name="--name "$myname
+name=""
+
+#ttl="--worker-ttl 600"
+ttl=""
+
+# not needed, it seems
+envsubst < /srv/app.conf.tpl > /srv/app.conf
+export GIS_REST_LAYER_CONF=/srv/app.conf
+
+cd /srv/gislayer
+exec rqworker --url redis://gisredis:6379/1 $name --worker-ttl 600 geo_q analytics_q
