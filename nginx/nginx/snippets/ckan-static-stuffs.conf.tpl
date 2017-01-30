@@ -18,7 +18,7 @@ location ^~ /visualization {
 
 location ^~ /mpx {
     alias /srv/www/visualization/mpx/;
-    try_files $uri $uri/ =404;
+    try_files $uri index.html =403;
     index index.html;
 }
 
