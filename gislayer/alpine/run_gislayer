@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv sh
+
+# regenerate app.conf
+envsubst < /srv/app.conf.tpl > /srv/app.conf
+
+cd /srv/gislayer
+export GIS_REST_LAYER_CONF=/srv/app.conf
+
+exec python gis_rest_layer.py
