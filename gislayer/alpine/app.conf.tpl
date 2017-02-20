@@ -10,7 +10,7 @@ DB_PASS = '${HDX_GISDB_PASS}'
 DB_HOST = 'gisdb'
 DB_PORT = '5432'
 
-REDIS_HOST = 'redis'
+REDIS_HOST = 'gisredis'
 REDIS_PORT = 6379
 
 VERIFY_CKAN_SSL=False
