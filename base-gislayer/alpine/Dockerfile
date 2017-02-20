@@ -42,5 +42,6 @@ RUN echo http://dl-cdn.alpinelinux.org/alpine/edge/testing >> \
     apk del .build-deps && \
     apk add \
         proj4-dev\
-        libstdc++ && \
+        libstdc++ \
+        openssh && \
     rm -rf /var/cache/apk/*
