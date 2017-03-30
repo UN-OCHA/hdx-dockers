@@ -9,7 +9,7 @@ RUN cd watchman && git checkout v4.7.0 && ./autogen.sh && ./configure && make &&
 RUN apk add gettext
 
 #RUN npm install -g npm@3.10.3 &&
-RUN npm install -g angular-cli
+RUN npm install -g @angular/cli@1.0.0
 
 COPY my_docker_start.sh /bin/
 RUN chmod +x /bin/my_docker_start.sh
