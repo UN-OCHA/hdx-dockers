@@ -2,4 +2,4 @@
 
 envsubst < /srv/settings.js.tpl > /srv/gisapi/settings/settings.js
 cd /srv/gisapi/
-exec nodejs app.js
+exec nodejs app.js > /var/log/gisapi/gisapi.log 2>&1
