@@ -4,7 +4,7 @@ MAINTAINER Serban Teodorescu, teodorescu.serban@gmail.com
 
 COPY run_gisapi settings.js.tpl /tmp/
 
-RUN mkdir -p /etc/service/gisapi /srv && \
+RUN mkdir -p /etc/service/gisapi /srv /var/log/gisapi && \
     mv /tmp/settings.js.tpl /srv/ && \
     mv /tmp/run_gisapi /etc/service/gisapi/run && \
     chmod +x /etc/service/gisapi/run && \
