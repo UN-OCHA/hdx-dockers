@@ -66,7 +66,12 @@ search_backend = sql
 # Change API key HTTP header to something non-standard.
 apikey_header_name = X-Non-Standard-CKAN-API-Key
 
-ckan.plugins = stats
+# only for 2.3
+#ckan.plugins = stats
+# only for 2.6
+ckan.plugins = hdx_hxl_preview requestdata ytp_request hdx_pages hdx_choropleth_map_view hdx_key_figures_view hdx_geopreview_view hdx_chart_views hdx_service_checker hdx_analytics hdx_crisis hdx_search sitemap hdx_org_group hdx_group hdx_package hdx_user_extra hdx_mail_validate hdx_users hdx_theme stats resource_proxy text_view recline_view datastore
+ckan.use_pylons_response_cleanup_middleware = False
+hdx_portal = True
 
 # use <strong> so we can check that html is *not* escaped
 ckan.template_head_end = <link rel="stylesheet" href="TEST_TEMPLATE_HEAD_END.css" type="text/css">
