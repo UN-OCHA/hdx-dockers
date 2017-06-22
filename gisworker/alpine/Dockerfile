@@ -1,4 +1,4 @@
-FROM unocha/hdx-gislayer:alpine
+FROM unocha/hdx-gislayer:0.4.4
 
 COPY run_gisworker /srv/
 
