@@ -11,6 +11,10 @@ RUN add-apt-repository ppa:tanguy-patte/phantomjs && \
         libpq-dev \
         libyaml-dev \
         python3-psycopg2 \
+        libffi-dev \
+        libssl-dev \
+        libc-bin \
+        imagemagick \
         nodejs \
         npm \
         phantomjs && \
