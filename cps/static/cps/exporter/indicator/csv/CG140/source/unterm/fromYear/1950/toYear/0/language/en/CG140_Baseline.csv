@@ -1,0 +1,197 @@
+Country code,Country name,2015,2014
+AFG,AFGHANISTAN,null,null
+AGO,ANGOLA,null,null
+ALB,ALBANIA,null,null
+AND,ANDORRA,null,null
+ARE,UNITED ARAB EMIRATES,null,null
+ARG,ARGENTINA,null,null
+ARM,ARMENIA,null,null
+ATG,ANTIGUA AND BARBUDA,null,null
+AUS,AUSTRALIA,null,null
+AUT,AUSTRIA,null,null
+AZE,AZERBAIJAN,null,null
+BDI,BURUNDI,null,null
+BEL,BELGIUM,null,null
+BEN,BENIN,null,null
+BFA,BURKINA FASO,null,null
+BGD,BANGLADESH,null,null
+BGR,BULGARIA,null,null
+BHR,BAHRAIN,null,null
+BHS,BAHAMAS,null,null
+BIH,BOSNIA AND HERZEGOWINA,null,null
+BLR,BELARUS,null,null
+BLZ,BELIZE,null,null
+BOL,BOLIVIA,null,null
+BRA,BRAZIL,null,null
+BRB,BARBADOS,null,null
+BRN,BRUNEI DARUSSALAM,null,null
+BTN,BHUTAN,null,null
+BWA,BOTSWANA,null,null
+CAF,CENTRAL AFRICAN REPUBLIC,null,null
+CAN,CANADA,null,null
+CHE,SWITZERLAND,null,null
+CHL,CHILE,null,null
+CHN,CHINA,null,null
+CIV,COTE D'IVOIRE,null,null
+CMR,CAMEROON,null,null
+COD,"CONGO, THE DRC",null,null
+COG,CONGO,null,null
+COK,COOK ISLANDS,null,null
+COL,COLOMBIA,null,null
+COM,COMOROS,null,null
+CPV,CAPE VERDE,null,null
+CRI,COSTA RICA,null,null
+CUB,CUBA,null,null
+CYP,CYPRUS,null,null
+CZE,CZECH REPUBLIC,null,null
+DEU,GERMANY,null,null
+DJI,DJIBOUTI,null,null
+DMA,DOMINICA,null,null
+DNK,DENMARK,null,null
+DOM,DOMINICAN REPUBLIC,null,null
+DZA,ALGERIA,null,null
+ECU,ECUADOR,null,null
+EGY,EGYPT,null,null
+ERI,ERITREA,null,null
+ESP,SPAIN,null,null
+EST,ESTONIA,null,null
+ETH,ETHIOPIA,null,null
+FIN,FINLAND,null,null
+FJI,FIJI,null,null
+FRA,FRANCE,null,null
+FSM,"MICRONESIA, FEDERATED STATES OF",null,null
+GAB,GABON,null,null
+GBR,UNITED KINGDOM,null,null
+GEO,GEORGIA,null,null
+GHA,GHANA,null,null
+GIN,GUINEA,null,null
+GMB,GAMBIA,null,null
+GNB,GUINEA-BISSAU,null,null
+GNQ,EQUATORIAL GUINEA,null,null
+GRC,GREECE,null,null
+GRD,GRENADA,null,null
+GTM,GUATEMALA,null,null
+GUY,GUYANA,null,null
+HND,HONDURAS,null,null
+HRV,CROATIA (LOCAL NAME: HRVATSKA),null,null
+HTI,HAITI,null,null
+HUN,HUNGARY,null,null
+IDN,INDONESIA,null,null
+IND,INDIA,null,null
+IRL,IRELAND,null,null
+IRN,IRAN (ISLAMIC REPUBLIC OF),null,null
+IRQ,IRAQ,null,null
+ISL,ICELAND,null,null
+ISR,ISRAEL,null,null
+ITA,ITALY,null,null
+JAM,JAMAICA,null,null
+JOR,JORDAN,null,null
+JPN,JAPAN,null,null
+KAZ,KAZAKHSTAN,null,null
+KEN,KENYA,null,null
+KGZ,KYRGYZSTAN,null,null
+KHM,CAMBODIA,null,null
+KIR,KIRIBATI,null,null
+KNA,SAINT KITTS AND NEVIS,null,null
+KOR,"KOREA, REPUBLIC OF",null,null
+KWT,KUWAIT,null,null
+LAO,LAOS ,null,null
+LBN,LEBANON,null,null
+LBR,LIBERIA,null,null
+LBY,LIBYA,null,null
+LCA,SAINT LUCIA,null,null
+LIE,LIECHTENSTEIN,null,null
+LKA,SRI LANKA,null,null
+LSO,LESOTHO,null,null
+LTU,LITHUANIA,null,null
+LUX,LUXEMBURG,null,null
+LVA,LATVIA,null,null
+MAR,MOROCCO,null,null
+MCO,MONACO,null,null
+MDA,"MOLDOVA, REPUBLIC OF",null,null
+MDG,MADAGASCAR,null,null
+MDV,MALDIVES,null,null
+MEX,MEXICO,null,null
+MHL,MARSHALL ISLANDS,null,null
+MKD,MACEDONIA,null,null
+MLI,MALI,null,null
+MLT,MALTA,null,null
+MMR,MYANMAR (Burma) ,null,null
+MNE,MONTENEGRO,null,null
+MNG,MONGOLIA,null,null
+MOZ,MOZAMBIQUE,null,null
+MRT,MAURITANIA,null,null
+MUS,MAURITIUS,null,null
+MWI,MALAWI,null,null
+MYS,MALAYSIA,null,null
+NAM,NAMIBIA,null,null
+NER,NIGER,null,null
+NGA,NIGERIA,null,null
+NIC,NICARAGUA,null,null
+NIU,NIUE,null,null
+NLD,NETHERLANDS,null,null
+NOR,NORWAY,null,null
+NPL,NEPAL,null,null
+NRU,NAURU,null,null
+NZL,NEW ZEALAND,null,null
+OMN,OMAN,null,null
+PAK,PAKISTAN,null,null
+PAN,PANAMA,null,null
+PER,PERU,null,null
+PHL,PHILIPPINES,null,null
+PLW,PALAU,null,null
+PNG,PAPUA NEW GUINEA,null,null
+POL,POLAND,null,null
+PRK,"KOREA, D.P.R.O.",null,null
+PRT,PORTUGAL,null,null
+PRY,PARAGUAY,null,null
+QAT,QATAR,null,null
+ROU,ROMANIA,null,null
+RUS,RUSSIA,null,null
+RWA,RWANDA,null,null
+SAU,SAUDI ARABIA,null,null
+SDN,SUDAN,null,null
+SEN,SENEGAL,null,null
+SGP,SINGAPORE,null,null
+SLB,SOLOMON ISLANDS,null,null
+SLE,SIERRA LEONE,null,null
+SLV,EL SALVADOR,null,null
+SMR,SAN MARINO,null,null
+SOM,SOMALIA,null,null
+SRB,SERBIA,null,null
+SSD,SOUTH SUDAN,null,null
+STP,SAO TOME AND PRINCIPE,null,null
+SUR,SURINAME,null,null
+SVK,SLOVAKIA (SLOVAK REPUBLIC),null,null
+SVN,SLOVENIA,null,null
+SWE,SWEDEN,null,null
+SWZ,SWAZILAND,null,null
+SYC,SEYCHELLES,null,null
+SYR,SYRIAN ARAB REPUBLIC,null,null
+TCD,CHAD,null,null
+TGO,TOGO,null,null
+THA,THAILAND,null,null
+TJK,TAJIKISTAN,null,null
+TKM,TURKMENISTAN,null,null
+TLS,EAST TIMOR,null,null
+TON,TONGA,null,null
+TTO,TRINIDAD AND TOBAGO,null,null
+TUN,TUNISIA,null,null
+TUR,TURKEY,null,null
+TUV,TUVALU,null,null
+TZA,"TANZANIA, UNITED REPUBLIC OF",null,null
+UGA,UGANDA,null,null
+UKR,UKRAINE,null,null
+URY,URUGUAY,null,null
+USA,UNITED STATES,null,null
+UZB,UZBEKISTAN,null,null
+VAT,HOLY SEE (VATICAN CITY STATE),null,null
+VCT,SAINT VINCENT AND THE GRENADINES,null,null
+VEN,VENEZUELA,null,null
+VNM,VIET NAM,null,null
+VUT,VANUATU,null,null
+WSM,SAMOA,null,null
+YEM,YEMEN,null,null
+ZAF,SOUTH AFRICA,null,null
+ZMB,ZAMBIA,null,null
+ZWE,ZIMBABWE,null,null
